@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Physics — AUX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:        #060810;
+      --ink-soft:   #151d2f;
+      --ink-muted:  #3a4a68;
+      --blue:       #1d4ed8;
+      --blue-mid:   #3b82f6;
+      --blue-light: #93c5fd;
+      --blue-pale:  #eff6ff;
+      --cream:      #f0f6ff;
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'Outfit', system-ui, sans-serif;
+      --ease:       cubic-bezier(0.16,1,0.3,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:#dce5f2;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    #bgCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
+    #shardCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;}
+    .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/%3E%3C/filter%3E%3Crect width='512' height='512' fill='%23000' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");}
+    .layer{position:relative;z-index:3;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:66px;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(220,229,242,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(29,78,216,0.08);}
+    .nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none;}
+    .bull-logo{width:38px;height:30px;flex-shrink:0;}
+    .nav-wordmark{font-family:var(--serif);font-size:1.4rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);}
+    .nav-back{font-size:0.82rem;color:var(--ink-muted);text-decoration:none;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;}
+    .nav-back:hover{color:var(--blue);}
+    .nav-book{background:var(--blue)!important;color:#fff!important;padding:0.44rem 1.2rem;border-radius:100px;font-size:0.81rem!important;font-weight:500!important;text-decoration:none;transition:background 0.2s,transform 0.2s!important;}
+    .nav-book:hover{background:var(--ink)!important;transform:translateY(-1px);}
+    .nav-right{display:flex;align-items:center;gap:1.5rem;}
+
+    /* HERO */
+    .course-hero{min-height:55vh;display:flex;align-items:center;justify-content:center;padding:9rem 2rem 5rem;text-align:center;position:relative;}
+    .course-hero-inner{max-width:700px;}
+    .course-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);background:rgba(29,78,216,0.07);border:1px solid rgba(59,130,246,0.2);border-radius:100px;padding:0.6rem 1rem;margin-bottom:1.4rem;}
+    .course-title{font-family:var(--serif);font-size:clamp(2.8rem,6vw,4.8rem);font-weight:600;line-height:1.06;letter-spacing:-0.022em;color:var(--ink);margin-bottom:1.2rem;opacity:0;animation:riseIn 0.6s var(--ease) 0.2s forwards;}
+    .course-title em{font-style:italic;color:var(--blue);}
+    .course-sub{font-size:1.06rem;font-weight:300;color:var(--ink-soft);line-height:1.75;max-width:500px;margin:0 auto 2.5rem;opacity:0;animation:riseIn 0.75s var(--ease) 0.45s forwards;}
+    .course-actions{display:flex;align-items:center;justify-content:center;gap:0.9rem;flex-wrap:wrap;opacity:0;animation:riseIn 0.7s var(--ease) 0.6s forwards;}
+    .btn-course{background:var(--blue);color:#fff;padding:0.78rem 1.8rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;box-shadow:0 4px 18px rgba(29,78,216,0.28);transition:background 0.2s,transform 0.2s,box-shadow 0.2s;display:inline-block;}
+    .btn-course:hover{background:var(--ink);transform:translateY(-2px);}
+    .btn-ghost{background:rgba(238,244,255,0.7);color:var(--ink-soft);padding:0.78rem 1.6rem;border-radius:100px;font-size:0.88rem;font-weight:400;text-decoration:none;border:1px solid rgba(10,15,26,0.08);transition:background 0.2s,transform 0.2s;display:inline-block;}
+    .btn-ghost:hover{background:rgba(238,244,255,0.92);transform:translateY(-1px);}
+
+    /* MAIN CONTENT */
+    .content-wrap{max-width:980px;margin:0 auto;padding:0 2rem 6rem;}
+
+    /* RESOURCE TABS */
+    .tabs{display:flex;align-items:center;gap:0.5rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+    .tab-btn{padding:0.5rem 1.1rem;border-radius:100px;font-size:0.84rem;font-weight:500;border:1px solid rgba(29,78,216,0.18);background:rgba(238,244,255,0.7);color:var(--ink-muted);cursor:pointer;transition:all 0.2s;}
+    .tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 12px rgba(29,78,216,0.25);}
+    .tab-btn:hover:not(.active){border-color:rgba(29,78,216,0.35);color:var(--blue);}
+
+    /* SECTION LABEL */
+    .eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:0.85rem;}
+    .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:600;line-height:1.16;letter-spacing:-0.02em;margin-bottom:2rem;color:var(--ink);}
+    .section-title em{font-style:italic;color:var(--blue);}
+
+    /* UNIT CARDS */
+    .units-section{background:rgba(227,234,246,0.55);backdrop-filter:blur(14px);border-top:1px solid rgba(29,78,216,0.10);border-bottom:1px solid rgba(29,78,216,0.10);padding:5rem 0;}
+    .unit-grid{display:flex;flex-direction:column;gap:1rem;}
+    .unit-card{background:rgba(245,250,255,0.8);border:1px solid rgba(29,78,216,0.14);border-radius:16px;padding:1.75rem;text-decoration:none;color:var(--ink);display:flex;align-items:flex-start;gap:1rem;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
+    .unit-card:hover{transform:translateX(4px);box-shadow:0 6px 20px rgba(0,0,0,0.1);border-color:rgba(29,78,216,0.28);}
+    .unit-num{font-family:var(--serif);font-size:1.8rem;font-weight:600;color:rgba(29,78,216,0.25);line-height:1;flex-shrink:0;min-width:2.2rem;}
+    .unit-content{flex:1;}
+    .unit-name{font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:0.35rem;}
+    .unit-desc{font-size:0.875rem;color:var(--ink-muted);line-height:1.6;margin-bottom:0.75rem;}
+    .unit-tags{display:flex;gap:0.5rem;flex-wrap:wrap;}
+    .unit-tag{font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.7rem;border-radius:100px;border:1px solid rgba(29,78,216,0.18);color:var(--blue);background:rgba(29,78,216,0.06);}
+    .unit-tag.warn{border-color:rgba(220,100,0,0.25);color:#b85200;background:rgba(184,82,0,0.06);}
+    .unit-arrow{font-size:1rem;color:var(--ink-muted);transition:transform 0.2s;margin-top:0.2rem;}
+    .unit-card:hover .unit-arrow{transform:translate(3px,-3px);}
+
+    /* TEST PREP SECTION */
+    .testprep-section{padding:5rem 0;}
+    .testprep-card{background:rgba(10,15,26,0.93);border:1px solid rgba(59,130,246,0.25);border-radius:20px;padding:2.5rem;color:#e8f0ff;position:relative;overflow:hidden;}
+    .testprep-card::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 65%);pointer-events:none;}
+    .testprep-eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:1rem;}
+    .testprep-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;line-height:1.2;margin-bottom:1rem;color:#e8f0ff;}
+    .testprep-title em{font-style:italic;color:var(--blue-light);}
+    .testprep-body{font-size:0.94rem;font-weight:300;color:rgba(232,240,255,0.65);line-height:1.78;margin-bottom:1.75rem;}
+    .testprep-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.85rem;}
+    .testprep-item{background:rgba(59,130,246,0.09);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:1.1rem 1.25rem;}
+    .testprep-item-title{font-size:0.88rem;font-weight:500;color:#e8f0ff;margin-bottom:0.3rem;}
+    .testprep-item-desc{font-size:0.78rem;color:rgba(232,240,255,0.55);line-height:1.5;}
+
+    /* VIDEO LIBRARY */
+    .videos-section{padding:5rem 0;background:rgba(235,242,250,0.5);backdrop-filter:blur(12px);border-top:1px solid rgba(29,78,216,0.09);border-bottom:1px solid rgba(29,78,216,0.09);}
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .video-card{background:rgba(245,250,255,0.9);border:1px solid rgba(29,78,216,0.12);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform 0.22s var(--ease),box-shadow 0.22s;}
+    .video-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(29,78,216,0.13);}
+    .video-thumb{height:160px;background:linear-gradient(135deg,var(--ink) 0%,#1e3a5f 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .video-thumb::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(59,130,246,0.25) 0%,transparent 65%);}
+    .play-icon{width:48px;height:48px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;transition:all 0.2s;}
+    .video-card:hover .play-icon{background:rgba(59,130,246,0.4);}
+    .video-unit-tag{position:absolute;top:10px;left:10px;font-size:0.66rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e8f0ff;background:rgba(29,78,216,0.7);padding:0.2rem 0.6rem;border-radius:4px;}
+    .video-info{padding:1.1rem 1.25rem;}
+    .video-title{font-family:var(--serif);font-size:1.05rem;font-weight:500;margin-bottom:0.35rem;line-height:1.3;}
+    .video-meta{font-size:0.75rem;color:var(--ink-muted);}
+
+    /* PDF LIBRARY */
+    .pdfs-section{padding:5rem 0;}
+    .pdf-list{display:flex;flex-direction:column;gap:0.75rem;}
+    .pdf-row{background:rgba(245,250,255,0.88);border:1px solid rgba(29,78,216,0.10);border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.2rem;text-decoration:none;color:var(--ink);transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
+    .pdf-row:hover{transform:translateX(4px);box-shadow:0 6px 20px rgba(29,78,216,0.09);border-color:rgba(29,78,216,0.24);}
+    .pdf-icon{font-size:1.4rem;flex-shrink:0;}
+    .pdf-name{font-size:0.94rem;font-weight:500;flex:1;}
+    .pdf-meta{font-size:0.75rem;color:var(--ink-muted);}
+    .pdf-dl{font-size:0.8rem;color:var(--blue);font-weight:500;}
+
+    /* FOOTER */
+    footer{padding:2rem 2.5rem;border-top:1px solid rgba(29,78,216,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(227,234,246,0.92);backdrop-filter:blur(12px);}
+    .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
+    .footer-note{font-size:0.77rem;color:var(--ink-muted);}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.72s var(--ease),transform 0.72s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0);}
+    @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.4;}}
+    @media(max-width:720px){.nav-links{display:none;}.testprep-items{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<canvas id="shardCanvas"></canvas>
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="layer">
+  <a href="../../index.html" class="nav-brand">
+    <svg class="bull-logo" viewBox="0 0 120 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M35 22 Q18 10 6 5 Q2 3 2 7 Q10 12 18 22 Q26 34 36 36Z" fill="#0a0f1a"/>
+      <ellipse cx="68" cy="36" rx="20" ry="16" fill="#0a0f1a"/>
+      <ellipse cx="74" cy="28" rx="5" ry="4" fill="#4a6fa5"/>
+      <ellipse cx="74" cy="28" rx="3" ry="1.5" fill="#0a0f1a"/>
+      <path d="M28 40 Q20 50 22 65 Q26 76 38 82 Q48 86 58 80 Q66 74 68 62 Q70 50 64 40 Q56 32 46 30 Q36 30 28 40Z" fill="#0a0f1a"/>
+      <path d="M54 76 Q58 82 60 90 Q56 91 54 90 Q52 84 50 78Z" fill="#0a0f1a"/>
+      <path d="M36 72 Q32 80 30 90 Q34 91 36 90 Q38 84 40 76Z" fill="#0a0f1a"/>
+      <path d="M28 54 Q18 50 14 42 Q12 36 16 34 Q18 38 18 44 Q20 50 28 52Z" fill="none" stroke="#0a0f1a" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="60" cy="91" rx="5" ry="1.5" fill="rgba(29,78,216,0.15)"/>
+      <ellipse cx="30" cy="91" rx="4" ry="1.2" fill="rgba(29,78,216,0.12)"/>
+    </svg>
+    <span class="nav-wordmark">AUX</span>
+  </a>
+  <div class="nav-right">
+    <a href="../../../index.html" class="nav-back">← Back to all</a>
+    <a href="../../../book.html" class="nav-book">Book a session</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="course-hero layer">
+  <div class="course-hero-inner">
+    <div class="course-tag">⚡ Physics</div>
+    <h1 class="course-title">Understand it.<br><em>Not just survive it.</em></h1>
+    <p class="course-sub">Videos, problem sets, and test prep for every unit — including the question types nobody told you were coming.</p>
+    <div class="course-actions">
+      <a href="#units" class="btn-course">Jump to units →</a>
+      <a href="#testprep" class="btn-ghost">Test prep section</a>
+    </div>
+  </div>
+</section>
+
+<!-- UNITS -->
+<section class="units-section layer" id="units">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">Course map</p>
+    <h2 class="section-title reveal">All units, start to finish.</h2>
+    <div class="unit-grid">
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">01</div>
+        <div class="unit-content">
+          <div class="unit-name">Kinematics</div>
+          <div class="unit-desc">Motion in 1D and 2D. Displacement, velocity, acceleration — and the equations that tie them together.</div>
+          <div class="unit-tags"><span class="unit-tag">3 videos</span><span class="unit-tag">2 PDFs</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">02</div>
+        <div class="unit-content">
+          <div class="unit-name">Newton's Laws</div>
+          <div class="unit-desc">Forces, free body diagrams, and the reasoning behind every F=ma problem you'll see.</div>
+          <div class="unit-tags"><span class="unit-tag">2 videos</span><span class="unit-tag">2 PDFs</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">03</div>
+        <div class="unit-content">
+          <div class="unit-name">Projectile Motion</div>
+          <div class="unit-desc">Two-dimensional launch problems broken down step by step — including the tricky angles your teacher likes to throw in.</div>
+          <div class="unit-tags"><span class="unit-tag">2 videos</span><span class="unit-tag">1 PDF</span><span class="unit-tag warn">Test favorite</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">04</div>
+        <div class="unit-content">
+          <div class="unit-name">Work, Energy & Power</div>
+          <div class="unit-desc">Conservation of energy, work-energy theorem, and the conceptual traps that come up every year.</div>
+          <div class="unit-tags"><span class="unit-tag">2 videos</span><span class="unit-tag">2 PDFs</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">05</div>
+        <div class="unit-content">
+          <div class="unit-name">Momentum & Impulse</div>
+          <div class="unit-desc">Collisions, conservation, and how to know which formula applies when.</div>
+          <div class="unit-tags"><span class="unit-tag">2 videos</span><span class="unit-tag">1 PDF</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+      <a href="#videos" class="unit-card reveal">
+        <div class="unit-num">06</div>
+        <div class="unit-content">
+          <div class="unit-name">Waves & Sound</div>
+          <div class="unit-desc">Wave properties, interference, the Doppler effect — and the higher-difficulty problems that show up unannounced.</div>
+          <div class="unit-tags"><span class="unit-tag">1 video</span><span class="unit-tag">2 PDFs</span><span class="unit-tag warn">Hard questions</span></div>
+        </div>
+        <div class="unit-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TEST PREP -->
+<section class="layer testprep-section" id="testprep">
+  <div class="content-wrap">
+    <div class="testprep-card reveal">
+      <div class="testprep-eyebrow">⚡ Test Prep</div>
+      <h2 class="testprep-title">The question types that <em>actually show up.</em></h2>
+      <p class="testprep-body">Some problems are designed to trip you up if you haven't seen them before. These aren't in most textbooks. I've mapped out the patterns and made walkthroughs for each one.</p>
+      <div class="testprep-items">
+        <div class="testprep-item">
+          <div class="testprep-item-title">Multi-step Projectile</div>
+          <div class="testprep-item-desc">Launching from a height with non-standard angles — the ones that need two phases to solve.</div>
+        </div>
+        <div class="testprep-item">
+          <div class="testprep-item-title">Atwood's Machine Variations</div>
+          <div class="testprep-item-desc">Pulley problems with added friction, inclines, or three-mass systems.</div>
+        </div>
+        <div class="testprep-item">
+          <div class="testprep-item-title">Energy with Friction Path</div>
+          <div class="testprep-item-desc">Conservation of energy when friction is doing work — the part that gets left out of most notes.</div>
+        </div>
+        <div class="testprep-item">
+          <div class="testprep-item-title">Wave Superposition</div>
+          <div class="testprep-item-desc">Constructive and destructive interference drawn and calculated at the same time.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="videos-section layer" id="videos">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">Video library</p>
+    <h2 class="section-title reveal">Watch it explained <em>properly.</em></h2>
+    <div class="video-grid">
+      <a href="videos/kinematics-1d.html" class="video-card reveal">
+        <div class="video-thumb">
+          <span class="video-unit-tag">Unit 01</span>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Kinematics in 1D — Full Walkthrough</div>
+          <div class="video-meta">Unit 1 · 18 min</div>
+        </div>
+      </a>
+      <a href="videos/kinematics-2d.html" class="video-card reveal">
+        <div class="video-thumb">
+          <span class="video-unit-tag">Unit 01</span>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Vectors & 2D Motion</div>
+          <div class="video-meta">Unit 1 · 22 min</div>
+        </div>
+      </a>
+      <a href="videos/projectile.html" class="video-card reveal">
+        <div class="video-thumb" style="background:linear-gradient(135deg,#0f1f3d 0%,#1a3a6e 100%);">
+          <span class="video-unit-tag">Unit 03</span>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Projectile Motion — Every Type</div>
+          <div class="video-meta">Unit 3 · 30 min · Test prep</div>
+        </div>
+      </a>
+      <a href="videos/newtons-laws.html" class="video-card reveal">
+        <div class="video-thumb">
+          <span class="video-unit-tag">Unit 02</span>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Newton's Laws & Free Body Diagrams</div>
+          <div class="video-meta">Unit 2 · 25 min</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PDFs -->
+<section class="layer pdfs-section" id="pdfs">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">PDF library</p>
+    <h2 class="section-title reveal">Practice problems & formula sheets.</h2>
+    <div class="pdf-list">
+      <a href="pdfs/formula-sheet.pdf" class="pdf-row reveal">
+        <div class="pdf-icon">📄</div>
+        <div class="pdf-name">Physics Formula Sheet — All Units</div>
+        <div class="pdf-meta">Formula reference</div>
+        <div class="pdf-dl">Download ↓</div>
+      </a>
+      <a href="pdfs/kinematics-problems.pdf" class="pdf-row reveal">
+        <div class="pdf-icon">📝</div>
+        <div class="pdf-name">Kinematics Practice Problems (with answers)</div>
+        <div class="pdf-meta">Unit 1 · 24 problems</div>
+        <div class="pdf-dl">Download ↓</div>
+      </a>
+      <a href="pdfs/projectile-problems.pdf" class="pdf-row reveal">
+        <div class="pdf-icon">📝</div>
+        <div class="pdf-name">Projectile Motion — Test-Style Problems</div>
+        <div class="pdf-meta">Unit 3 · 18 problems · Exam difficulty</div>
+        <div class="pdf-dl">Download ↓</div>
+      </a>
+      <a href="pdfs/energy-worksheet.pdf" class="pdf-row reveal">
+        <div class="pdf-icon">📝</div>
+        <div class="pdf-name">Work & Energy — Concept + Problems</div>
+        <div class="pdf-meta">Unit 4 · 20 problems</div>
+        <div class="pdf-dl">Download ↓</div>
+      </a>
+      <a href="pdfs/waves-notes.pdf" class="pdf-row reveal">
+        <div class="pdf-icon">📄</div>
+        <div class="pdf-name">Waves & Sound — Full Notes</div>
+        <div class="pdf-meta">Unit 6 · Study guide</div>
+        <div class="pdf-dl">Download ↓</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="layer">
+  <div class="footer-brand">
+    <svg width="24" height="19" viewBox="0 0 120 95" fill="none">
+      <path d="M38 26 Q22 12 8 5 Q3 3 2 7 Q10 10 16 20 Q22 32 32 34" fill="#0a0f1a" stroke="rgba(59,130,246,0.4)" stroke-width="0.6"/>
+      <ellipse cx="68" cy="36" rx="22" ry="18" fill="#0a0f1a"/>
+    </svg>
+    AUX / Physics
+  </div>
+  <div class="footer-note"><a href="../../index.html" style="color:inherit;text-decoration:none;">← Back to all subjects</a></div>
+</footer>
+
+<script src="../../../bg.js"></script>
+<script>initBg('bgCanvas','shardCanvas','blue');</script>
+<script>
+(function(){
+  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
+})();
+</script>
+</body>
+</html>

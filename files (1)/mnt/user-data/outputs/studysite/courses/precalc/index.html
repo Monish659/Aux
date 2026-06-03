@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Honors Precalculus — AUX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:        #080a05;
+      --ink-soft:   #161d0e;
+      --ink-muted:  #3a5238;
+      --green:      #166534;
+      --green-mid:  #16a34a;
+      --green-light:#86efac;
+      --green-pale: #f0fdf4;
+      --cream:      #f0fdf4;
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'Outfit', system-ui, sans-serif;
+      --ease:       cubic-bezier(0.16,1,0.3,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:#e6f1e8;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    #bgCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
+    #shardCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;}
+    .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px;}
+    .layer{position:relative;z-index:3;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:66px;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(230,241,232,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(22,101,52,0.13);}
+    .nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none;}
+    .bull-logo{width:38px;height:30px;flex-shrink:0;}
+    .nav-wordmark{font-family:var(--serif);font-size:1.4rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);}
+    .nav-back{font-size:0.82rem;color:var(--ink-muted);text-decoration:none;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;}
+    .nav-back:hover{color:var(--green);}
+    .nav-book{background:var(--green)!important;color:#fff!important;padding:0.44rem 1.2rem;border-radius:100px;font-size:0.81rem!important;font-weight:500!important;text-decoration:none;transition:background 0.2s,transform 0.15s!important;box-shadow:0 2px 12px rgba(22,101,52,0.25);}
+    .nav-book:hover{background:var(--ink)!important;transform:translateY(-1px);}
+    .nav-right{display:flex;align-items:center;gap:1.5rem;}
+
+    /* HERO */
+    .course-hero{min-height:55vh;display:flex;align-items:center;justify-content:center;padding:9rem 2rem 5rem;text-align:center;position:relative;}
+    .course-hero-inner{max-width:700px;}
+    .course-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);background:rgba(22,101,52,0.07);border:1px solid rgba(22,101,52,0.18);padding:0.35rem 0.9rem;border-radius:100px;margin-bottom:2rem;opacity:0;animation:riseIn 0.7s var(--ease) 0.2s forwards;}
+    .coming-banner{display:inline-block;font-size:0.8rem;font-weight:500;color:var(--green-mid);background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.22);padding:0.45rem 1.1rem;border-radius:100px;margin-bottom:1.5rem;opacity:0;animation:riseIn 0.6s var(--ease) 0.22s forwards;}
+    .course-title{font-family:var(--serif);font-size:clamp(2.8rem,6vw,4.8rem);font-weight:600;line-height:1.06;letter-spacing:-0.022em;color:var(--ink);margin-bottom:1.2rem;opacity:0;animation:riseIn 0.85s var(--ease) 0.3s forwards;text-shadow:0 1px 20px rgba(255,255,255,0.3);}
+    .course-title em{font-style:italic;color:var(--green-mid);}
+    .course-sub{font-size:1.06rem;font-weight:300;color:var(--ink-soft);line-height:1.75;max-width:500px;margin:0 auto 2.5rem;opacity:0;animation:riseIn 0.75s var(--ease) 0.45s forwards;}
+    .course-actions{display:flex;align-items:center;justify-content:center;gap:0.9rem;flex-wrap:wrap;opacity:0;animation:riseIn 0.7s var(--ease) 0.6s forwards;}
+    .btn-course{background:var(--green);color:#fff;padding:0.78rem 1.8rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;box-shadow:0 4px 18px rgba(22,101,52,0.28);transition:background 0.2s,transform 0.15s;}
+    .btn-course:hover{background:var(--ink);transform:translateY(-2px);}
+    .btn-ghost{background:rgba(237,250,240,0.7);color:var(--ink-soft);padding:0.78rem 1.6rem;border-radius:100px;font-size:0.88rem;font-weight:400;text-decoration:none;border:1px solid rgba(13,26,10,0.12);backdrop-filter:blur(8px);transition:background 0.2s,transform 0.15s;}
+    .btn-ghost:hover{background:rgba(237,250,240,0.92);transform:translateY(-1px);}
+
+    /* MAIN CONTENT */
+    .content-wrap{max-width:980px;margin:0 auto;padding:0 2rem 6rem;}
+    .eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--green-mid);margin-bottom:0.85rem;}
+    .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:600;line-height:1.16;letter-spacing:-0.02em;margin-bottom:2rem;color:var(--ink);}
+    .section-title em{font-style:italic;color:var(--green-mid);}
+
+    /* COMING SOON STATE */
+    .coming-section{padding:6rem 0;}
+    .coming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
+    .coming-card{background:rgba(240,253,244,0.75);border:1px solid rgba(22,101,52,0.14);border-radius:16px;padding:1.75rem;opacity:0.8;}
+    .coming-card-icon{font-size:1.4rem;margin-bottom:0.75rem;}
+    .coming-card-name{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:0.4rem;color:var(--ink);}
+    .coming-card-desc{font-size:0.86rem;color:var(--ink-muted);line-height:1.6;}
+    .coming-card-tag{display:inline-block;font-size:0.66rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:100px;border:1px solid rgba(22,101,52,0.2);color:var(--green-mid);background:rgba(22,101,52,0.06);margin-top:0.75rem;}
+
+    /* NOTIFY FORM */
+    .notify-section{padding:5rem 0;text-align:center;}
+    .notify-card{background:rgba(240,253,244,0.80);border:1px solid rgba(22,101,52,0.16);border-radius:22px;padding:3rem 2.5rem;max-width:540px;margin:0 auto;}
+    .notify-title{font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.3rem);font-weight:600;line-height:1.2;margin-bottom:0.85rem;color:var(--ink);}
+    .notify-title em{font-style:italic;color:var(--green-mid);}
+    .notify-body{font-size:0.94rem;color:var(--ink-muted);line-height:1.72;margin-bottom:1.75rem;}
+    .notify-form{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;}
+    .notify-input{padding:0.7rem 1.1rem;border-radius:100px;border:1px solid rgba(22,101,52,0.22);background:rgba(255,255,255,0.8);font-family:var(--sans);font-size:0.88rem;color:var(--ink);outline:none;flex:1;min-width:200px;max-width:280px;}
+    .notify-input:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(22,163,74,0.12);}
+    .notify-submit{background:var(--green);color:#fff;padding:0.7rem 1.5rem;border-radius:100px;font-size:0.88rem;font-weight:500;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;font-family:var(--sans);}
+    .notify-submit:hover{background:var(--ink);transform:translateY(-1px);}
+
+    /* VIDEO stub */
+    .videos-section{padding:5rem 0;background:rgba(220,245,228,0.45);backdrop-filter:blur(12px);border-top:1px solid rgba(22,101,52,0.09);border-bottom:1px solid rgba(22,101,52,0.09);}
+    .stub-row{display:flex;align-items:center;gap:1rem;background:rgba(240,253,244,0.85);border:1px dashed rgba(22,101,52,0.18);border-radius:12px;padding:1.2rem 1.5rem;color:var(--ink-muted);font-size:0.88rem;}
+    .stub-row+.stub-row{margin-top:0.6rem;}
+
+    /* PDF stub */
+    .pdfs-section{padding:5rem 0;}
+
+    /* FOOTER */
+    footer{padding:2rem 2.5rem;border-top:1px solid rgba(22,101,52,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(230,241,232,0.92);backdrop-filter:blur(10px);}
+    .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
+    .footer-note{font-size:0.77rem;color:var(--ink-muted);}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.72s var(--ease),transform 0.72s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0);}
+    @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @media(max-width:720px){.nav-links{display:none;}.notify-form{flex-direction:column;align-items:stretch;}.notify-input{max-width:100%;}}
+  </style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<canvas id="shardCanvas"></canvas>
+<div class="grain"></div>
+
+<nav class="layer">
+  <a href="../../index.html" class="nav-brand">
+    <svg class="bull-logo" viewBox="0 0 120 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M35 22 Q18 10 6 5 Q2 3 2 7 Q10 12 18 22 Q26 34 36 36Z" fill="#0d1a0a"/>
+      <ellipse cx="68" cy="36" rx="20" ry="16" fill="#0d1a0a"/>
+      <ellipse cx="74" cy="28" rx="5" ry="4" fill="#3d8b5c"/>
+      <ellipse cx="74" cy="28" rx="3" ry="1.5" fill="#0d1a0a"/>
+      <path d="M28 40 Q20 50 22 65 Q26 76 38 82 Q48 86 58 80 Q66 74 68 62 Q70 50 64 40 Q56 32 46 30 Q36 30 28 40Z" fill="#0d1a0a"/>
+      <path d="M54 76 Q58 82 60 90 Q56 91 54 90 Q52 84 50 78Z" fill="#0d1a0a"/>
+      <path d="M36 72 Q32 80 30 90 Q34 91 36 90 Q38 84 40 76Z" fill="#0d1a0a"/>
+      <path d="M28 54 Q18 50 14 42 Q12 36 16 34 Q18 38 18 44 Q20 50 28 52Z" fill="none" stroke="#0d1a0a" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="60" cy="91" rx="5" ry="1.5" fill="rgba(22,101,52,0.15)"/>
+      <ellipse cx="30" cy="91" rx="4" ry="1.2" fill="rgba(22,101,52,0.12)"/>
+    </svg>
+    <span class="nav-wordmark">AUX</span>
+  </a>
+  <div class="nav-right">
+    <a href="../../../../index.html" class="nav-back">← Back to all</a>
+    <a href="../../../../book.html" class="nav-book">Book a session</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="course-hero layer">
+  <div class="course-hero-inner">
+    <div class="coming-banner">🚧 Coming soon — content being built</div>
+    <div class="course-tag">📐 Honors Precalculus</div>
+    <h1 class="course-title">Math that <em>makes sense</em><br>when it's taught right.</h1>
+    <p class="course-sub">Functions, trig, and limits — with the reasoning behind every step. Not just the how. The why.</p>
+    <div class="course-actions">
+      <a href="#units" class="btn-course">See what's coming →</a>
+      <a href="#notify" class="btn-ghost">Notify me when ready</a>
+    </div>
+  </div>
+</section>
+
+<!-- UNITS PREVIEW -->
+<section class="layer coming-section" id="units">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">Course preview</p>
+    <h2 class="section-title reveal">Units in development.</h2>
+    <div class="coming-grid">
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">📈</div>
+        <div class="coming-card-name">Functions & Their Graphs</div>
+        <div class="coming-card-desc">Domain, range, transformations, and how to read a graph the way your teacher expects.</div>
+        <span class="coming-card-tag">In progress</span>
+      </div>
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🔺</div>
+        <div class="coming-card-name">Trigonometry</div>
+        <div class="coming-card-desc">Unit circle, identities, trig equations — built from first principles so it actually sticks.</div>
+        <span class="coming-card-tag">In progress</span>
+      </div>
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🌀</div>
+        <div class="coming-card-name">Analytic Geometry & Conics</div>
+        <div class="coming-card-desc">Parabolas, ellipses, hyperbolas — and how to tell them apart under pressure.</div>
+        <span class="coming-card-tag">Planned</span>
+      </div>
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">∞</div>
+        <div class="coming-card-name">Limits & Intro to Calculus</div>
+        <div class="coming-card-desc">The bridge between precalc and calculus — what a limit actually means, built up carefully.</div>
+        <span class="coming-card-tag">Planned</span>
+      </div>
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">📊</div>
+        <div class="coming-card-name">Sequences & Series</div>
+        <div class="coming-card-desc">Arithmetic, geometric, and the formula derivations that make the tests predictable.</div>
+        <span class="coming-card-tag">Planned</span>
+      </div>
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🔢</div>
+        <div class="coming-card-name">Vectors & Parametric Equations</div>
+        <div class="coming-card-desc">The unit that bridges precalc to physics — both the math and the intuition.</div>
+        <span class="coming-card-tag">Planned</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO STUBS -->
+<section class="videos-section layer" id="videos">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">Video library</p>
+    <h2 class="section-title reveal">Videos <em>coming soon.</em></h2>
+    <div class="stub-row reveal">▶ &nbsp; Functions — Introduction & Transformations &nbsp;<span style="margin-left:auto;font-size:0.75rem;">In production</span></div>
+    <div class="stub-row reveal">▶ &nbsp; Unit Circle — Built from Scratch &nbsp;<span style="margin-left:auto;font-size:0.75rem;">In production</span></div>
+    <div class="stub-row reveal">▶ &nbsp; Trig Identities Masterclass &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Planned</span></div>
+    <div class="stub-row reveal">▶ &nbsp; Limits — What They Actually Mean &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Planned</span></div>
+  </div>
+</section>
+
+<!-- PDF STUBS -->
+<section class="pdfs-section layer" id="pdfs">
+  <div class="content-wrap">
+    <p class="eyebrow reveal">PDF library</p>
+    <h2 class="section-title reveal">Practice problems <em>on the way.</em></h2>
+    <div class="stub-row reveal">📄 &nbsp; Trig Identity Cheat Sheet &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
+    <div class="stub-row reveal">📝 &nbsp; Functions Practice Set &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
+    <div class="stub-row reveal">📝 &nbsp; Unit Circle Fill-In Sheet &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
+  </div>
+</section>
+
+<!-- NOTIFY -->
+<section class="notify-section layer" id="notify">
+  <div class="content-wrap">
+    <div class="notify-card reveal">
+      <h2 class="notify-title">Want to know <em>when it's ready?</em></h2>
+      <p class="notify-body">Leave your email and I'll reach out the moment Precalc content goes live. No spam — just the one message.</p>
+      <div class="notify-form">
+        <input class="notify-input" type="email" placeholder="your@email.com"/>
+        <button class="notify-submit">Notify me</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="layer">
+  <div class="footer-brand">
+    <svg width="24" height="19" viewBox="0 0 120 95" fill="none">
+      <path d="M38 26 Q22 12 8 5 Q3 3 2 7 Q10 10 16 20 Q22 32 32 34" fill="#0d1a0a" stroke="rgba(22,163,74,0.4)" stroke-width="0.6"/>
+      <ellipse cx="68" cy="36" rx="22" ry="18" fill="#0d1a0a"/>
+    </svg>
+    AUX / Precalc
+  </div>
+  <div class="footer-note"><a href="../../index.html" style="color:inherit;text-decoration:none;">← Back to all subjects</a></div>
+</footer>
+
+<script src="../../../../bg.js"></script>
+<script>initBg('bgCanvas','shardCanvas','violet');</script>
+<script>
+(function(){
+  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
+  // Notify form stub
+  document.querySelector('.notify-submit')?.addEventListener('click',function(){
+    const input=document.querySelector('.notify-input');
+    if(input&&input.value.includes('@')){
+      input.value='';
+      this.textContent='✓ Got it!';
+      this.style.background='#166534';
+      setTimeout(()=>{this.textContent='Notify me';this.style.background='';},3000);
+    }
+  });
+})();
+</script>
+</body>
+</html>

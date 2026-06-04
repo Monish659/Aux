@@ -29,6 +29,66 @@
     .nav-back{font-size:0.82rem;color:var(--ink-muted);text-decoration:none;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;}
     .nav-back:hover{color:var(--orange);}
     .nav-right{display:flex;align-items:center;gap:1.5rem;}
+    /* NAV LINKS & FANCY BUTTONS */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  position: relative;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--ink); /* changes to accent on hover */
+  border-radius: 2px;
+  transition: width 0.3s var(--ease), left 0.3s var(--ease);
+}
+.nav-links a:hover {
+  color: var(--ink);
+  background: rgba(139, 63, 10, 0.05);
+  transform: translateY(-1px);
+}
+.nav-links a:hover::after {
+  width: 55%;
+  left: 22.5%;
+}
+.nav-links a:active { transform: translateY(0); }
+
+/* BOOK BUTTON — ELEVATED */
+.nav-book {
+  background: var(--ink) !important;
+  color: var(--cream) !important;
+  padding: 0.52rem 1.35rem !important;
+  border-radius: 100px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
+}
+.nav-book:hover {
+  background: var(--orange) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(139, 63, 10, 0.28) !important;
+}
+.nav-book::after { display: none !important; }
     .book-hero{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:9rem 2rem 5rem;text-align:center;position:relative;}
     .book-hero-inner{max-width:700px;}
     .book-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);background:rgba(157,74,15,0.08);border:1px solid rgba(184,82,0,0.2);border-radius:100px;padding:0.6rem 1rem;margin-bottom:1.4rem;}

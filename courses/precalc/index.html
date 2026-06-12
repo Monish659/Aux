@@ -229,10 +229,12 @@
     <div class="notify-card reveal">
       <h2 class="notify-title">Want to know <em>when it's ready?</em></h2>
       <p class="notify-body">Leave your email and I'll reach out the moment Precalc content goes live. No spam — just the one message.</p>
-      <div class="notify-form">
-        <input class="notify-input" type="email" placeholder="your@email.com"/>
-        <button class="notify-submit">Notify me</button>
-      </div>
+      <form class="notify-form" id="notifyForm" onsubmit="handleNotify(event)">
+        <input class="notify-input" type="email" name="email" placeholder="your@email.com" required/>
+        <input type="hidden" name="_subject" value="AUX Precalc — Notify Me Signup"/>
+        <button class="notify-submit" type="submit">Notify me</button>
+      </form>
+      <div id="notifySuccess" style="display:none;font-size:0.94rem;color:var(--green);font-weight:500;margin-top:1rem;">✓ You're on the list — I'll reach out when Precalc goes live.</div>
     </div>
   </div>
 </section>
@@ -251,15 +253,16 @@
 (function(){
   const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
-  document.querySelector('.notify-submit')?.addEventListener('click',function(){
-    const input=document.querySelector('.notify-input');
-    if(input&&input.value.includes('@')){
-      input.value='';
-      this.textContent='✓ Got it!';
-      this.style.background='#166534';
-      setTimeout(()=>{this.textContent='Notify me';this.style.background='';},3000);
-    }
-  });
+  async function handleNotify(e){
+    e.preventDefault();
+    const btn=e.target.querySelector('.notify-submit');
+    btn.disabled=true; btn.textContent='Sending…';
+    try{
+      const res=await fetch('https://formspree.io/f/xkoaqzdz',{method:'POST',body:new FormData(e.target),headers:{Accept:'application/json'}});
+      if(res.ok){e.target.style.display='none';document.getElementById('notifySuccess').style.display='block';}
+      else{btn.disabled=false;btn.textContent='Notify me';alert('Something went wrong. Try again.');}
+    }catch{btn.disabled=false;btn.textContent='Notify me';alert('Network error — try again.');}
+  }
 })();
 </script>
 </body>

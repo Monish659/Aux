@@ -130,7 +130,17 @@
     .price-info{background:rgba(139,63,10,0.07);border-left:3px solid var(--orange);padding:1rem;border-radius:8px;margin:0.5rem 0;}
     .price-label{font-size:0.8rem;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;}
     .price-amount{font-family:var(--serif);font-size:1.8rem;font-weight:600;color:var(--ink);line-height:1;}
-    .price-note{font-size:0.75rem;color:var(--ink-muted);margin-top:0.4rem;}
+    .price-note{font-size:0.75rem;color:var(--ink-muted);margin-top:0.4rem;line-height:1.55;}
+    .price-note a{color:var(--orange);text-decoration:none;font-weight:600;}
+    .price-note a:hover{text-decoration:underline;}
+    .donation-link{display:inline-block;margin-top:0.85rem;padding:0.55rem 1.1rem;background:var(--ink);color:var(--cream);border-radius:100px;font-size:0.82rem;font-weight:600;text-decoration:none;letter-spacing:0.02em;transition:background 0.2s;}
+    .donation-link:hover{background:var(--orange);}
+    .form-hint{font-size:0.78rem;color:var(--ink-muted);line-height:1.5;margin:0.2rem 0 0.55rem;}
+    .form-file-label{display:flex;align-items:center;gap:0.7rem;padding:0.85rem 1rem;border-radius:12px;border:1.5px dashed rgba(157,74,15,0.3);background:rgba(255,255,255,0.5);cursor:pointer;font-size:0.86rem;color:var(--ink-muted);transition:all 0.2s;}
+    .form-file-label:hover{border-color:var(--orange);background:rgba(157,74,15,0.04);}
+    .form-file-label.has-file{border-color:var(--orange);color:var(--ink);border-style:solid;}
+    .file-icon{font-size:1.05rem;flex-shrink:0;}
+    .form-file-input{display:none;}
     .btn-book{background:var(--ink);color:var(--cream);padding:1rem;border-radius:100px;font-size:0.95rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;letter-spacing:0.03em;box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:background 0.2s,transform 0.2s,box-shadow 0.2s;width:100%;}
     .btn-book:hover{background:var(--orange);transform:translateY(-2px);box-shadow:0 8px 28px rgba(157,74,15,0.3);}
     .btn-book:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
@@ -200,11 +210,11 @@
       <div class="booking-success" id="bookingSuccess">
         <div class="success-icon">✅</div>
         <div class="success-title">You're on the calendar.</div>
-        <div class="success-body">Thanks for booking — a confirmation email is on its way to your inbox.</div>
+        <div class="success-body">Thanks for donating and booking — a confirmation email is on its way to your inbox.</div>
         <div class="success-detail">
           <strong>What happens next:</strong><br>
           1. Check your email for the confirmation.<br>
-          2. Within 24 hours I'll reply with the Zoom link and prep notes.<br>
+          2. I'll verify your donation screenshot within 24 hours and send the Zoom link.<br>
           3. Show up ready — session is 60 min.
         </div>
       </div>
@@ -257,9 +267,19 @@
           <textarea name="focus" class="form-textarea" placeholder="Describe the specific concepts you're struggling with..." required></textarea>
         </div>
         <div class="price-info">
-          <div class="price-label">Session cost</div>
-          <div class="price-amount">$30</div>
-          <div class="price-note">60 minutes of 1-on-1 tutoring</div>
+          <div class="price-label">Required before booking</div>
+          <div class="price-amount">$30 donation</div>
+          <div class="price-note">Donate $30 to the <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener">Friends of the Pleasanton Library</a> — a nonprofit supporting free educational resources in our community. Then upload your confirmation screenshot below.</div>
+          <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener" class="donation-link">Donate to Pleasanton Library →</a>
+        </div>
+        <div class="form-group" style="margin-top:0.75rem;">
+          <label class="form-label">Donation screenshot</label>
+          <p class="form-hint">After donating, upload a screenshot of your confirmation page.</p>
+          <label class="form-file-label" id="fileLabel" for="screenshotInput">
+            <span class="file-icon">↑</span>
+            <span id="fileName">Click to upload screenshot</span>
+          </label>
+          <input type="file" id="screenshotInput" name="screenshot" accept="image/*,.pdf" class="form-file-input" required/>
         </div>
         <button type="submit" class="btn-book">Book your session →</button>
       </form>
@@ -334,6 +354,14 @@ emailjs.init('vPV3Hae6SjYwwrD57');
 // Subject hint
 document.getElementById('subject').addEventListener('change',function(){
   document.getElementById('subjectHint').style.display=this.value==='other'?'block':'none';
+});
+
+// File upload label
+document.getElementById('screenshotInput').addEventListener('change',function(){
+  const nameEl=document.getElementById('fileName');
+  const label=document.getElementById('fileLabel');
+  if(this.files.length>0){nameEl.textContent=this.files[0].name;label.classList.add('has-file');}
+  else{nameEl.textContent='Click to upload screenshot';label.classList.remove('has-file');}
 });
 
 function selectTime(element, time) {

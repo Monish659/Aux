@@ -132,30 +132,31 @@ function initBg(bgId, shardId, palette) {
   }, { passive: true });
 
   function mkShard(px, py, size) {
-    // Elongated irregular polygon — looks like actual broken glass, not a circle
-    const sides   = 3 + Math.floor(rnd(0, 3)); // 3–5 sides
+    // Elongated irregular polygon — actual broken glass shape
+    const sides  = 3 + Math.floor(rnd(0, 3));
     const baseRot = rnd(0, Math.PI * 2);
-    const scaleX  = rnd(0.32, 1.0);  // elongation gives shards their shard-like look
-    const scaleY  = rnd(0.32, 1.0);
-    const pts     = [];
+    const scaleX = rnd(0.32, 1.0);
+    const scaleY = rnd(0.32, 1.0);
+    const pts    = [];
     for (let s = 0; s < sides; s++) {
       const a = (s / sides) * Math.PI * 2 + baseRot + rnd(-0.32, 0.32);
       const r = size * rnd(0.5, 1.0);
       pts.push([Math.cos(a) * r * scaleX, Math.sin(a) * r * scaleY]);
     }
+    // Compute orbit from the shard's initial position relative to screen center
+    const dxC = px - SW / 2;
+    const dyC = py - SH / 2;
     return {
       cx: px, cy: py, pts,
-      baseAlpha:  rnd(0.55, 0.90),
-      type:       Math.floor(rnd(0, P.shard.length)),
-      dA:         rnd(0, Math.PI * 2),
-      floatR:     rnd(80, 200),
-      floatSpeed: rnd(0.32, 0.72),
-      floatPhase: rnd(0, Math.PI * 2),
-      rotStart:   rnd(0, Math.PI * 2),
-      rotSpeed:   rnd(-0.26, 0.26),
-      alphaPhase: rnd(0, Math.PI * 2),
-      alphaSpeed: rnd(0.18, 0.45),
-      pFactor:    rnd(0.12, 0.42),
+      baseAlpha:    rnd(0.55, 0.90),
+      type:         Math.floor(rnd(0, P.shard.length)),
+      orbitR:       Math.hypot(dxC, dyC),
+      orbitAngle0:  Math.atan2(dyC, dxC),
+      orbitSpeed:   rnd(0.06, 0.20) * (Math.random() > 0.5 ? 1 : -1),
+      rotOffset:    rnd(-0.45, 0.45),  // slight tilt from perfect center-pointing
+      alphaPhase:   rnd(0, Math.PI * 2),
+      alphaSpeed:   rnd(0.18, 0.45),
+      pFactor:      rnd(0.08, 0.28),
     };
   }
 
@@ -183,12 +184,11 @@ function initBg(bgId, shardId, palette) {
   }
   buildShards();
 
-  // Edge-fade: shards near screen center become transparent
-  // Avoids destination-out which has inconsistent browser behaviour
-  function edgeFade(sh) {
-    const dist = Math.hypot(sh.cx - SW / 2, sh.cy - SH / 2);
-    const inner = Math.min(SW, SH) * 0.12;
-    const outer = Math.min(SW, SH) * 0.48;
+  // Edge-fade based on current drawn position — fades near center
+  function edgeFade(curX, curY) {
+    const dist = Math.hypot(curX - SW / 2, curY - SH / 2);
+    const inner = Math.min(SW, SH) * 0.08;
+    const outer = Math.min(SW, SH) * 0.44;
     return Math.max(0, Math.min(1, (dist - inner) / (outer - inner)));
   }
 
@@ -201,16 +201,14 @@ function initBg(bgId, shardId, palette) {
     smy += (my - smy) * 0.06;
 
     for (const sh of shards) {
-      // Lissajous float
-      const dx = Math.cos(sh.dA + sT * sh.floatSpeed + sh.floatPhase) * sh.floatR;
-      const dy = Math.sin(sh.dA + sT * sh.floatSpeed * 0.73 + sh.floatPhase) * sh.floatR * 0.65;
-      // Mouse parallax (nearer-edge shards react more)
-      const px = sh.cx + dx + smx * sh.pFactor * 90;
-      const py = sh.cy + dy + smy * sh.pFactor * 60;
-      // Rotation
-      const rot = sh.rotStart + sT * sh.rotSpeed;
-      // Combined alpha: base × edge-fade × breathing
-      const fade  = edgeFade(sh);
+      // Orbital motion around screen center
+      const orbitAngle = sh.orbitAngle0 + sT * sh.orbitSpeed;
+      const px = SW / 2 + Math.cos(orbitAngle) * sh.orbitR + smx * sh.pFactor * 40;
+      const py = SH / 2 + Math.sin(orbitAngle) * sh.orbitR + smy * sh.pFactor * 30;
+      // Rotation: point toward center (orbitAngle + π), with small personal offset
+      const rot = orbitAngle + Math.PI + sh.rotOffset;
+      // Combined alpha: base × edge-fade (based on current position) × breathing
+      const fade  = edgeFade(px, py);
       const alpha = sh.baseAlpha * fade * (0.65 + 0.35 * Math.sin(sT * sh.alphaSpeed + sh.alphaPhase));
       if (alpha < 0.008) continue;
 

@@ -195,16 +195,47 @@
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
 
-    .reveal{opacity:0;transform:translateY(26px);transition:opacity 0.75s var(--ease),transform 0.75s var(--ease);}
-    .reveal.in{opacity:1;transform:translateY(0);}
+    .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1);}
     @keyframes riseIn{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
     @keyframes breathe{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.7);}}
     @keyframes dropBar{0%,100%{opacity:0.5;transform:scaleY(1);}50%{opacity:0.2;transform:scaleY(0.55);}}
     @media(max-width:720px){.about-grid{grid-template-columns:1fr;gap:3rem;}.nav-links{display:none;}}
-    
+
+    /* SCROLL PROGRESS */
+    #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--orange),var(--amber-light),var(--orange));z-index:500;pointer-events:none;transition:width 0.08s linear;}
+
+    /* BADGE FLOAT */
+    @keyframes badgeFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+    .badge{animation:badgeFloat 3.8s ease-in-out infinite;}
+
+    /* CARD PERSPECTIVE + SHIMMER */
+    .course-grid{perspective:1400px;}
+    .course-card{position:relative;overflow:hidden;transform-style:preserve-3d;}
+    .course-card::after{content:'';position:absolute;top:-60%;left:-80%;width:38%;height:220%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.13),transparent);transform:skewX(-18deg);pointer-events:none;opacity:0;}
+    .course-card:hover::after{opacity:1;animation:cardShimmer 0.55s ease forwards;}
+    @keyframes cardShimmer{from{left:-80%}to{left:130%}}
+
+    /* HERO ITALIC GLOW */
+    .hero-title .it{text-shadow:0 0 60px rgba(184,82,0,0.25);}
+
+    /* CTA EM GLOW */
+    .cta-band h2 em{text-shadow:0 0 50px rgba(184,82,0,0.5);}
+
+    /* STAT HOVER */
+    .stat-num{transition:color 0.35s,transform 0.35s;}
+    .stats-card:hover .stat-num{color:var(--orange);transform:translateX(3px);}
+
+    /* LIVE STRIP PULSE */
+    .live-dot{animation:breathe 2s ease-in-out infinite;}
+
+    /* UNIT + VIDEO CARD GLOW (used on course pages too) */
+    .unit-card:hover{border-color:rgba(29,78,216,0.35);box-shadow:0 0 0 1px rgba(29,78,216,0.12),0 8px 28px rgba(0,0,0,0.12);}
+
   </style>
 </head>
 <body>
+<div id="aux-progress"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -316,8 +347,80 @@
 <script>initBg('bgCanvas','shardCanvas','amber');</script>
 <script>
 (function(){
-  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.1,rootMargin:'0px 0px -36px 0px'});
+  // Reveal on scroll
+  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -32px 0px'});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%5)*0.09+'s';io.observe(el);});
+
+  // Scroll progress bar
+  const prog=document.getElementById('aux-progress');
+  window.addEventListener('scroll',()=>{
+    const s=document.documentElement.scrollTop;
+    const t=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(s/t*100)+'%';
+  },{passive:true});
+
+  // Hero parallax
+  const hi=document.querySelector('.hero-inner');
+  window.addEventListener('scroll',()=>{
+    const s=window.pageYOffset;
+    if(hi&&s<window.innerHeight){
+      hi.style.transform=`translateY(${s*0.22}px)`;
+      hi.style.opacity=Math.max(0,1-s/520);
+    }
+  },{passive:true});
+
+  // 3D card tilt
+  document.querySelectorAll('.course-card:not(.soon-card)').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-0.5;
+      const y=(e.clientY-r.top)/r.height-0.5;
+      card.style.transition='transform 0.06s ease,box-shadow 0.06s ease';
+      card.style.transform=`translateY(-7px) rotateX(${-y*11}deg) rotateY(${x*11}deg) scale(1.02)`;
+      card.style.boxShadow=`${-x*22}px ${(-y*22)+10}px 40px rgba(0,0,0,0.14)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transition='transform 0.4s ease,box-shadow 0.4s ease,border-color 0.2s';
+      card.style.transform='';
+      card.style.boxShadow='';
+    });
+  });
+
+  // Stats counter — animates "100%" on reveal
+  function runCounter(el,target,suffix){
+    let start=null;
+    const dur=1500;
+    (function step(ts){
+      if(!start)start=ts;
+      const p=Math.min((ts-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(ease*target)+suffix;
+      if(p<1)requestAnimationFrame(step);
+    })(performance.now());
+  }
+  const statEls=document.querySelectorAll('.stat-num');
+  const counterObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const el=e.target;
+      const txt=el.textContent.trim();
+      if(txt==='100%'){runCounter(el,100,'%');}
+      counterObs.unobserve(el);
+    });
+  },{threshold:0.6});
+  statEls.forEach(el=>counterObs.observe(el));
+
+  // Magnetic primary button
+  const darkBtn=document.querySelector('.btn-dark');
+  if(darkBtn){
+    darkBtn.addEventListener('mousemove',e=>{
+      const r=darkBtn.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*0.22;
+      const y=(e.clientY-r.top-r.height/2)*0.22;
+      darkBtn.style.transform=`translate(${x}px,${y}px) translateY(-2px)`;
+    });
+    darkBtn.addEventListener('mouseleave',()=>{darkBtn.style.transform='';});
+  }
 })();
 </script>
 </body>

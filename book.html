@@ -177,13 +177,15 @@
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(139,63,10,0.12);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(221,216,210,0.94);backdrop-filter:blur(12px);}
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.72s var(--ease),transform 0.72s var(--ease);}
-    .reveal.in{opacity:1;transform:translateY(0);}
+    .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @media(max-width:720px){.time-grid{grid-template-columns:1fr;}}
+    #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--orange),var(--amber-light),var(--orange));z-index:500;pointer-events:none;transition:width 0.08s linear;}
   </style>
 </head>
 <body>
+<div id="aux-progress"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -405,6 +407,8 @@ async function handleBooking(e) {
   document.querySelectorAll('.reveal').forEach((el,i) => {
     el.style.transitionDelay=(i%5)*0.09+'s'; io.observe(el);
   });
+  const prog=document.getElementById('aux-progress');
+  window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(s/t*100)+'%';},{passive:true});
 })();
 </script>
 </body>

@@ -152,13 +152,28 @@
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(22,101,52,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(230,241,232,0.92);backdrop-filter:blur(12px);}
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.72s var(--ease),transform 0.72s var(--ease);}
-    .reveal.in{opacity:1;transform:translateY(0);}
+    .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @media(max-width:720px){.notify-form{flex-direction:column;align-items:stretch;}.notify-input{max-width:100%;}}
+
+    /* SCROLL PROGRESS */
+    #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--green),var(--green-mid),var(--green));z-index:500;pointer-events:none;transition:width 0.08s linear;}
+
+    /* COMING CARD SUBTLE FLOAT */
+    @keyframes comingFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+    .coming-card:nth-child(odd){animation:comingFloat 5.2s ease-in-out infinite;}
+    .coming-card:nth-child(even){animation:comingFloat 6.1s ease-in-out 0.8s infinite;}
+    .coming-card{transition:box-shadow 0.3s,border-color 0.3s;}
+    .coming-card:hover{border-color:rgba(22,101,52,0.32);box-shadow:0 8px 28px rgba(22,101,52,0.1);}
+
+    /* NOTIFY CARD GLOW */
+    @keyframes notifyGlow{0%,100%{box-shadow:0 4px 20px rgba(22,101,52,0.08);}50%{box-shadow:0 8px 32px rgba(22,101,52,0.16);}}
+    .notify-card{animation:notifyGlow 4s ease-in-out infinite;}
   </style>
 </head>
 <body>
+<div id="aux-progress"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -253,6 +268,8 @@
 (function(){
   const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
+  const prog=document.getElementById('aux-progress');
+  window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(s/t*100)+'%';},{passive:true});
   async function handleNotify(e){
     e.preventDefault();
     const btn=e.target.querySelector('.notify-submit');

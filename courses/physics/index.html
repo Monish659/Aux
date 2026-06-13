@@ -186,13 +186,34 @@
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(29,78,216,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(227,234,246,0.92);backdrop-filter:blur(12px);}
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.72s var(--ease),transform 0.72s var(--ease);}
-    .reveal.in{opacity:1;transform:translateY(0);}
+    .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @media(max-width:720px){.testprep-items{grid-template-columns:1fr;}}
+
+    /* SCROLL PROGRESS */
+    #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blue),var(--blue-mid),var(--blue));z-index:500;pointer-events:none;transition:width 0.08s linear;}
+
+    /* TEST PREP CARD — animated glow border */
+    @keyframes testprepGlow{
+      0%,100%{box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 20px 60px rgba(0,0,0,0.28),inset 0 0 30px rgba(59,130,246,0.04);}
+      50%{box-shadow:0 0 0 1px rgba(59,130,246,0.55),0 20px 60px rgba(0,0,0,0.35),inset 0 0 40px rgba(59,130,246,0.10);}
+    }
+    .testprep-card{animation:testprepGlow 4.5s ease-in-out infinite;}
+    .testprep-card::before{animation:rotatePulse 8s linear infinite;}
+    @keyframes rotatePulse{0%{opacity:0.8;transform:scale(1);}50%{opacity:1;transform:scale(1.25);}100%{opacity:0.8;transform:scale(1);}}
+
+    /* VIDEO CARD HOVER — tilt + glow */
+    .video-card{perspective:900px;}
+    .video-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 40px rgba(29,78,216,0.18);}
+    .video-card:hover .play-icon{background:rgba(59,130,246,0.55);transform:scale(1.15);}
+
+    /* UNIT CARD GLOW */
+    .unit-card:hover{box-shadow:0 0 0 1px rgba(29,78,216,0.2),0 8px 30px rgba(29,78,216,0.1);}
   </style>
 </head>
 <body>
+<div id="aux-progress"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -304,6 +325,8 @@
 (function(){
   const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
+  const prog=document.getElementById('aux-progress');
+  window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(s/t*100)+'%';},{passive:true});
 
   const npWrap=document.getElementById('npWrap'),npFrame=document.getElementById('npFrame'),npTitle=document.getElementById('npTitle');
   let activeCard=null;

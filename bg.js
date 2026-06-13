@@ -149,10 +149,10 @@ function initBg(bgId, shardId, palette) {
       type:       Math.floor(rnd(0, P.shard.length)),
       dA:         rnd(0, Math.PI * 2),
       floatR:     rnd(80, 200),
-      floatSpeed: rnd(0.5, 1.1),
+      floatSpeed: rnd(0.32, 0.72),
       floatPhase: rnd(0, Math.PI * 2),
       rotStart:   rnd(0, Math.PI * 2),
-      rotSpeed:   rnd(-0.055, 0.055), // ~1 full rotation per 90–120s
+      rotSpeed:   rnd(-0.26, 0.26),
       alphaPhase: rnd(0, Math.PI * 2),
       alphaSpeed: rnd(0.18, 0.45),
       pFactor:    rnd(0.12, 0.42),
@@ -194,7 +194,7 @@ function initBg(bgId, shardId, palette) {
 
   function drawShards() {
     sx.clearRect(0, 0, SW, SH);
-    sT += 0.022;
+    sT += 0.011;
 
     // Smooth mouse lag
     smx += (mx - smx) * 0.06;

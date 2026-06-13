@@ -148,8 +148,8 @@ function initBg(bgId, shardId, palette) {
       baseAlpha:  rnd(0.55, 0.90),
       type:       Math.floor(rnd(0, P.shard.length)),
       dA:         rnd(0, Math.PI * 2),
-      floatR:     rnd(55, 145),
-      floatSpeed: rnd(0.38, 0.82),   // ~10–16s cycle at sT+=0.016
+      floatR:     rnd(80, 200),
+      floatSpeed: rnd(0.5, 1.1),
       floatPhase: rnd(0, Math.PI * 2),
       rotStart:   rnd(0, Math.PI * 2),
       rotSpeed:   rnd(-0.055, 0.055), // ~1 full rotation per 90–120s
@@ -194,7 +194,7 @@ function initBg(bgId, shardId, palette) {
 
   function drawShards() {
     sx.clearRect(0, 0, SW, SH);
-    sT += 0.016; // ~10–16s float cycle, clearly visible
+    sT += 0.022;
 
     // Smooth mouse lag
     smx += (mx - smx) * 0.06;
@@ -229,42 +229,42 @@ function initBg(bgId, shardId, palette) {
       for (let i = 1; i < n; i++) sx.lineTo(sh.pts[i][0], sh.pts[i][1]);
       sx.closePath();
 
-      // Layer 1 — glass body: diagonal gradient tint, nearly transparent
+      // Layer 1 — glass body: clearly visible gradient tint
       const gp1 = sh.pts[0], gp2 = sh.pts[Math.floor(n / 2)];
       const bodyGrad = sx.createLinearGradient(gp1[0], gp1[1], gp2[0], gp2[1]);
-      bodyGrad.addColorStop(0,   `rgba(${fr},${fg},${fb},${(alpha * 0.16).toFixed(3)})`);
-      bodyGrad.addColorStop(0.4, `rgba(${sr},${sg},${sb},${(alpha * 0.06).toFixed(3)})`);
-      bodyGrad.addColorStop(1,   `rgba(${fr},${fg},${fb},${(alpha * 0.22).toFixed(3)})`);
+      bodyGrad.addColorStop(0,   `rgba(${fr},${fg},${fb},${(alpha * 0.42).toFixed(3)})`);
+      bodyGrad.addColorStop(0.45,`rgba(${sr},${sg},${sb},${(alpha * 0.18).toFixed(3)})`);
+      bodyGrad.addColorStop(1,   `rgba(${fr},${fg},${fb},${(alpha * 0.50).toFixed(3)})`);
       sx.fillStyle = bodyGrad;
       sx.fill();
 
-      // Layer 2 — fracture edge: dark purple crack line
-      sx.strokeStyle = `rgba(18,4,36,${(alpha * 0.70).toFixed(3)})`;
-      sx.lineWidth = 2.2;
+      // Layer 2 — fracture edge: dark crack, the broken glass line
+      sx.strokeStyle = `rgba(10,0,25,${(alpha * 0.82).toFixed(3)})`;
+      sx.lineWidth = 2.4;
       sx.stroke();
 
-      // Layer 3 — specular rim: light catching the broken edge (bright lavender)
-      sx.strokeStyle = `rgba(210,185,255,${(alpha * 0.82).toFixed(3)})`;
-      sx.lineWidth = 0.65;
+      // Layer 3 — specular rim: bright lavender catching the edge
+      sx.strokeStyle = `rgba(215,195,255,${(alpha * 0.95).toFixed(3)})`;
+      sx.lineWidth = 0.8;
       sx.stroke();
 
-      // Layer 4 — dominant highlight edge: the single edge catching most light
+      // Layer 4 — brightest highlight edge (one face catches full light)
       const h0 = sh.pts[0], h1 = sh.pts[1 % n];
       sx.beginPath();
       sx.moveTo(h0[0], h0[1]);
       sx.lineTo(h1[0], h1[1]);
-      sx.strokeStyle = `rgba(255,250,255,${(alpha * 0.92).toFixed(3)})`;
-      sx.lineWidth = 1.6;
+      sx.strokeStyle = `rgba(255,252,255,${(alpha * 0.98).toFixed(3)})`;
+      sx.lineWidth = 2.2;
       sx.stroke();
 
-      // Layer 5 — face reflection: faint diagonal line across the glass face
+      // Layer 5 — face glint: diagonal reflection across the glass face
       const f0 = sh.pts[Math.floor(n * 0.2) % n];
       const f1 = sh.pts[Math.floor(n * 0.7) % n];
       sx.beginPath();
-      sx.moveTo(f0[0] * 0.55, f0[1] * 0.55);
-      sx.lineTo(f1[0] * 0.55, f1[1] * 0.55);
-      sx.strokeStyle = `rgba(230,215,255,${(alpha * 0.38).toFixed(3)})`;
-      sx.lineWidth = 0.85;
+      sx.moveTo(f0[0] * 0.5, f0[1] * 0.5);
+      sx.lineTo(f1[0] * 0.5, f1[1] * 0.5);
+      sx.strokeStyle = `rgba(240,225,255,${(alpha * 0.55).toFixed(3)})`;
+      sx.lineWidth = 1.1;
       sx.stroke();
 
       sx.restore();

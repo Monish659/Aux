@@ -146,11 +146,13 @@ function initBg(bgId, shardId, palette) {
     // Compute orbit from the shard's initial position relative to screen center
     const dxC = px - SW / 2;
     const dyC = py - SH / 2;
+    // Enforce minimum orbit radius so shards never cross into the interior
+    const minOrbit = Math.min(SW, SH) * 0.44;
     return {
       cx: px, cy: py, pts,
       baseAlpha:    rnd(0.55, 0.90),
       type:         Math.floor(rnd(0, P.shard.length)),
-      orbitR:       Math.hypot(dxC, dyC),
+      orbitR:       Math.max(Math.hypot(dxC, dyC), minOrbit),
       orbitAngle0:  Math.atan2(dyC, dxC),
       orbitSpeed:   rnd(0.06, 0.20) * (Math.random() > 0.5 ? 1 : -1),
       rotOffset:    rnd(-0.45, 0.45),  // slight tilt from perfect center-pointing
@@ -184,11 +186,11 @@ function initBg(bgId, shardId, palette) {
   }
   buildShards();
 
-  // Edge-fade based on current drawn position — fades near center
+  // Edge-fade based on current drawn position — keeps center clear
   function edgeFade(curX, curY) {
     const dist = Math.hypot(curX - SW / 2, curY - SH / 2);
-    const inner = Math.min(SW, SH) * 0.08;
-    const outer = Math.min(SW, SH) * 0.44;
+    const inner = Math.min(SW, SH) * 0.36;  // fully invisible inside this radius
+    const outer = Math.min(SW, SH) * 0.50;  // fully visible outside this radius
     return Math.max(0, Math.min(1, (dist - inner) / (outer - inner)));
   }
 

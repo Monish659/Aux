@@ -216,7 +216,7 @@
         <div class="success-detail">
           <strong>What happens next:</strong><br>
           1. Confirmation email is on its way.<br>
-          2. I'll check your donation screenshot within 24 hours and send the Zoom link.<br>
+          2. I'll send the Zoom link within 24 hours.<br>
           3. Show up ready. 60 minutes.
         </div>
       </div>
@@ -269,19 +269,10 @@
           <textarea name="focus" class="form-textarea" placeholder="Describe the specific concepts you're struggling with..." required></textarea>
         </div>
         <div class="price-info">
-          <div class="price-label">Required before booking</div>
+          <div class="price-label">Strongly recommended</div>
           <div class="price-amount">$30 donation</div>
-          <div class="price-note">Before we meet, donate $30 to the <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener">Friends of the Pleasanton Library</a>. A nonprofit that keeps free resources in the community. Then upload your confirmation below.</div>
+          <div class="price-note">This site is free. Sessions are free. If you want to give something back, consider donating $30 to the <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener">Friends of the Pleasanton Library</a> — a nonprofit that keeps free resources in the community. Not required, but it means a lot.</div>
           <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener" class="donation-link">Donate to Pleasanton Library →</a>
-        </div>
-        <div class="form-group" style="margin-top:0.75rem;">
-          <label class="form-label">Donation screenshot</label>
-          <p class="form-hint">Donate first. Then upload the confirmation here.</p>
-          <label class="form-file-label" id="fileLabel" for="screenshotInput">
-            <span class="file-icon">↑</span>
-            <span id="fileName">Click to upload screenshot</span>
-          </label>
-          <input type="file" id="screenshotInput" name="screenshot" accept="image/*,.pdf" class="form-file-input" required/>
         </div>
         <button type="submit" class="btn-book">Book your session →</button>
       </form>
@@ -358,13 +349,6 @@ document.getElementById('subject').addEventListener('change',function(){
   document.getElementById('subjectHint').style.display=this.value==='other'?'block':'none';
 });
 
-// File upload label
-document.getElementById('screenshotInput').addEventListener('change',function(){
-  const nameEl=document.getElementById('fileName');
-  const label=document.getElementById('fileLabel');
-  if(this.files.length>0){nameEl.textContent=this.files[0].name;label.classList.add('has-file');}
-  else{nameEl.textContent='Click to upload screenshot';label.classList.remove('has-file');}
-});
 
 function selectTime(element, time) {
   document.querySelectorAll('.time-option').forEach(e => e.classList.remove('selected'));

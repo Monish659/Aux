@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="280" height="72" viewBox="0 0 280 72">
+     width="200" height="52" viewBox="0 0 200 52">
   <defs>
     <linearGradient id="wmGrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#f5f0eb" stop-opacity="0.85"/>
@@ -7,27 +7,27 @@
     </linearGradient>
   </defs>
 
-  <!-- Subtle rounded pill background for readability -->
-  <rect x="0" y="0" width="280" height="72" rx="10"
+  <!-- Pill background -->
+  <rect x="0" y="0" width="200" height="52" rx="8"
         fill="#0a0604" fill-opacity="0.42"/>
 
   <!-- Bull logo -->
-  <image href="logo.svg" x="10" y="6" width="56" height="56"
+  <image href="logo.svg" x="7" y="4" width="40" height="40"
          style="filter:invert(1) sepia(1) saturate(1.5) hue-rotate(10deg) brightness(1.2)"
          opacity="0.9"/>
 
-  <!-- Thin amber divider -->
-  <rect x="76" y="16" width="1" height="40" rx="0.5" fill="#b85200" opacity="0.5"/>
+  <!-- Amber divider -->
+  <rect x="54" y="11" width="1" height="28" rx="0.5" fill="#b85200" opacity="0.5"/>
 
   <!-- AUX wordmark -->
-  <text x="92" y="48"
+  <text x="65" y="35"
         font-family="'Cormorant Garamond', Georgia, serif"
-        font-size="38" font-weight="600" letter-spacing="2"
+        font-size="27" font-weight="600" letter-spacing="1.5"
         fill="url(#wmGrad)">AUX</text>
 
-  <!-- Tagline under wordmark -->
-  <text x="92" y="63"
+  <!-- URL -->
+  <text x="65" y="46"
         font-family="'Outfit', 'Helvetica Neue', Arial, sans-serif"
-        font-size="10" font-weight="400" letter-spacing="2.2"
+        font-size="7.5" font-weight="400" letter-spacing="1.8"
         fill="#f5f0eb" opacity="0.45">AUX-TUTORING.COM</text>
 </svg>

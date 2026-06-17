@@ -1,123 +1,248 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      width="2560" height="1440" viewBox="0 0 2560 1440">
   <defs>
-    <!-- Background gradient -->
     <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0a0604"/>
       <stop offset="55%" stop-color="#120c06"/>
       <stop offset="100%" stop-color="#0a0604"/>
     </linearGradient>
 
-    <!-- Amber core glow -->
-    <radialGradient id="amberGlow" cx="42%" cy="50%" r="45%">
+    <!-- Amber glow — now centered -->
+    <radialGradient id="amberGlow" cx="50%" cy="50%" r="48%">
       <stop offset="0%"  stop-color="#d4701a" stop-opacity="0.22"/>
-      <stop offset="40%" stop-color="#b85200" stop-opacity="0.10"/>
+      <stop offset="42%" stop-color="#b85200" stop-opacity="0.10"/>
       <stop offset="100%" stop-color="#0a0604" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- Right-side dim -->
-    <radialGradient id="rightGlow" cx="85%" cy="50%" r="30%">
-      <stop offset="0%"  stop-color="#8b3f0a" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#0a0604" stop-opacity="0"/>
+    <!-- Purple vignette at edges (matches website outer tone from shards) -->
+    <radialGradient id="purpleVign" cx="50%" cy="50%" r="72%">
+      <stop offset="58%" stop-color="transparent" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#1a0030" stop-opacity="0.38"/>
     </radialGradient>
 
-    <!-- Speed line clip (full canvas) -->
-    <clipPath id="fullClip">
-      <rect width="2560" height="1440"/>
-    </clipPath>
+    <!-- Shard fill gradients (matching website palette) -->
+    <linearGradient id="sf1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#481680" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#6D28D9" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="sf2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5b21b6" stop-opacity="0.46"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.20"/>
+    </linearGradient>
+    <linearGradient id="sf3" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b0f6e" stop-opacity="0.60"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.26"/>
+    </linearGradient>
+
+    <clipPath id="fullClip"><rect width="2560" height="1440"/></clipPath>
   </defs>
 
-  <!-- Base background -->
+  <!-- Background -->
   <rect width="2560" height="1440" fill="url(#bgGrad)"/>
-
-  <!-- Ambient glows -->
   <rect width="2560" height="1440" fill="url(#amberGlow)"/>
-  <rect width="2560" height="1440" fill="url(#rightGlow)"/>
+  <rect width="2560" height="1440" fill="url(#purpleVign)"/>
 
-  <!-- Speed lines radiating from left-center -->
-  <g clip-path="url(#fullClip)" opacity="0.07">
-    <!-- Each line radiates from roughly x=480, y=720 -->
-    <line x1="480" y1="720" x2="2560" y2="0"   stroke="#d4701a" stroke-width="1.2"/>
-    <line x1="480" y1="720" x2="2560" y2="160"  stroke="#d4701a" stroke-width="0.9"/>
-    <line x1="480" y1="720" x2="2560" y2="340"  stroke="#b85200" stroke-width="1.4"/>
-    <line x1="480" y1="720" x2="2560" y2="510"  stroke="#d4701a" stroke-width="0.8"/>
-    <line x1="480" y1="720" x2="2560" y2="640"  stroke="#d4701a" stroke-width="1.0"/>
-    <line x1="480" y1="720" x2="2560" y2="760"  stroke="#b85200" stroke-width="1.6"/>
-    <line x1="480" y1="720" x2="2560" y2="880"  stroke="#d4701a" stroke-width="1.0"/>
-    <line x1="480" y1="720" x2="2560" y2="980"  stroke="#d4701a" stroke-width="0.8"/>
-    <line x1="480" y1="720" x2="2560" y2="1100" stroke="#b85200" stroke-width="1.3"/>
-    <line x1="480" y1="720" x2="2560" y2="1260" stroke="#d4701a" stroke-width="0.9"/>
-    <line x1="480" y1="720" x2="2560" y2="1440" stroke="#d4701a" stroke-width="1.1"/>
-    <line x1="480" y1="720" x2="0"    y2="0"    stroke="#d4701a" stroke-width="0.8"/>
-    <line x1="480" y1="720" x2="0"    y2="1440" stroke="#d4701a" stroke-width="0.8"/>
-    <line x1="480" y1="720" x2="800"  y2="0"    stroke="#b85200" stroke-width="0.7"/>
-    <line x1="480" y1="720" x2="1200" y2="0"    stroke="#d4701a" stroke-width="0.6"/>
-    <line x1="480" y1="720" x2="800"  y2="1440" stroke="#b85200" stroke-width="0.7"/>
-    <line x1="480" y1="720" x2="1200" y2="1440" stroke="#d4701a" stroke-width="0.6"/>
+  <!-- Speed lines radiating from center (like website bg) -->
+  <g clip-path="url(#fullClip)" opacity="0.055">
+    <line x1="1280" y1="720" x2="2560" y2="0"    stroke="#d4701a" stroke-width="1.2"/>
+    <line x1="1280" y1="720" x2="2560" y2="200"   stroke="#d4701a" stroke-width="0.9"/>
+    <line x1="1280" y1="720" x2="2560" y2="460"   stroke="#b85200" stroke-width="1.5"/>
+    <line x1="1280" y1="720" x2="2560" y2="720"   stroke="#d4701a" stroke-width="1.9"/>
+    <line x1="1280" y1="720" x2="2560" y2="980"   stroke="#d4701a" stroke-width="1.5"/>
+    <line x1="1280" y1="720" x2="2560" y2="1240"  stroke="#b85200" stroke-width="1.2"/>
+    <line x1="1280" y1="720" x2="2560" y2="1440"  stroke="#d4701a" stroke-width="1.0"/>
+    <line x1="1280" y1="720" x2="0"    y2="0"     stroke="#d4701a" stroke-width="1.2"/>
+    <line x1="1280" y1="720" x2="0"    y2="200"   stroke="#d4701a" stroke-width="0.9"/>
+    <line x1="1280" y1="720" x2="0"    y2="460"   stroke="#b85200" stroke-width="1.5"/>
+    <line x1="1280" y1="720" x2="0"    y2="720"   stroke="#d4701a" stroke-width="1.9"/>
+    <line x1="1280" y1="720" x2="0"    y2="980"   stroke="#d4701a" stroke-width="1.5"/>
+    <line x1="1280" y1="720" x2="0"    y2="1240"  stroke="#b85200" stroke-width="1.2"/>
+    <line x1="1280" y1="720" x2="0"    y2="1440"  stroke="#d4701a" stroke-width="1.0"/>
+    <line x1="1280" y1="720" x2="640"  y2="0"     stroke="#d4701a" stroke-width="0.8"/>
+    <line x1="1280" y1="720" x2="1280" y2="0"     stroke="#b85200" stroke-width="1.1"/>
+    <line x1="1280" y1="720" x2="1920" y2="0"     stroke="#d4701a" stroke-width="0.8"/>
+    <line x1="1280" y1="720" x2="640"  y2="1440"  stroke="#d4701a" stroke-width="0.8"/>
+    <line x1="1280" y1="720" x2="1280" y2="1440"  stroke="#b85200" stroke-width="1.1"/>
+    <line x1="1280" y1="720" x2="1920" y2="1440"  stroke="#d4701a" stroke-width="0.8"/>
   </g>
 
-  <!-- Grain texture overlay (SVG feTurbulence) -->
-  <filter id="grain">
-    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="3"/>
-    <feColorMatrix type="saturate" values="0"/>
-    <feBlend in="SourceGraphic" mode="overlay"/>
-  </filter>
-  <rect width="2560" height="1440" filter="url(#grain)" opacity="0.018"/>
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PURPLE GLASS SHARDS — orbiting outer ring (static)    -->
+  <!-- 5-layer render: fill → dark edge → specular → glint   -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g clip-path="url(#fullClip)">
 
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SAFE ZONE CONTENT: x 507–2053, y 509–932 (1546 × 423)    -->
-  <!-- All critical content lives here                            -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TOP-LEFT cluster -->
+    <polygon points="80,90 248,52 298,188 162,228 68,164" fill="url(#sf1)"/>
+    <polygon points="80,90 248,52 298,188 162,228 68,164" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="80,90 248,52 298,188 162,228 68,164" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.90"/>
+    <line x1="164" y1="62" x2="108" y2="202" stroke="#F0DCFF" stroke-width="1.5" opacity="0.72"/>
 
-  <!-- Bull logo — left anchor of safe zone -->
-  <image href="logo.svg" x="507" y="555" width="310" height="310"
+    <polygon points="318,40 444,72 422,196 298,182" fill="url(#sf2)"/>
+    <polygon points="318,40 444,72 422,196 298,182" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="318,40 444,72 422,196 298,182" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="380" y1="52" x2="358" y2="188" stroke="#ffffff" stroke-width="2.2" opacity="0.90"/>
+
+    <polygon points="48,305 162,272 192,408 78,442 28,378" fill="url(#sf3)"/>
+    <polygon points="48,305 162,272 192,408 78,442 28,378" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="48,305 162,272 192,408 78,442 28,378" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="112" y1="282" x2="132" y2="424" stroke="#F0DCFF" stroke-width="1.2" opacity="0.58"/>
+
+    <polygon points="178,438 298,412 318,528 202,558 162,494" fill="url(#sf1)"/>
+    <polygon points="178,438 298,412 318,528 202,558 162,494" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="178,438 298,412 318,528 202,558 162,494" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.85"/>
+    <line x1="238" y1="420" x2="248" y2="545" stroke="#F0DCFF" stroke-width="0.8" opacity="0.44"/>
+
+    <!-- TOP-CENTER -->
+    <polygon points="872,28 988,54 964,178 842,168 808,90" fill="url(#sf2)"/>
+    <polygon points="872,28 988,54 964,178 842,168 808,90" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="872,28 988,54 964,178 842,168 808,90" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="926" y1="40" x2="904" y2="172" stroke="#F0DCFF" stroke-width="1.0" opacity="0.55"/>
+
+    <polygon points="1482,42 1598,18 1628,142 1512,172 1460,98" fill="url(#sf3)"/>
+    <polygon points="1482,42 1598,18 1628,142 1512,172 1460,98" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="1482,42 1598,18 1628,142 1512,172 1460,98" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="1554" y1="26" x2="1532" y2="158" stroke="#ffffff" stroke-width="2.0" opacity="0.90"/>
+
+    <!-- TOP-RIGHT cluster -->
+    <polygon points="2128,58 2292,32 2334,178 2202,208 2108,138" fill="url(#sf1)"/>
+    <polygon points="2128,58 2292,32 2334,178 2202,208 2108,138" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2128,58 2292,32 2334,178 2202,208 2108,138" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.90"/>
+    <line x1="2220" y1="42" x2="2244" y2="188" stroke="#F0DCFF" stroke-width="1.6" opacity="0.78"/>
+
+    <polygon points="2402,88 2524,58 2558,212 2432,244 2370,168" fill="url(#sf2)"/>
+    <polygon points="2402,88 2524,58 2558,212 2432,244 2370,168" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2402,88 2524,58 2558,212 2432,244 2370,168" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="2482" y1="70" x2="2462" y2="228" stroke="#ffffff" stroke-width="2.2" opacity="0.92"/>
+
+    <polygon points="2062,298 2174,264 2204,392 2098,418 2042,354" fill="url(#sf3)"/>
+    <polygon points="2062,298 2174,264 2204,392 2098,418 2042,354" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2062,298 2174,264 2204,392 2098,418 2042,354" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.85"/>
+    <line x1="2128" y1="276" x2="2112" y2="406" stroke="#F0DCFF" stroke-width="0.8" opacity="0.46"/>
+
+    <polygon points="2232,418 2348,392 2368,512 2252,542 2212,476" fill="url(#sf1)"/>
+    <polygon points="2232,418 2348,392 2368,512 2252,542 2212,476" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2232,418 2348,392 2368,512 2252,542 2212,476" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.85"/>
+    <line x1="2298" y1="400" x2="2308" y2="528" stroke="#F0DCFF" stroke-width="1.0" opacity="0.52"/>
+
+    <!-- LEFT EDGE (mid) -->
+    <polygon points="12,568 128,532 154,668 52,708 4,638" fill="url(#sf2)"/>
+    <polygon points="12,568 128,532 154,668 52,708 4,638" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="12,568 128,532 154,668 52,708 4,638" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="76" y1="540" x2="88" y2="698" stroke="#ffffff" stroke-width="2.5" opacity="0.94"/>
+
+    <polygon points="28,808 144,782 166,912 54,944 18,874" fill="url(#sf3)"/>
+    <polygon points="28,808 144,782 166,912 54,944 18,874" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="28,808 144,782 166,912 54,944 18,874" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="92" y1="792" x2="98" y2="926" stroke="#F0DCFF" stroke-width="0.7" opacity="0.42"/>
+
+    <!-- RIGHT EDGE (mid) -->
+    <polygon points="2412,542 2532,578 2522,718 2402,698 2382,618" fill="url(#sf1)"/>
+    <polygon points="2412,542 2532,578 2522,718 2402,698 2382,618" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2412,542 2532,578 2522,718 2402,698 2382,618" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="2470" y1="556" x2="2458" y2="710" stroke="#ffffff" stroke-width="2.3" opacity="0.92"/>
+
+    <polygon points="2392,792 2512,760 2550,894 2432,924 2372,856" fill="url(#sf2)"/>
+    <polygon points="2392,792 2512,760 2550,894 2432,924 2372,856" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2392,792 2512,760 2550,894 2432,924 2372,856" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="2464" y1="772" x2="2448" y2="908" stroke="#F0DCFF" stroke-width="1.2" opacity="0.64"/>
+
+    <!-- BOTTOM-LEFT cluster -->
+    <polygon points="98,1088 224,1052 250,1188 128,1224 82,1158" fill="url(#sf3)"/>
+    <polygon points="98,1088 224,1052 250,1188 128,1224 82,1158" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="98,1088 224,1052 250,1188 128,1224 82,1158" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="166" y1="1062" x2="178" y2="1208" stroke="#F0DCFF" stroke-width="1.5" opacity="0.76"/>
+
+    <polygon points="268,1272 392,1242 416,1378 294,1412 246,1344" fill="url(#sf1)"/>
+    <polygon points="268,1272 392,1242 416,1378 294,1412 246,1344" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="268,1272 392,1242 416,1378 294,1412 246,1344" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="338" y1="1250" x2="330" y2="1394" stroke="#ffffff" stroke-width="2.0" opacity="0.90"/>
+
+    <polygon points="38,1312 168,1288 192,1414 66,1438" fill="url(#sf2)"/>
+    <polygon points="38,1312 168,1288 192,1414 66,1438" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="38,1312 168,1288 192,1414 66,1438" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.85"/>
+    <line x1="104" y1="1296" x2="114" y2="1428" stroke="#F0DCFF" stroke-width="0.7" opacity="0.40"/>
+
+    <!-- BOTTOM-CENTER -->
+    <polygon points="878,1302 1004,1270 1028,1406 902,1434 856,1368" fill="url(#sf2)"/>
+    <polygon points="878,1302 1004,1270 1028,1406 902,1434 856,1368" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="878,1302 1004,1270 1028,1406 902,1434 856,1368" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="942" y1="1280" x2="952" y2="1418" stroke="#F0DCFF" stroke-width="0.9" opacity="0.50"/>
+
+    <polygon points="1474,1294 1598,1264 1622,1400 1500,1428 1450,1360" fill="url(#sf3)"/>
+    <polygon points="1474,1294 1598,1264 1622,1400 1500,1428 1450,1360" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="1474,1294 1598,1264 1622,1400 1500,1428 1450,1360" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.88"/>
+    <line x1="1548" y1="1272" x2="1536" y2="1412" stroke="#ffffff" stroke-width="1.8" opacity="0.86"/>
+
+    <!-- BOTTOM-RIGHT cluster -->
+    <polygon points="2158,1076 2298,1050 2328,1192 2206,1222 2140,1150" fill="url(#sf1)"/>
+    <polygon points="2158,1076 2298,1050 2328,1192 2206,1222 2140,1150" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2158,1076 2298,1050 2328,1192 2206,1222 2140,1150" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.90"/>
+    <line x1="2238" y1="1060" x2="2254" y2="1204" stroke="#F0DCFF" stroke-width="1.8" opacity="0.86"/>
+
+    <polygon points="2374,1242 2506,1210 2542,1358 2416,1394 2354,1316" fill="url(#sf2)"/>
+    <polygon points="2374,1242 2506,1210 2542,1358 2416,1394 2354,1316" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2374,1242 2506,1210 2542,1358 2416,1394 2354,1316" fill="none" stroke="#A78BFA" stroke-width="0.8" opacity="0.88"/>
+    <line x1="2452" y1="1222" x2="2438" y2="1374" stroke="#ffffff" stroke-width="2.1" opacity="0.92"/>
+
+    <polygon points="2066,1282 2188,1258 2212,1394 2086,1422" fill="url(#sf3)"/>
+    <polygon points="2066,1282 2188,1258 2212,1394 2086,1422" fill="none" stroke="#0a0019" stroke-width="2.4" opacity="0.82"/>
+    <polygon points="2066,1282 2188,1258 2212,1394 2086,1422" fill="none" stroke="#C4B5FD" stroke-width="0.8" opacity="0.85"/>
+    <line x1="2138" y1="1268" x2="2148" y2="1408" stroke="#F0DCFF" stroke-width="0.7" opacity="0.42"/>
+
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CENTERED CONTENT  (block ~780px, centered at x=1280)  -->
+  <!-- logo x=890 … FREE badge right ≈ x=1670               -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Bull logo -->
+  <image href="logo.svg" x="890" y="580" width="238" height="238"
          style="filter:invert(1) sepia(1) saturate(2) hue-rotate(10deg) brightness(1.1)"/>
 
-  <!-- Thin amber rule above wordmark -->
-  <rect x="860" y="618" width="56" height="2.5" rx="1.25" fill="#b85200"/>
+  <!-- Vertical amber divider -->
+  <rect x="1150" y="618" width="1" height="258" rx="0.5" fill="#b85200" opacity="0.28"/>
+
+  <!-- Amber accent rule -->
+  <rect x="1172" y="642" width="52" height="2.5" rx="1.25" fill="#b85200"/>
 
   <!-- AUX wordmark -->
-  <text x="860" y="750"
+  <text x="1172" y="762"
         font-family="'Cormorant Garamond', Georgia, serif"
-        font-size="178" font-weight="600" letter-spacing="-4"
+        font-size="150" font-weight="600" letter-spacing="-4"
         fill="#f5f0eb">AUX</text>
 
   <!-- Tagline -->
-  <text x="864" y="820"
+  <text x="1176" y="818"
         font-family="'Outfit', 'Helvetica Neue', Arial, sans-serif"
-        font-size="38" font-weight="300" letter-spacing="6"
-        fill="#f5f0eb" opacity="0.55">YOUR AUXILIARY TO SUCCEED</text>
+        font-size="30" font-weight="300" letter-spacing="5"
+        fill="#f5f0eb" opacity="0.50">YOUR AUXILIARY TO SUCCEED</text>
 
-  <!-- Subject pills -->
-  <!-- Physics pill -->
-  <rect x="864" y="862" width="160" height="44" rx="22"
+  <!-- Pills row -->
+  <rect x="1176" y="846" width="148" height="42" rx="21"
         fill="none" stroke="#b85200" stroke-width="1.5" opacity="0.7"/>
-  <text x="944" y="890"
+  <text x="1250" y="873"
         font-family="'Outfit', 'Helvetica Neue', Arial, sans-serif"
-        font-size="24" font-weight="500" letter-spacing="1.5"
+        font-size="22" font-weight="500" letter-spacing="1.5"
         fill="#d4701a" text-anchor="middle" opacity="0.9">PHYSICS</text>
 
-  <!-- Precalc pill -->
-  <rect x="1042" y="862" width="244" height="44" rx="22"
+  <rect x="1340" y="846" width="222" height="42" rx="21"
         fill="none" stroke="#b85200" stroke-width="1.5" opacity="0.7"/>
-  <text x="1164" y="890"
+  <text x="1451" y="873"
         font-family="'Outfit', 'Helvetica Neue', Arial, sans-serif"
-        font-size="24" font-weight="500" letter-spacing="1.5"
+        font-size="22" font-weight="500" letter-spacing="1.5"
         fill="#d4701a" text-anchor="middle" opacity="0.9">PRECALCULUS</text>
 
-  <!-- Free badge top-right of safe zone -->
-  <rect x="1930" y="618" width="118" height="40" rx="20"
+  <rect x="1578" y="846" width="98" height="42" rx="21"
         fill="#b85200" opacity="0.18"/>
-  <rect x="1930" y="618" width="118" height="40" rx="20"
+  <rect x="1578" y="846" width="98" height="42" rx="21"
         fill="none" stroke="#b85200" stroke-width="1.2" opacity="0.55"/>
-  <text x="1989" y="645"
+  <text x="1627" y="873"
         font-family="'Outfit', 'Helvetica Neue', Arial, sans-serif"
-        font-size="20" font-weight="600" letter-spacing="2.5"
+        font-size="19" font-weight="600" letter-spacing="2.5"
         fill="#d4701a" text-anchor="middle">FREE</text>
 
-  <!-- Vertical rule between logo and text -->
-  <rect x="840" y="618" width="1" height="310" rx="0.5" fill="#b85200" opacity="0.25"/>
-
-  <!-- Bottom amber line accent -->
-  <rect x="507" y="950" width="1546" height="1.5" rx="0.75" fill="#b85200" opacity="0.15"/>
+  <!-- Subtle bottom accent line under content -->
+  <rect x="890" y="910" width="786" height="1.5" rx="0.75" fill="#b85200" opacity="0.16"/>
 </svg>

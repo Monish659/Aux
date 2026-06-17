@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="120" height="36" viewBox="0 0 120 36">
+     width="88" height="26" viewBox="0 0 88 26">
   <!-- Pill background -->
-  <rect x="0" y="0" width="120" height="36" rx="6"
+  <rect x="0" y="0" width="88" height="26" rx="5"
         fill="#0a0604" fill-opacity="0.45"/>
 
   <!-- Bull logo -->
-  <image href="logo.svg" x="6" y="4" width="26" height="26"
+  <image href="logo.svg" x="4" y="3" width="18" height="18"
          style="filter:invert(1) sepia(1) saturate(1.5) hue-rotate(10deg) brightness(1.2)"
          opacity="0.88"/>
 
   <!-- Amber divider -->
-  <rect x="38" y="8" width="1" height="20" rx="0.5" fill="#b85200" opacity="0.5"/>
+  <rect x="27" y="5" width="1" height="15" rx="0.5" fill="#b85200" opacity="0.5"/>
 
   <!-- AUX wordmark -->
-  <text x="46" y="24"
+  <text x="33" y="17"
         font-family="'Cormorant Garamond', Georgia, serif"
-        font-size="18" font-weight="600" letter-spacing="1.5"
+        font-size="13" font-weight="600" letter-spacing="1.2"
         fill="#f5f0eb" fill-opacity="0.88">AUX</text>
 </svg>

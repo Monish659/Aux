@@ -9,33 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    .footer-logo {
-  width: 28px;
-  height: 22px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.footer-note {
-  font-size: 0.77rem;
-  color: var(--ink-muted);
-}
-    :root {
-      --ink: #060810; --ink-soft: #151d2f; --ink-muted: #3a4a68;
-      --blue: #1d4ed8; --blue-mid: #3b82f6; --blue-light: #93c5fd; --blue-pale: #eff6ff;
-      --cream: #f0f6ff;
-      --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Outfit', system-ui, sans-serif;
-      --ease: cubic-bezier(0.16,1,0.3,1);
+    .footer-logo{width:28px;height:22px;flex-shrink:0;object-fit:contain;}
+    :root{
+      --ink:#060810;--ink-soft:#151d2f;--ink-muted:#3a4a68;
+      --blue:#1d4ed8;--blue-mid:#3b82f6;--blue-light:#93c5fd;--blue-pale:#eff6ff;
+      --cream:#f0f6ff;
+      --serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit',system-ui,sans-serif;
+      --ease:cubic-bezier(0.16,1,0.3,1);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
@@ -44,75 +24,23 @@
     #shardCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;}
     .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/%3E%3C/filter%3E%3Crect width='512' height='512' fill='%23000' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");}
     .layer{position:relative;z-index:3;}
+
+    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;height:66px;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(220,229,242,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(29,78,216,0.08);}
     .nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none;}
     .bull-logo{width:38px;height:30px;flex-shrink:0;}
     .nav-wordmark{font-family:var(--serif);font-size:1.4rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);}
-    .nav-back{font-size:0.82rem;color:var(--ink-muted);text-decoration:none;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;}
-    .nav-back:hover{color:var(--blue);}
-    .nav-book{background:var(--blue)!important;color:#fff!important;padding:0.44rem 1.2rem;border-radius:100px;font-size:0.81rem!important;font-weight:500!important;text-decoration:none;transition:background 0.2s,transform 0.2s!important;}
-    .nav-book:hover{background:var(--ink)!important;transform:translateY(-1px);}
-    .nav-right{display:flex;align-items:center;gap:1.5rem;}
-    /* NAV LINKS & FANCY BUTTONS */
-.nav-links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-}
-.nav-links a {
-  position: relative;
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  color: var(--ink-soft);
-  text-decoration: none;
-  padding: 0.45rem 0.7rem;
-  border-radius: 10px;
-  transition: color 0.25s ease, background 0.25s ease, transform 0.2s ease;
-}
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--ink); /* changes to accent on hover */
-  border-radius: 2px;
-  transition: width 0.3s var(--ease), left 0.3s var(--ease);
-}
-.nav-links a:hover {
-  color: var(--ink);
-  background: rgba(139, 63, 10, 0.05);
-  transform: translateY(-1px);
-}
-.nav-links a:hover::after {
-  width: 55%;
-  left: 22.5%;
-}
-.nav-links a:active { transform: translateY(0); }
+    .nav-links{list-style:none;display:flex;align-items:center;gap:2rem;margin:0;padding:0;}
+    .nav-links a{position:relative;font-size:0.86rem;font-weight:500;letter-spacing:0.03em;color:var(--ink-soft);text-decoration:none;padding:0.45rem 0.7rem;border-radius:10px;transition:color 0.25s,background 0.25s,transform 0.2s;}
+    .nav-links a::after{content:'';position:absolute;bottom:4px;left:50%;width:0;height:2px;background:var(--ink);border-radius:2px;transition:width 0.3s var(--ease),left 0.3s var(--ease);}
+    .nav-links a:hover{color:var(--ink);background:rgba(139,63,10,0.05);transform:translateY(-1px);}
+    .nav-links a:hover::after{width:55%;left:22.5%;}
+    .nav-links a:active{transform:translateY(0);}
+    .nav-book{background:var(--ink)!important;color:var(--cream)!important;padding:0.52rem 1.35rem!important;border-radius:100px!important;font-size:0.82rem!important;font-weight:600!important;letter-spacing:0.02em!important;box-shadow:0 2px 10px rgba(0,0,0,0.12);transition:background 0.25s,transform 0.2s,box-shadow 0.25s!important;}
+    .nav-book:hover{background:var(--blue)!important;transform:translateY(-2px)!important;box-shadow:0 6px 20px rgba(29,78,216,0.28)!important;}
+    .nav-book::after{display:none!important;}
 
-/* BOOK BUTTON — ELEVATED */
-.nav-book {
-  background: var(--ink) !important;
-  color: var(--cream) !important;
-  padding: 0.52rem 1.35rem !important;
-  border-radius: 100px !important;
-  font-size: 0.82rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
-}
-.nav-book:hover {
-  background: var(--orange) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(139, 63, 10, 0.28) !important;
-}
-.nav-book::after { display: none !important; }
+    /* HERO */
     .course-hero{min-height:55vh;display:flex;align-items:center;justify-content:center;padding:9rem 2rem 5rem;text-align:center;position:relative;}
     .course-hero-inner{max-width:700px;}
     .course-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);background:rgba(29,78,216,0.07);border:1px solid rgba(59,130,246,0.2);border-radius:100px;padding:0.6rem 1rem;margin-bottom:1.4rem;}
@@ -120,18 +48,28 @@
     .course-title em{font-style:italic;color:var(--blue);}
     .course-sub{font-size:1.06rem;font-weight:300;color:var(--ink-soft);line-height:1.75;max-width:500px;margin:0 auto 2.5rem;opacity:0;animation:riseIn 0.75s var(--ease) 0.45s forwards;}
     .course-actions{display:flex;align-items:center;justify-content:center;gap:0.9rem;flex-wrap:wrap;opacity:0;animation:riseIn 0.7s var(--ease) 0.6s forwards;}
-    .btn-course{background:var(--blue);color:#fff;padding:0.78rem 1.8rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;box-shadow:0 4px 18px rgba(29,78,216,0.28);transition:background 0.2s,transform 0.2s,box-shadow 0.2s;display:inline-block;}
+    .btn-course{background:var(--blue);color:#fff;padding:0.78rem 1.8rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;box-shadow:0 4px 18px rgba(29,78,216,0.28);transition:background 0.2s,transform 0.2s;display:inline-block;}
     .btn-course:hover{background:var(--ink);transform:translateY(-2px);}
     .btn-ghost{background:rgba(238,244,255,0.7);color:var(--ink-soft);padding:0.78rem 1.6rem;border-radius:100px;font-size:0.88rem;font-weight:400;text-decoration:none;border:1px solid rgba(10,15,26,0.08);transition:background 0.2s,transform 0.2s;display:inline-block;}
     .btn-ghost:hover{background:rgba(238,244,255,0.92);transform:translateY(-1px);}
+
+    /* LAYOUT */
     .content-wrap{max-width:980px;margin:0 auto;padding:0 2rem 6rem;}
     .eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:0.85rem;}
     .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:600;line-height:1.16;letter-spacing:-0.02em;margin-bottom:2rem;color:var(--ink);}
     .section-title em{font-style:italic;color:var(--blue);}
+
+    /* UNITS */
     .units-section{background:rgba(227,234,246,0.55);backdrop-filter:blur(14px);border-top:1px solid rgba(29,78,216,0.10);border-bottom:1px solid rgba(29,78,216,0.10);padding:5rem 0;}
-    .unit-grid{display:flex;flex-direction:column;gap:1rem;}
-    .unit-card{background:rgba(245,250,255,0.8);border:1px solid rgba(29,78,216,0.14);border-radius:16px;padding:1.75rem;text-decoration:none;color:var(--ink);display:flex;align-items:flex-start;gap:1rem;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
+    .unit-grid{display:flex;flex-direction:column;gap:0;}
+    .unit-section-label{font-size:0.7rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--blue-mid);margin:1.75rem 0 0.5rem;padding-left:0.1rem;}
+    .unit-section-label:first-child{margin-top:0;}
+    .unit-row{display:flex;flex-direction:column;margin-bottom:0.75rem;}
+
+    /* UNIT CARD — now a button, not a link */
+    .unit-card{background:rgba(245,250,255,0.8);border:1px solid rgba(29,78,216,0.14);border-radius:16px;padding:1.75rem;color:var(--ink);display:flex;align-items:flex-start;gap:1rem;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s,background 0.2s;user-select:none;}
     .unit-card:hover{transform:translateX(4px);box-shadow:0 6px 20px rgba(0,0,0,0.1);border-color:rgba(29,78,216,0.28);}
+    .unit-card.open{border-color:rgba(29,78,216,0.35);background:rgba(238,244,255,0.95);border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;}
     .unit-num{font-family:var(--serif);font-size:1.8rem;font-weight:600;color:rgba(29,78,216,0.25);line-height:1;flex-shrink:0;min-width:2.2rem;}
     .unit-content{flex:1;}
     .unit-name{font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:0.35rem;}
@@ -139,8 +77,43 @@
     .unit-tags{display:flex;gap:0.5rem;flex-wrap:wrap;}
     .unit-tag{font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.7rem;border-radius:100px;border:1px solid rgba(29,78,216,0.18);color:var(--blue);background:rgba(29,78,216,0.06);}
     .unit-tag.warn{border-color:rgba(220,100,0,0.25);color:#b85200;background:rgba(184,82,0,0.06);}
-    .unit-arrow{font-size:1rem;color:var(--ink-muted);transition:transform 0.2s;margin-top:0.2rem;}
-    .unit-card:hover .unit-arrow{transform:translate(3px,-3px);}
+    .unit-arrow{font-size:1.1rem;color:var(--ink-muted);transition:transform 0.3s var(--ease),color 0.2s;margin-top:0.2rem;flex-shrink:0;display:inline-block;}
+    .unit-card.open .unit-arrow{transform:rotate(90deg);color:var(--blue);}
+    .unit-card:hover .unit-arrow{color:var(--blue);}
+
+    /* DRAWER */
+    .unit-drawer{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.5s var(--ease),opacity 0.3s ease;background:rgba(238,244,255,0.92);border:1px solid rgba(29,78,216,0.14);border-top:none;border-bottom-left-radius:16px;border-bottom-right-radius:16px;}
+    .unit-drawer.open{max-height:2400px;opacity:1;}
+    .drawer-inner{padding:1.25rem 1.75rem 1.5rem;}
+    .drawer-coming{font-size:0.86rem;color:var(--ink-muted);padding:1rem 0;text-align:center;border:1px dashed rgba(29,78,216,0.16);border-radius:10px;}
+
+    /* INLINE PLAYER inside drawer */
+    .np-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.45s var(--ease),opacity 0.35s,margin-bottom 0.35s;margin-bottom:0;}
+    .np-wrap.active{max-height:700px;opacity:1;margin-bottom:1.25rem;}
+    .np-card{background:rgba(8,15,30,0.96);border:1px solid rgba(59,130,246,0.25);border-radius:14px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,0.3);}
+    .np-bar{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.1rem;border-bottom:1px solid rgba(59,130,246,0.15);}
+    .np-now{font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-mid);flex-shrink:0;}
+    .np-title{font-family:var(--serif);font-size:0.96rem;font-weight:500;color:#e8f0ff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .np-back{background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;font-size:0.76rem;font-weight:500;padding:0.28rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;}
+    .np-back:hover{background:rgba(59,130,246,0.22);color:#e8f0ff;}
+    .np-aspect{position:relative;width:100%;padding-top:56.25%;}
+    .np-aspect iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+
+    /* VIDEO GRID inside drawer */
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.85rem;}
+    .video-card{background:rgba(245,250,255,0.9);border:1px solid rgba(29,78,216,0.12);border-radius:12px;overflow:hidden;color:var(--ink);transition:transform 0.22s var(--ease),box-shadow 0.22s,border-color 0.2s;cursor:pointer;}
+    .video-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(29,78,216,0.13);}
+    .video-card.active{border-color:var(--blue);box-shadow:0 0 0 2px rgba(29,78,216,0.3);}
+    .video-thumb{height:130px;background:linear-gradient(135deg,var(--ink) 0%,#1e3a5f 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .video-thumb::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(59,130,246,0.25) 0%,transparent 65%);}
+    .play-icon{width:46px;height:46px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;transition:all 0.2s;z-index:1;}
+    .video-card:hover .play-icon{background:rgba(59,130,246,0.5);transform:scale(1.1);}
+    .video-unit-tag{position:absolute;top:8px;left:8px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e8f0ff;background:rgba(29,78,216,0.7);padding:0.18rem 0.55rem;border-radius:4px;z-index:1;}
+    .video-info{padding:0.9rem 1.1rem;}
+    .video-title{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:0.3rem;line-height:1.3;}
+    .video-meta{font-size:0.72rem;color:var(--ink-muted);}
+
+    /* TEST PREP */
     .testprep-section{padding:5rem 0;}
     .testprep-card{background:rgba(10,15,26,0.93);border:1px solid rgba(59,130,246,0.25);border-radius:20px;padding:2.5rem;color:#e8f0ff;position:relative;overflow:hidden;}
     .testprep-card::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 65%);pointer-events:none;}
@@ -152,30 +125,8 @@
     .testprep-item{background:rgba(59,130,246,0.09);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:1.1rem 1.25rem;}
     .testprep-item-title{font-size:0.88rem;font-weight:500;color:#e8f0ff;margin-bottom:0.3rem;}
     .testprep-item-desc{font-size:0.78rem;color:rgba(232,240,255,0.55);line-height:1.5;}
-    .videos-section{padding:5rem 0;background:rgba(235,242,250,0.5);backdrop-filter:blur(12px);border-top:1px solid rgba(29,78,216,0.09);border-bottom:1px solid rgba(29,78,216,0.09);}
-    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
-    .video-card{background:rgba(245,250,255,0.9);border:1px solid rgba(29,78,216,0.12);border-radius:14px;overflow:hidden;color:var(--ink);transition:transform 0.22s var(--ease),box-shadow 0.22s,border-color 0.2s;cursor:pointer;}
-    .video-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(29,78,216,0.13);}
-    .video-card.active{border-color:var(--blue);box-shadow:0 0 0 2px rgba(29,78,216,0.3);}
-    .video-thumb{height:160px;background:linear-gradient(135deg,var(--ink) 0%,#1e3a5f 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-    .video-thumb::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(59,130,246,0.25) 0%,transparent 65%);}
-    .play-icon{width:52px;height:52px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;transition:all 0.2s;z-index:1;}
-    .video-card:hover .play-icon{background:rgba(59,130,246,0.5);transform:scale(1.1);}
-    .video-unit-tag{position:absolute;top:10px;left:10px;font-size:0.66rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e8f0ff;background:rgba(29,78,216,0.7);padding:0.2rem 0.6rem;border-radius:4px;z-index:1;}
-    .video-info{padding:1.1rem 1.25rem;}
-    .video-title{font-family:var(--serif);font-size:1.05rem;font-weight:500;margin-bottom:0.35rem;line-height:1.3;}
-    .video-meta{font-size:0.75rem;color:var(--ink-muted);}
-    /* INLINE PLAYER */
-    .np-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.45s var(--ease),opacity 0.35s,margin-bottom 0.35s;margin-bottom:0;}
-    .np-wrap.active{max-height:800px;opacity:1;margin-bottom:2.5rem;}
-    .np-card{background:rgba(8,15,30,0.96);border:1px solid rgba(59,130,246,0.25);border-radius:18px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,0.35);}
-    .np-bar{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.2rem;border-bottom:1px solid rgba(59,130,246,0.15);}
-    .np-now{font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-mid);flex-shrink:0;}
-    .np-title{font-family:var(--serif);font-size:1rem;font-weight:500;color:#e8f0ff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .np-back{background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;font-size:0.78rem;font-weight:500;padding:0.32rem 0.85rem;border-radius:100px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;}
-    .np-back:hover{background:rgba(59,130,246,0.22);color:#e8f0ff;}
-    .np-aspect{position:relative;width:100%;padding-top:56.25%;}
-    .np-aspect iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+
+    /* PDFs */
     .pdfs-section{padding:5rem 0;}
     .pdf-list{display:flex;flex-direction:column;gap:0.75rem;}
     .pdf-row{background:rgba(245,250,255,0.88);border:1px solid rgba(29,78,216,0.10);border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.2rem;text-decoration:none;color:var(--ink);transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
@@ -184,32 +135,23 @@
     .pdf-name{font-size:0.94rem;font-weight:500;flex:1;}
     .pdf-meta{font-size:0.75rem;color:var(--ink-muted);}
     .pdf-dl{font-size:0.8rem;color:var(--blue);font-weight:500;}
+
+    /* FOOTER */
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(29,78,216,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(227,234,246,0.92);backdrop-filter:blur(12px);}
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
+
     .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
     .reveal.in{opacity:1;transform:translateY(0) scale(1);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @media(max-width:720px){.testprep-items{grid-template-columns:1fr;}}
+    @media(max-width:720px){.testprep-items{grid-template-columns:1fr;}.video-grid{grid-template-columns:1fr;}}
 
     /* SCROLL PROGRESS */
     #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blue),var(--blue-mid),var(--blue));z-index:500;pointer-events:none;transition:width 0.08s linear;}
 
-    /* TEST PREP CARD — animated glow border */
-    @keyframes testprepGlow{
-      0%,100%{box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 20px 60px rgba(0,0,0,0.28),inset 0 0 30px rgba(59,130,246,0.04);}
-      50%{box-shadow:0 0 0 1px rgba(59,130,246,0.55),0 20px 60px rgba(0,0,0,0.35),inset 0 0 40px rgba(59,130,246,0.10);}
-    }
+    /* ANIMATED GLOW */
+    @keyframes testprepGlow{0%,100%{box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 20px 60px rgba(0,0,0,0.28),inset 0 0 30px rgba(59,130,246,0.04);}50%{box-shadow:0 0 0 1px rgba(59,130,246,0.55),0 20px 60px rgba(0,0,0,0.35),inset 0 0 40px rgba(59,130,246,0.10);}}
     .testprep-card{animation:testprepGlow 4.5s ease-in-out infinite;}
-    .testprep-card::before{animation:rotatePulse 8s linear infinite;}
-    @keyframes rotatePulse{0%{opacity:0.8;transform:scale(1);}50%{opacity:1;transform:scale(1.25);}100%{opacity:0.8;transform:scale(1);}}
-
-    /* VIDEO CARD HOVER — tilt + glow */
-    .video-card{perspective:900px;}
-    .video-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 40px rgba(29,78,216,0.18);}
-    .video-card:hover .play-icon{background:rgba(59,130,246,0.55);transform:scale(1.15);}
-
-    /* UNIT CARD GLOW */
     .unit-card:hover{box-shadow:0 0 0 1px rgba(29,78,216,0.2),0 8px 30px rgba(29,78,216,0.1);}
   </style>
 </head>
@@ -230,6 +172,7 @@
     <li><a href="../../book.html" class="nav-book">Book a session</a></li>
   </ul>
 </nav>
+
 <section class="course-hero layer">
   <div class="course-hero-inner">
     <div class="course-tag">⚡ Physics</div>
@@ -245,45 +188,343 @@
 <section class="units-section layer" id="units">
   <div class="content-wrap">
     <p class="eyebrow reveal">Course map</p>
-    <h2 class="section-title reveal">All units, start to finish.</h2>
+    <h2 class="section-title reveal">Click a unit to see its videos.</h2>
     <div class="unit-grid">
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:0.25rem;">Unit 1 — Introduction to Physics</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">1.1</div><div class="unit-content"><div class="unit-name">Units and Conversions</div><div class="unit-desc">Dimensional analysis and unit conversion across numbers, tables, and graphs. Simple calculator only — so the method has to be automatic.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">1.2</div><div class="unit-content"><div class="unit-name">Scientific Notation</div><div class="unit-desc">Converting to and from scientific notation across data sets and graphs. Simple calculator only.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <!-- ── UNIT 1 ── -->
+      <p class="unit-section-label">Unit 1 — Introduction to Physics</p>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 2 — Forces and Motion</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">2.1</div><div class="unit-content"><div class="unit-name">Newton's Laws</div><div class="unit-desc">The three laws from first principles. What each one actually means, when to use it, and how to set up any force problem from scratch.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">2.2</div><div class="unit-content"><div class="unit-name">Kinematics and Motion Graphs</div><div class="unit-desc">FBDs, motion graphs, and kinematic equations. All four problem types in one standard — and all four come back on every test. The one you do not want to be unprepared for.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span><span class="unit-tag warn">Test Favorite</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">2.3</div><div class="unit-content"><div class="unit-name">Newton's Laws and Forces</div><div class="unit-desc">All three laws plus free body diagrams in different situations. Know which law applies, how to set up net force, and what each arrow on the FBD actually means.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-1-1">
+          <div class="unit-num">1.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Units and Conversions</div>
+            <div class="unit-desc">Dimensional analysis and unit conversion across numbers, tables, and graphs. Simple calculator only — so the method has to be automatic.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-1-1">
+          <div class="drawer-inner">
+            <div class="np-wrap">
+              <div class="np-card">
+                <div class="np-bar">
+                  <span class="np-now">▶ Now Playing</span>
+                  <span class="np-title"></span>
+                  <button class="np-back">← Close</button>
+                </div>
+                <div class="np-aspect">
+                  <iframe src="" title="AUX Physics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+            <div class="video-grid">
+              <div class="video-card" data-video="E4GF6ebZ0bw" data-title="Units and Conversions — Part 1">
+                <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
+                <div class="video-info"><div class="video-title">Units and Conversions — Part 1</div><div class="video-meta">Unit 1.1 · Part 1</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 3 — Torque and Center of Mass</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">3.1</div><div class="unit-content"><div class="unit-name">Definitions and Calculations</div><div class="unit-desc">Torque, center of mass, rotational equilibrium, levers, mechanical advantage, and trusses. Qualitative and quantitative problems both appear.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">3.2</div><div class="unit-content"><div class="unit-name">Balsa Wood Bridge Project</div><div class="unit-desc">Engineer a truss bridge that minimizes forces on its members. The truss analysis carries directly into written exams — not just the build itself.</div><div class="unit-tags"><span class="unit-tag warn">Test Favorite</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-1-2">
+          <div class="unit-num">1.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Scientific Notation</div>
+            <div class="unit-desc">Converting to and from scientific notation across data sets and graphs. Simple calculator only.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-1-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 4 — Work, Energy, and Power</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">4.1</div><div class="unit-content"><div class="unit-name">Energy Definitions and Calculations</div><div class="unit-desc">Work, power, kinetic and potential energy in a closed system, pulleys, and mechanical advantage. Multiple choice and short free response.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">4.2</div><div class="unit-content"><div class="unit-name">Conservation of Energy</div><div class="unit-desc">Multi-step closed system problems using energy bar charts. Setting up the right equation for an unfamiliar situation — and knowing what each bar actually represents.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <!-- ── UNIT 2 ── -->
+      <p class="unit-section-label">Unit 2 — Forces and Motion</p>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 5 — Momentum and Impulse</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">5.1</div><div class="unit-content"><div class="unit-name">Momentum and Impulse</div><div class="unit-desc">Elastic and inelastic collisions in 1D and 2D. Impulse-momentum theorem, conservation of momentum, force vs time graphs, and velocity vs time graphs. Covers two standards worth of material.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span><span class="unit-tag warn">Test Favorite</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-2-1">
+          <div class="unit-num">2.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Newton's Laws</div>
+            <div class="unit-desc">The three laws from first principles. What each one actually means, when to use it, and how to set up any force problem from scratch.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-2-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 6 — Fields, Coulomb's Law, Gravitation, and Centripetal Force</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">6.1</div><div class="unit-content"><div class="unit-name">Forces and Circular Motion</div><div class="unit-desc">Coulomb's law, Newton's law of gravitation, and circular motion of objects and charges. Solving for force, charge, mass, and separation — two objects and beyond.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">6.2</div><div class="unit-content"><div class="unit-name">Fields</div><div class="unit-desc">Electric and gravitational field diagrams for multiple objects. Direction, relative magnitude, attractive vs repulsive — and what those lines mean for the force on a charge or mass.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-2-2">
+          <div class="unit-num">2.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Kinematics and Motion Graphs</div>
+            <div class="unit-desc">FBDs, motion graphs, and kinematic equations. All four problem types in one standard — and all four come back on every test. The one you do not want to be unprepared for.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span><span class="unit-tag warn">Test Favorite</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-2-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 7 — Electricity and Circuits</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">7.1</div><div class="unit-content"><div class="unit-name">Ohm's Law and Circuits</div><div class="unit-desc">Current, voltage, and resistance in series, parallel, and mixed circuits. Complex multi-branch circuits at the top level. Layer by layer, they become solvable.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">7.2</div><div class="unit-content"><div class="unit-name">Power, Capacitance, and Advanced Components</div><div class="unit-desc">Electrical power, electric potential and energy, capacitance, diodes, and transistors. The components most students ignore until they see them on the test.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-2-3">
+          <div class="unit-num">2.3</div>
+          <div class="unit-content">
+            <div class="unit-name">Newton's Laws and Forces</div>
+            <div class="unit-desc">All three laws plus free body diagrams in different situations. Know which law applies, how to set up net force, and what each arrow on the FBD actually means.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-2-3">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 8 — Electromagnetism</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">8.1</div><div class="unit-content"><div class="unit-name">Electromagnetism</div><div class="unit-desc">Motors, generators, solenoids, right-hand rules, flux, Faraday's law, and Lenz's law. Magnetism and electricity as one connected system.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <!-- ── UNIT 3 ── -->
+      <p class="unit-section-label">Unit 3 — Torque and Center of Mass</p>
 
-      <p class="eyebrow" style="margin-bottom:0.25rem;margin-top:1.5rem;">Unit 9 — Waves</p>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">9.1</div><div class="unit-content"><div class="unit-name">Waves and Sound</div><div class="unit-desc">Wave speed, sound, Doppler effect, resonance, Hooke's Law, earthquakes, and waves in different mediums. Everything that oscillates.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
-      <a href="#videos" class="unit-card reveal"><div class="unit-num">9.2</div><div class="unit-content"><div class="unit-name">Light and Color</div><div class="unit-desc">EM spectrum, wave-particle duality, polarization, interference, refraction, and photoelectric effect. How light actually behaves — and why it breaks the rules you'd expect.</div><div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div></div><div class="unit-arrow">↗</div></a>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-3-1">
+          <div class="unit-num">3.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Definitions and Calculations</div>
+            <div class="unit-desc">Torque, center of mass, rotational equilibrium, levers, mechanical advantage, and trusses. Qualitative and quantitative problems both appear.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-3-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
 
-    </div>
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-3-2">
+          <div class="unit-num">3.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Balsa Wood Bridge Project</div>
+            <div class="unit-desc">Engineer a truss bridge that minimizes forces on its members. The truss analysis carries directly into written exams — not just the build itself.</div>
+            <div class="unit-tags"><span class="unit-tag warn">Test Favorite</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-3-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 4 ── -->
+      <p class="unit-section-label">Unit 4 — Work, Energy, and Power</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-4-1">
+          <div class="unit-num">4.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Energy Definitions and Calculations</div>
+            <div class="unit-desc">Work, power, kinetic and potential energy in a closed system, pulleys, and mechanical advantage. Multiple choice and short free response.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-4-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-4-2">
+          <div class="unit-num">4.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Conservation of Energy</div>
+            <div class="unit-desc">Multi-step closed system problems using energy bar charts. Setting up the right equation for an unfamiliar situation — and knowing what each bar actually represents.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-4-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 5 ── -->
+      <p class="unit-section-label">Unit 5 — Momentum and Impulse</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-5-1">
+          <div class="unit-num">5.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Momentum and Impulse</div>
+            <div class="unit-desc">Elastic and inelastic collisions in 1D and 2D. Impulse-momentum theorem, conservation of momentum, force vs time graphs, and velocity vs time graphs.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span><span class="unit-tag warn">Test Favorite</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-5-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 6 ── -->
+      <p class="unit-section-label">Unit 6 — Fields, Coulomb's Law, Gravitation, and Centripetal Force</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-6-1">
+          <div class="unit-num">6.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Forces and Circular Motion</div>
+            <div class="unit-desc">Coulomb's law, Newton's law of gravitation, and circular motion of objects and charges. Solving for force, charge, mass, and separation — two objects and beyond.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-6-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-6-2">
+          <div class="unit-num">6.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Fields</div>
+            <div class="unit-desc">Electric and gravitational field diagrams for multiple objects. Direction, relative magnitude, attractive vs repulsive — and what those lines mean for the force on a charge or mass.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-6-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 7 ── -->
+      <p class="unit-section-label">Unit 7 — Electricity and Circuits</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-7-1">
+          <div class="unit-num">7.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Ohm's Law and Circuits</div>
+            <div class="unit-desc">Current, voltage, and resistance in series, parallel, and mixed circuits. Complex multi-branch circuits at the top level. Layer by layer, they become solvable.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-7-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-7-2">
+          <div class="unit-num">7.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Power, Capacitance, and Advanced Components</div>
+            <div class="unit-desc">Electrical power, electric potential and energy, capacitance, diodes, and transistors. The components most students ignore until they see them on the test.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-7-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 8 ── -->
+      <p class="unit-section-label">Unit 8 — Electromagnetism</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-8-1">
+          <div class="unit-num">8.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Electromagnetism</div>
+            <div class="unit-desc">Motors, generators, solenoids, right-hand rules, flux, Faraday's law, and Lenz's law. Magnetism and electricity as one connected system.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-8-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIT 9 ── -->
+      <p class="unit-section-label">Unit 9 — Waves</p>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-9-1">
+          <div class="unit-num">9.1</div>
+          <div class="unit-content">
+            <div class="unit-name">Waves and Sound</div>
+            <div class="unit-desc">Wave speed, sound, Doppler effect, resonance, Hooke's Law, earthquakes, and waves in different mediums. Everything that oscillates.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-9-1">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-card reveal" data-drawer="d-9-2">
+          <div class="unit-num">9.2</div>
+          <div class="unit-content">
+            <div class="unit-name">Light and Color</div>
+            <div class="unit-desc">EM spectrum, wave-particle duality, polarization, interference, refraction, and photoelectric effect. How light actually behaves — and why it breaks the rules you'd expect.</div>
+            <div class="unit-tags"><span class="unit-tag">Videos + PDFs</span></div>
+          </div>
+          <div class="unit-arrow">›</div>
+        </div>
+        <div class="unit-drawer" id="d-9-2">
+          <div class="drawer-inner">
+            <div class="drawer-coming">Videos coming soon for this unit.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /unit-grid -->
   </div>
 </section>
 
@@ -299,31 +540,6 @@
         <div class="testprep-item"><div class="testprep-item-title">Energy with Friction Path</div><div class="testprep-item-desc">Conservation of energy when friction is doing work — the part that gets left out of most notes.</div></div>
         <div class="testprep-item"><div class="testprep-item-title">Wave Superposition</div><div class="testprep-item-desc">Constructive and destructive interference drawn and calculated at the same time.</div></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="videos-section layer" id="videos">
-  <div class="content-wrap">
-    <p class="eyebrow reveal">Video library</p>
-    <h2 class="section-title reveal">Watch it explained <em>properly.</em></h2>
-    <div class="np-wrap" id="npWrap">
-      <div class="np-card">
-        <div class="np-bar">
-          <span class="np-now">▶ Now Playing</span>
-          <span class="np-title" id="npTitle"></span>
-          <button class="np-back" id="npBack">← Back to videos</button>
-        </div>
-        <div class="np-aspect">
-          <iframe id="npFrame" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <div class="video-grid">
-      <div class="video-card reveal" data-video="NHk7scrb_9I" data-title="Kinematics in 1D — Full Walkthrough"><div class="video-thumb"><span class="video-unit-tag">Unit 01</span><div class="play-icon">▶</div></div><div class="video-info"><div class="video-title">Kinematics in 1D — Full Walkthrough</div><div class="video-meta">Unit 1 · 18 min</div></div></div>
-      <div class="video-card reveal" data-video="NHk7scrb_9I" data-title="Vectors & 2D Motion"><div class="video-thumb"><span class="video-unit-tag">Unit 01</span><div class="play-icon">▶</div></div><div class="video-info"><div class="video-title">Vectors & 2D Motion</div><div class="video-meta">Unit 1 · 22 min</div></div></div>
-      <div class="video-card reveal" data-video="NHk7scrb_9I" data-title="Projectile Motion — Every Type"><div class="video-thumb" style="background:linear-gradient(135deg,#0f1f3d 0%,#1a3a6e 100%);"><span class="video-unit-tag">Unit 03</span><div class="play-icon">▶</div></div><div class="video-info"><div class="video-title">Projectile Motion — Every Type</div><div class="video-meta">Unit 3 · 30 min · Test prep</div></div></div>
-      <div class="video-card reveal" data-video="NHk7scrb_9I" data-title="Newton's Laws & Free Body Diagrams"><div class="video-thumb"><span class="video-unit-tag">Unit 02</span><div class="play-icon">▶</div></div><div class="video-info"><div class="video-title">Newton's Laws & Free Body Diagrams</div><div class="video-meta">Unit 2 · 25 min</div></div></div>
     </div>
   </div>
 </section>
@@ -349,33 +565,84 @@
   </div>
   <div class="footer-note">© 2026 AUX · Free student resources</div>
 </footer>
-<!-- FIXED SCRIPT PATH HERE -->
+
 <script src="../../bg.js?v=10"></script>
 <script>initBg('bgCanvas','shardCanvas','blue');</script>
 <script>
 (function(){
+  // Reveal on scroll
   const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.07+'s';io.observe(el);});
+
+  // Scroll progress
   const prog=document.getElementById('aux-progress');
   window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(s/t*100)+'%';},{passive:true});
 
-  const npWrap=document.getElementById('npWrap'),npFrame=document.getElementById('npFrame'),npTitle=document.getElementById('npTitle');
-  let activeCard=null;
-  function openVideo(card){
-    if(activeCard)activeCard.classList.remove('active');
-    activeCard=card; card.classList.add('active');
-    npTitle.textContent=card.dataset.title||'';
-    npFrame.src='https://www.youtube.com/embed/'+card.dataset.video+'?autoplay=1&rel=0';
-    npWrap.classList.add('active');
-    npWrap.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  function closeVideo(){
-    npWrap.classList.remove('active'); npFrame.src='';
-    if(activeCard){activeCard.classList.remove('active');activeCard=null;}
-  }
-  document.querySelectorAll('.video-card[data-video]').forEach(c=>c.addEventListener('click',()=>openVideo(c)));
-  document.getElementById('npBack').addEventListener('click',closeVideo);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
+  // Accordion: open/close unit drawers
+  document.querySelectorAll('.unit-card[data-drawer]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const drawerId=card.dataset.drawer;
+      const drawer=document.getElementById(drawerId);
+      const isOpen=drawer.classList.contains('open');
+
+      // Close all open drawers and stop any playing video
+      document.querySelectorAll('.unit-drawer.open').forEach(d=>{
+        d.classList.remove('open');
+        const nw=d.querySelector('.np-wrap');
+        if(nw){nw.classList.remove('active');const fr=nw.querySelector('iframe');if(fr)fr.src='';}
+        d.querySelectorAll('.video-card').forEach(c=>c.classList.remove('active'));
+      });
+      document.querySelectorAll('.unit-card.open').forEach(c=>c.classList.remove('open'));
+
+      // Toggle this drawer open if it was closed
+      if(!isOpen){
+        drawer.classList.add('open');
+        card.classList.add('open');
+        setTimeout(()=>drawer.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+      }
+    });
+  });
+
+  // Video cards inside drawers
+  document.querySelectorAll('.unit-drawer .video-card[data-video]').forEach(vc=>{
+    vc.addEventListener('click',e=>{
+      e.stopPropagation();
+      const drawer=vc.closest('.unit-drawer');
+      const npWrap=drawer.querySelector('.np-wrap');
+      const npTitle=npWrap.querySelector('.np-title');
+      const iframe=npWrap.querySelector('iframe');
+
+      drawer.querySelectorAll('.video-card').forEach(c=>c.classList.remove('active'));
+      vc.classList.add('active');
+      npTitle.textContent=vc.dataset.title||'';
+      iframe.src='https://www.youtube.com/embed/'+vc.dataset.video+'?autoplay=1&rel=0';
+      npWrap.classList.add('active');
+      setTimeout(()=>npWrap.scrollIntoView({behavior:'smooth',block:'start'}),50);
+    });
+  });
+
+  // Close player button
+  document.querySelectorAll('.np-back').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const npWrap=btn.closest('.np-wrap');
+      const iframe=npWrap.querySelector('iframe');
+      npWrap.classList.remove('active');
+      iframe.src='';
+      npWrap.closest('.unit-drawer').querySelectorAll('.video-card').forEach(c=>c.classList.remove('active'));
+    });
+  });
+
+  // Escape key closes player
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      document.querySelectorAll('.np-wrap.active').forEach(nw=>{
+        nw.classList.remove('active');
+        const fr=nw.querySelector('iframe');if(fr)fr.src='';
+        nw.closest('.unit-drawer').querySelectorAll('.video-card').forEach(c=>c.classList.remove('active'));
+      });
+    }
+  });
 })();
 </script>
 </body>

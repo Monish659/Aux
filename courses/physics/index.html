@@ -153,10 +153,28 @@
     @keyframes testprepGlow{0%,100%{box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 20px 60px rgba(0,0,0,0.28),inset 0 0 30px rgba(59,130,246,0.04);}50%{box-shadow:0 0 0 1px rgba(59,130,246,0.55),0 20px 60px rgba(0,0,0,0.35),inset 0 0 40px rgba(59,130,246,0.10);}}
     .testprep-card{animation:testprepGlow 4.5s ease-in-out infinite;}
     .unit-card:hover{box-shadow:0 0 0 1px rgba(29,78,216,0.2),0 8px 30px rgba(29,78,216,0.1);}
+
+    /* CURSOR SPOTLIGHT */
+    #spotlight{position:fixed;pointer-events:none;z-index:2;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.13) 0%,rgba(29,78,216,0.06) 35%,transparent 70%);transform:translate(-50%,-50%);transition:opacity 0.35s;opacity:0;}
+
+    /* CLICK RIPPLE */
+    @keyframes rippleOut{0%{transform:scale(0);opacity:0.55;}100%{transform:scale(1);opacity:0;}}
+    .aux-ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;animation:rippleOut 0.6s cubic-bezier(0.2,0.6,0.4,1) forwards;}
+
+    /* WORD-BY-WORD REVEAL */
+    .w{display:inline-block;opacity:0;transform:translateY(16px);transition:opacity 0.52s var(--ease),transform 0.52s var(--ease);}
+    .in .w{opacity:1;transform:none;}
+
+    /* UNIT CARD SHIMMER */
+    .unit-card{position:relative;overflow:hidden;}
+    .unit-card::after{content:'';position:absolute;top:-60%;left:-80%;width:35%;height:220%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.09),transparent);transform:skewX(-18deg);pointer-events:none;opacity:0;z-index:0;}
+    .unit-card:hover::after{opacity:1;animation:unitShimmer 0.55s ease forwards;}
+    @keyframes unitShimmer{from{left:-80%}to{left:130%}}
   </style>
 </head>
 <body>
 <div id="aux-progress"></div>
+<div id="spotlight"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -631,6 +649,60 @@
       iframe.src='';
       npWrap.closest('.unit-drawer').querySelectorAll('.video-card').forEach(c=>c.classList.remove('active'));
     });
+  });
+
+  // Cursor spotlight (blue)
+  const spot=document.getElementById('spotlight');
+  let spotVis=false;
+  document.addEventListener('mousemove',e=>{
+    spot.style.left=e.clientX+'px';
+    spot.style.top=e.clientY+'px';
+    if(!spotVis){spot.style.opacity='1';spotVis=true;}
+  },{passive:true});
+  document.addEventListener('mouseleave',()=>{spot.style.opacity='0';spotVis=false;});
+
+  // Click ripple (blue)
+  document.addEventListener('click',e=>{
+    const r=document.createElement('div');
+    r.className='aux-ripple';
+    const sz=96;
+    r.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:radial-gradient(circle,rgba(59,130,246,0.4) 0%,transparent 70%);`;
+    document.body.appendChild(r);
+    r.addEventListener('animationend',()=>r.remove());
+  });
+
+  // Word-by-word heading animation
+  (function(){
+    function wordSplit(el){
+      el.style.opacity='1';el.style.transform='none';el.style.transition='none';
+      const nodes=[...el.childNodes];
+      el.innerHTML='';
+      let idx=0;
+      nodes.forEach(node=>{
+        if(node.nodeType===3){
+          node.textContent.split(/(\s+)/).forEach(p=>{
+            if(/^\s+$/.test(p)){el.appendChild(document.createTextNode(p));}
+            else if(p){const s=document.createElement('span');s.className='w';s.textContent=p;s.style.transitionDelay=(idx*0.07)+'s';idx++;el.appendChild(s);}
+          });
+        } else if(node.nodeName==='BR'){
+          el.appendChild(document.createElement('br'));
+        } else {
+          const s=document.createElement('span');s.className='w';s.appendChild(node.cloneNode(true));s.style.transitionDelay=(idx*0.07)+'s';idx++;el.appendChild(s);
+        }
+      });
+    }
+    document.querySelectorAll('.section-title.reveal').forEach(wordSplit);
+  })();
+
+  // Magnetic nav links
+  document.querySelectorAll('.nav-links a:not(.nav-book)').forEach(link=>{
+    link.addEventListener('mousemove',e=>{
+      const r=link.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*0.2;
+      const y=(e.clientY-r.top-r.height/2)*0.2;
+      link.style.transform=`translate(${x}px,${y}px) translateY(-1px)`;
+    });
+    link.addEventListener('mouseleave',()=>{link.style.transform='';});
   });
 
   // Escape key closes player

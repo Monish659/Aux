@@ -260,6 +260,12 @@
     /* SECTION HEADING ACCENT */
     .eyebrow::before{content:'';display:inline-block;width:16px;height:1.5px;background:var(--orange);vertical-align:middle;margin-right:0.5rem;border-radius:2px;}
 
+    /* LEVEL TAGS on course cards */
+    .course-levels{display:flex;gap:0.4rem;flex-wrap:wrap;margin:0.3rem 0;}
+    .level-tag{font-size:0.63rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.18rem 0.62rem;border-radius:100px;}
+    .course-physics .level-tag{border:1px solid rgba(255,255,255,0.2);color:rgba(253,248,238,0.65);background:rgba(255,255,255,0.07);}
+    .course-physics .level-tag.ap{border-color:rgba(99,179,255,0.35);color:rgba(147,197,253,0.9);background:rgba(59,130,246,0.12);}
+
   </style>
 </head>
 <body>
@@ -344,7 +350,12 @@
       <a href="courses/physics/index.html" class="course-card course-physics reveal">
         <div class="course-icon">⚡</div>
         <div class="course-name">Physics</div>
-        <p class="course-desc">Videos and problem sets for every unit. Kinematics to waves. Plus the test questions most teachers never cover.</p>
+        <p class="course-desc">Videos and problem sets for every unit. Kinematics to waves. Built for the rigor of Honors and AP — the question types that actually show up on your test.</p>
+        <div class="course-levels">
+          <span class="level-tag">Honors</span>
+          <span class="level-tag ap">AP Physics 1</span>
+          <span class="level-tag ap">AP Physics 2</span>
+        </div>
         <div class="course-footer"><span class="course-meta">9 units · videos · PDFs</span><span class="course-arrow">↗</span></div>
       </a>
       <a href="courses/precalc/index.html" class="course-card course-precalc reveal">

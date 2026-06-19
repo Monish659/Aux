@@ -131,13 +131,10 @@
 
     /* PDFs */
     .pdfs-section{padding:5rem 0;}
-    .pdf-list{display:flex;flex-direction:column;gap:0.75rem;}
-    .pdf-row{background:rgba(245,250,255,0.88);border:1px solid rgba(29,78,216,0.10);border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.2rem;text-decoration:none;color:var(--ink);transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
-    .pdf-row:hover{transform:translateX(4px);box-shadow:0 6px 20px rgba(29,78,216,0.09);border-color:rgba(29,78,216,0.24);}
-    .pdf-icon{font-size:1.4rem;flex-shrink:0;}
-    .pdf-name{font-size:0.94rem;font-weight:500;flex:1;}
-    .pdf-meta{font-size:0.75rem;color:var(--ink-muted);}
-    .pdf-dl{font-size:0.8rem;color:var(--blue);font-weight:500;}
+    .pdfs-coming{display:flex;align-items:flex-start;gap:1.5rem;background:rgba(245,250,255,0.7);border:1.5px dashed rgba(29,78,216,0.2);border-radius:16px;padding:2rem 2.25rem;}
+    .pdfs-coming-icon{font-size:2.4rem;flex-shrink:0;opacity:0.45;margin-top:0.1rem;}
+    .pdfs-coming-title{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:0.45rem;}
+    .pdfs-coming-sub{font-size:0.9rem;color:var(--ink-muted);line-height:1.7;}
 
     /* FOOTER */
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(29,78,216,0.10);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(227,234,246,0.92);backdrop-filter:blur(12px);}
@@ -551,12 +548,12 @@
   <div class="content-wrap">
     <p class="eyebrow reveal">PDF library</p>
     <h2 class="section-title reveal">Practice problems & formula sheets.</h2>
-    <div class="pdf-list">
-      <a href="pdfs/formula-sheet.pdf" class="pdf-row reveal"><div class="pdf-icon">📄</div><div class="pdf-name">Physics Formula Sheet — All Units</div><div class="pdf-meta">Formula reference</div><div class="pdf-dl">Download ↓</div></a>
-      <a href="pdfs/kinematics-problems.pdf" class="pdf-row reveal"><div class="pdf-icon">📝</div><div class="pdf-name">Kinematics Practice Problems (with answers)</div><div class="pdf-meta">Unit 1 · 24 problems</div><div class="pdf-dl">Download ↓</div></a>
-      <a href="pdfs/projectile-problems.pdf" class="pdf-row reveal"><div class="pdf-icon">📝</div><div class="pdf-name">Projectile Motion — Test-Style Problems</div><div class="pdf-meta">Unit 3 · 18 problems · Exam difficulty</div><div class="pdf-dl">Download ↓</div></a>
-      <a href="pdfs/energy-worksheet.pdf" class="pdf-row reveal"><div class="pdf-icon">📝</div><div class="pdf-name">Work & Energy — Concept + Problems</div><div class="pdf-meta">Unit 4 · 20 problems</div><div class="pdf-dl">Download ↓</div></a>
-      <a href="pdfs/waves-notes.pdf" class="pdf-row reveal"><div class="pdf-icon">📄</div><div class="pdf-name">Waves & Sound — Full Notes</div><div class="pdf-meta">Unit 6 · Study guide</div><div class="pdf-dl">Download ↓</div></a>
+    <div class="pdfs-coming reveal">
+      <div class="pdfs-coming-icon">📄</div>
+      <div>
+        <div class="pdfs-coming-title">PDFs are on the way.</div>
+        <div class="pdfs-coming-sub">Formula sheets, practice problems, and full notes for every unit — being written now alongside the videos. Check back soon.</div>
+      </div>
     </div>
   </div>
 </section>

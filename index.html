@@ -285,11 +285,21 @@
     .course-physics .level-tag{border:1px solid rgba(255,255,255,0.2);color:rgba(253,248,238,0.65);background:rgba(255,255,255,0.07);}
     .course-physics .level-tag.ap{border-color:rgba(99,179,255,0.35);color:rgba(147,197,253,0.9);background:rgba(59,130,246,0.12);}
 
+    /* NAV SHRINK ON SCROLL */
+    nav{transition:height 0.35s var(--ease),box-shadow 0.3s ease;}
+    nav.scrolled{height:52px;box-shadow:0 4px 24px rgba(0,0,0,0.07);}
+
+    /* LAGGING CURSOR RING */
+    @media(pointer:fine){
+      #cursor-ring{position:fixed;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(184,82,0,0.45);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.25s var(--ease),height 0.25s var(--ease),border-color 0.25s;opacity:0;}
+    }
+
   </style>
 </head>
 <body>
 <div id="aux-progress"></div>
 <div id="spotlight"></div>
+<div id="cursor-ring"></div>
 <canvas id="bgCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
@@ -605,6 +615,61 @@
       cta.appendChild(p);
     }
   })();
+})();
+
+// Nav shrink on scroll
+(function(){
+  const nav=document.querySelector('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
+})();
+
+// Page fade transitions
+(function(){
+  document.body.style.opacity='0';
+  requestAnimationFrame(()=>{document.body.style.transition='opacity 0.42s ease';requestAnimationFrame(()=>{document.body.style.opacity='1';});});
+  let going=false;
+  document.querySelectorAll('a[href]').forEach(link=>{
+    if(link.target||!link.href)return;
+    try{const u=new URL(link.href,location.href);
+      if(u.hostname!==location.hostname)return;
+      if(u.hash&&u.pathname===location.pathname)return;
+    }catch{return;}
+    link.addEventListener('click',e=>{
+      if(going||e.defaultPrevented||e.metaKey||e.ctrlKey)return;
+      going=true;e.preventDefault();const dest=link.href;
+      document.body.style.transition='opacity 0.28s ease';
+      document.body.style.opacity='0';
+      setTimeout(()=>window.location.href=dest,295);
+    });
+  });
+})();
+
+// Lagging cursor ring
+(function(){
+  const ring=document.getElementById('cursor-ring');
+  if(!ring||window.matchMedia('(pointer:coarse)').matches)return;
+  let mx=0,my=0,rx=0,ry=0,vis=false;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!vis){ring.style.opacity='1';vis=true;rx=mx;ry=my;}},{passive:true});
+  document.addEventListener('mouseleave',()=>{ring.style.opacity='0';vis=false;});
+  (function tick(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+  document.querySelectorAll('a,button,.course-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(184,82,0,0.75)';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';ring.style.borderColor='rgba(184,82,0,0.45)';});
+  });
+})();
+
+// Letter scramble on course names
+(function(){
+  const C='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  function scramble(el){
+    const o=el.dataset.orig||(el.dataset.orig=el.textContent);
+    let f=0,id;
+    id=setInterval(()=>{
+      el.textContent=o.split('').map((c,i)=>c===' '?' ':i<f/2?o[i]:C[Math.floor(Math.random()*C.length)]).join('');
+      if(++f>o.length*2){clearInterval(id);el.textContent=o;}
+    },26);
+  }
+  document.querySelectorAll('.course-name').forEach(el=>el.addEventListener('mouseenter',()=>scramble(el)));
 })();
 </script>
 </body>

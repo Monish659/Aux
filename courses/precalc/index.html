@@ -164,6 +164,10 @@
     /* SCROLL PROGRESS */
     #aux-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--green),var(--green-mid),var(--green));z-index:500;pointer-events:none;transition:width 0.08s linear;}
 
+    /* NAV SHRINK ON SCROLL */
+    nav{transition:height 0.35s var(--ease),box-shadow 0.3s ease;}
+    nav.scrolled{height:52px;box-shadow:0 4px 24px rgba(0,0,0,0.07);}
+
     /* COMING CARD SUBTLE FLOAT */
     @keyframes comingFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
     .coming-card:nth-child(odd){animation:comingFloat 5.2s ease-in-out infinite;}
@@ -233,15 +237,6 @@
   </div>
 </section>
 
-<section class="pdfs-section layer" id="pdfs">
-  <div class="content-wrap">
-    <p class="eyebrow reveal">PDF library</p>
-    <h2 class="section-title reveal">Practice problems <em>in production.</em></h2>
-    <div class="stub-row reveal">📄 &nbsp; Trig Identity Cheat Sheet &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
-    <div class="stub-row reveal">📝 &nbsp; Functions Practice Set &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
-    <div class="stub-row reveal">📝 &nbsp; Unit Circle Fill-In Sheet &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Coming soon</span></div>
-  </div>
-</section>
 
 <section class="notify-section layer" id="notify">
   <div class="content-wrap">
@@ -274,6 +269,26 @@
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';io.observe(el);});
   const prog=document.getElementById('aux-progress');
   window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(s/t*100)+'%';},{passive:true});
+  const nav=document.querySelector('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
+  // Page fade transitions
+  document.body.style.opacity='0';
+  requestAnimationFrame(()=>{document.body.style.transition='opacity 0.42s ease';requestAnimationFrame(()=>{document.body.style.opacity='1';});});
+  let going=false;
+  document.querySelectorAll('a[href]').forEach(link=>{
+    if(link.target||!link.href)return;
+    try{const u=new URL(link.href,location.href);
+      if(u.hostname!==location.hostname)return;
+      if(u.hash&&u.pathname===location.pathname)return;
+    }catch{return;}
+    link.addEventListener('click',e=>{
+      if(going||e.defaultPrevented||e.metaKey||e.ctrlKey)return;
+      going=true;e.preventDefault();const dest=link.href;
+      document.body.style.transition='opacity 0.28s ease';
+      document.body.style.opacity='0';
+      setTimeout(()=>window.location.href=dest,295);
+    });
+  });
   async function handleNotify(e){
     e.preventDefault();
     const btn=e.target.querySelector('.notify-submit');

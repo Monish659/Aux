@@ -186,10 +186,10 @@
 
     /* TESTPREP CARD holographic foil */
     @property --tp-deg{syntax:'<angle>';initial-value:135deg;inherits:false;}
-    @keyframes holoGlow{0%,100%{filter:brightness(1.1) saturate(1.6);}50%{filter:brightness(2) saturate(3);}}
+    @keyframes holoGlow{0%,100%{filter:brightness(1) saturate(1.2);}50%{filter:brightness(1.35) saturate(1.9);}}
     .testprep-card{overflow:hidden;}
-    .testprep-card::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(var(--tp-deg,135deg),transparent 0%,rgba(255,0,120,.2) 16%,rgba(255,200,0,.2) 30%,rgba(0,255,120,.2) 45%,rgba(0,160,255,.2) 60%,rgba(200,0,255,.2) 74%,transparent 92%);mix-blend-mode:screen;opacity:.5;pointer-events:none;z-index:2;animation:holoGlow 3.5s ease-in-out infinite;transition:opacity .4s;}
-    .testprep-card:hover::after{opacity:.9;animation:holoGlow 1.8s ease-in-out infinite;}
+    .testprep-card::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(var(--tp-deg,135deg),transparent 0%,rgba(255,0,120,.1) 16%,rgba(255,200,0,.1) 30%,rgba(0,255,120,.1) 45%,rgba(0,160,255,.1) 60%,rgba(200,0,255,.1) 74%,transparent 92%);mix-blend-mode:screen;opacity:.3;pointer-events:none;z-index:2;animation:holoGlow 3.5s ease-in-out infinite;transition:opacity .4s;}
+    .testprep-card:hover::after{opacity:.55;animation:holoGlow 1.8s ease-in-out infinite;}
 
     /* EYEBROW LINE ANIMATE IN */
     .eyebrow::before{content:'';display:inline-block;width:0;height:1.5px;background:var(--blue-mid);vertical-align:middle;margin-right:0;border-radius:2px;transition:width .55s var(--ease) .2s,margin-right .4s ease .32s;}

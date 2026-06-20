@@ -141,8 +141,8 @@
     .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
 
-    .reveal{opacity:0;transform:translateY(28px) scale(0.985);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease);}
-    .reveal.in{opacity:1;transform:translateY(0) scale(1);}
+    .reveal{opacity:0;transform:translateY(28px) scale(0.985);filter:blur(5px);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease),filter 0.9s var(--ease);}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @media(max-width:720px){.testprep-items{grid-template-columns:1fr;}.video-grid{grid-template-columns:1fr;}}
 
@@ -157,11 +157,10 @@
     /* CURSOR SPOTLIGHT */
     #spotlight{position:fixed;pointer-events:none;z-index:2;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.13) 0%,rgba(29,78,216,0.06) 35%,transparent 70%);transform:translate(-50%,-50%);transition:opacity 0.35s;opacity:0;}
 
-    /* CLICK RIPPLE — double ring */
-    @keyframes rippleFill{0%{transform:scale(0);opacity:0.75;}100%{transform:scale(1);opacity:0;}}
-    @keyframes rippleRing{0%{transform:scale(0);opacity:0.65;}100%{transform:scale(1);opacity:0;}}
-    .aux-ripple-fill{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;animation:rippleFill 0.55s cubic-bezier(0.15,0.6,0.35,1) forwards;}
-    .aux-ripple-ring{position:fixed;border-radius:50%;border:2.5px solid;pointer-events:none;z-index:9998;animation:rippleRing 0.85s cubic-bezier(0.08,0.85,0.25,1) forwards;}
+    /* CLICK RIPPLE — 3 rings + particles */
+    @keyframes rippleExpand{0%{transform:scale(0);opacity:var(--ro,.85);}100%{transform:scale(1);opacity:0;}}
+    .aux-ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;animation:rippleExpand var(--dur,.6s) var(--ease2,cubic-bezier(0.04,.92,.22,1)) var(--delay,0s) forwards;}
+    .aux-particle{position:fixed;border-radius:50%;pointer-events:none;z-index:9998;will-change:transform,opacity;}
 
     /* MOUSE TRAIL */
     @keyframes trailFade{0%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-50%) scale(0.15);}}
@@ -171,20 +170,22 @@
     .w{display:inline-block;opacity:0;transform:translateY(16px);transition:opacity 0.52s var(--ease),transform 0.52s var(--ease);}
     .in .w{opacity:1;transform:none;}
 
-    /* UNIT CARD SHIMMER */
-    .unit-card{position:relative;overflow:hidden;}
-    .unit-card::after{content:'';position:absolute;top:-60%;left:-80%;width:35%;height:220%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.09),transparent);transform:skewX(-18deg);pointer-events:none;opacity:0;z-index:0;}
-    .unit-card:hover::after{opacity:1;animation:unitShimmer 0.55s ease forwards;}
-    @keyframes unitShimmer{from{left:-80%}to{left:130%}}
-
     /* NAV SHRINK ON SCROLL */
     nav{transition:height 0.35s var(--ease),box-shadow 0.3s ease;}
     nav.scrolled{height:52px;box-shadow:0 4px 24px rgba(0,0,0,0.07);}
 
-    /* UNIT CARD INNER SPOTLIGHT */
-    .unit-card{position:relative;overflow:hidden;}
-    .unit-card::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--card-mx,50%) var(--card-my,50%),rgba(147,197,253,0.18) 0%,transparent 58%);pointer-events:none;opacity:0;transition:opacity 0.3s;z-index:0;}
+    /* UNIT CARD — spotlight + rotating border */
+    @property --u-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    .unit-card{position:relative;overflow:visible;z-index:0;}
+    .unit-card::before{content:'';position:absolute;inset:0;border-radius:16px;clip-path:inset(0 round 15px);background:radial-gradient(circle at var(--card-mx,50%) var(--card-my,50%),rgba(147,197,253,0.2) 0%,transparent 58%);pointer-events:none;opacity:0;transition:opacity 0.3s;}
     .unit-card:hover::before{opacity:1;}
+    .unit-card::after{content:'';position:absolute;inset:-1.5px;border-radius:17.5px;padding:1.5px;background:conic-gradient(from var(--u-angle),transparent 28%,rgba(59,130,246,.75) 46%,rgba(96,165,250,1) 52%,rgba(59,130,246,.75) 60%,transparent 74%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s;}
+    .unit-card:hover::after,.unit-card.open::after{opacity:1;animation:rotateBorderUnit 2.5s linear infinite;}
+    @keyframes rotateBorderUnit{to{--u-angle:360deg;}}
+
+    /* EYEBROW LINE ANIMATE IN */
+    .eyebrow::before{content:'';display:inline-block;width:0;height:1.5px;background:var(--blue-mid);vertical-align:middle;margin-right:0;border-radius:2px;transition:width .55s var(--ease) .2s,margin-right .4s ease .32s;}
+    .eyebrow.in::before{width:16px;margin-right:.5rem;}
   </style>
 </head>
 <body>
@@ -651,20 +652,22 @@
   },{passive:true});
   document.addEventListener('mouseleave',()=>{spot.style.opacity='0';spotVis=false;});
 
-  // Double-ring click ripple (blue)
+  // 3-ring ripple + particle burst (blue)
   document.addEventListener('click',e=>{
-    const fill=document.createElement('div');
-    fill.className='aux-ripple-fill';
-    const s1=120;
-    fill.style.cssText=`width:${s1}px;height:${s1}px;left:${e.clientX-s1/2}px;top:${e.clientY-s1/2}px;background:radial-gradient(circle,rgba(59,130,246,0.7) 0%,rgba(29,78,216,0.25) 45%,transparent 70%);`;
-    document.body.appendChild(fill);
-    fill.addEventListener('animationend',()=>fill.remove());
-    const ring=document.createElement('div');
-    ring.className='aux-ripple-ring';
-    const s2=250;
-    ring.style.cssText=`width:${s2}px;height:${s2}px;left:${e.clientX-s2/2}px;top:${e.clientY-s2/2}px;border-color:rgba(59,130,246,0.55);animation-delay:0.04s;`;
-    document.body.appendChild(ring);
-    ring.addEventListener('animationend',()=>ring.remove());
+    [{s:85,d:'0s',dur:'.48s',fill:true,col:'rgba(59,130,246,.9)'},{s:210,d:'.05s',dur:'.75s',fill:false,bw:2,col:'rgba(59,130,246,.55)'},{s:420,d:'.13s',dur:'1.1s',fill:false,bw:1.2,col:'rgba(29,78,216,.3)'}].forEach(({s,d,dur,fill,bw,col})=>{
+      const el=document.createElement('div');el.className='aux-ripple';
+      el.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-s/2}px;top:${e.clientY-s/2}px;${fill?`background:radial-gradient(circle,${col} 0%,rgba(29,78,216,.3) 40%,transparent 70%)`:`border:${bw}px solid ${col};background:transparent`};--dur:${dur};--delay:${d};`;
+      document.body.appendChild(el);el.addEventListener('animationend',()=>el.remove());
+    });
+    for(let i=0;i<14;i++){
+      const a=(i/14)*Math.PI*2+Math.random()*.45;
+      const dist=55+Math.random()*95;const sz=2+Math.random()*4.5;const dur=.42+Math.random()*.32;
+      const p=document.createElement('div');p.className='aux-particle';
+      p.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:hsl(${210+Math.random()*25},85%,${55+Math.random()*15}%);transition:transform ${dur}s cubic-bezier(.18,.88,.38,1),opacity ${dur*.9}s ease;`;
+      document.body.appendChild(p);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transform=`translate(${Math.cos(a)*dist}px,${Math.sin(a)*dist}px) scale(.2)`;p.style.opacity='0';}));
+      setTimeout(()=>p.remove(),(dur+.1)*1000);
+    }
   });
 
   // Mouse trail (blue dots)

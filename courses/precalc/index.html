@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Honors Precalculus — AUX</title>
+  <title>Honors Precalculus | AUX</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z002SFGBF2"></script>
@@ -231,9 +231,9 @@
     <p class="eyebrow reveal">Video library</p>
     <h2 class="section-title reveal">Videos <em>in production.</em></h2>
     <div class="stub-row reveal">▶ &nbsp; Functions: Introduction &amp; Transformations &nbsp;<span style="margin-left:auto;font-size:0.75rem;">In production</span></div>
-    <div class="stub-row reveal">▶ &nbsp; Unit Circle — Built from Scratch &nbsp;<span style="margin-left:auto;font-size:0.75rem;">In production</span></div>
+    <div class="stub-row reveal">▶ &nbsp; Unit Circle: Built from Scratch &nbsp;<span style="margin-left:auto;font-size:0.75rem;">In production</span></div>
     <div class="stub-row reveal">▶ &nbsp; Trig Identities Masterclass &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Planned</span></div>
-    <div class="stub-row reveal">▶ &nbsp; Limits — What They Actually Mean &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Planned</span></div>
+    <div class="stub-row reveal">▶ &nbsp; Limits: What They Actually Mean &nbsp;<span style="margin-left:auto;font-size:0.75rem;">Planned</span></div>
   </div>
 </section>
 
@@ -245,7 +245,7 @@
       <p class="notify-body">Drop your email. One message when the content is live. That's it.</p>
       <form class="notify-form" id="notifyForm" onsubmit="handleNotify(event)">
         <input class="notify-input" type="email" name="email" placeholder="your@email.com" required/>
-        <input type="hidden" name="_subject" value="AUX Precalc — Notify Me Signup"/>
+        <input type="hidden" name="_subject" value="AUX Precalc: Notify Me Signup"/>
         <button class="notify-submit" type="submit">Notify me</button>
       </form>
       <div id="notifySuccess" style="display:none;font-size:0.94rem;color:var(--green);font-weight:500;margin-top:1rem;">You're on the list. One email when it's ready.</div>
@@ -297,7 +297,7 @@
       const res=await fetch('https://formspree.io/f/xkoaqzdz',{method:'POST',body:new FormData(e.target),headers:{Accept:'application/json'}});
       if(res.ok){e.target.style.display='none';document.getElementById('notifySuccess').style.display='block';}
       else{btn.disabled=false;btn.textContent='Notify me';alert('Something went wrong. Try again.');}
-    }catch{btn.disabled=false;btn.textContent='Notify me';alert('Network error — try again.');}
+    }catch{btn.disabled=false;btn.textContent='Notify me';alert('Network error, please try again.');}
   }
 })();
 </script>

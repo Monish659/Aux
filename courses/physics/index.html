@@ -89,6 +89,9 @@
     .unit-drawer.open{max-height:2400px;opacity:1;}
     .drawer-inner{padding:1.25rem 1.75rem 1.5rem;}
     .drawer-coming{font-size:0.86rem;color:var(--ink-muted);padding:1rem 0;text-align:center;border:1px dashed rgba(29,78,216,0.16);border-radius:10px;}
+    .drawer-section{margin-bottom:1.25rem;}
+    .drawer-section:last-child{margin-bottom:0;}
+    .drawer-section-label{font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.7rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(29,78,216,0.14);}
 
     /* INLINE PLAYER inside drawer */
     .np-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.45s var(--ease),opacity 0.35s,margin-bottom 0.35s;margin-bottom:0;}
@@ -267,31 +270,37 @@
                 </div>
               </div>
             </div>
-            <div class="video-grid">
-              <div class="video-card" data-video="E4GF6ebZ0bw" data-title="Part 1: SI and Derived Units" style="--thumb:url('https://img.youtube.com/vi/E4GF6ebZ0bw/mqdefault.jpg')">
-                <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
-                <div class="video-info"><div class="video-title">Part 1: SI and Derived Units</div><div class="video-meta">Unit 1.1</div></div>
-              </div>
-              <div class="video-card" data-video="aKghsNGTguw" data-title="Part 2: Unit Conversion" style="--thumb:url('https://img.youtube.com/vi/aKghsNGTguw/mqdefault.jpg')">
-                <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
-                <div class="video-info"><div class="video-title">Part 2: Unit Conversion</div><div class="video-meta">Unit 1.1</div></div>
-              </div>
-              <div class="video-card" data-video="93ZxppBexS8" data-title="Part 3: Graphing" style="--thumb:url('https://img.youtube.com/vi/93ZxppBexS8/mqdefault.jpg')">
-                <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
-                <div class="video-info"><div class="video-title">Part 3: Graphing</div><div class="video-meta">Unit 1.1</div></div>
-              </div>
-              <div class="video-card" data-video="h0g8bxr228Y" data-title="Part 4: Packing Fractions" style="--thumb:url('https://img.youtube.com/vi/h0g8bxr228Y/mqdefault.jpg')">
-                <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
-                <div class="video-info"><div class="video-title">Part 4: Packing Fractions</div><div class="video-meta">Unit 1.1</div></div>
+            <div class="drawer-section">
+              <div class="drawer-section-label">Videos</div>
+              <div class="video-grid">
+                <div class="video-card" data-video="E4GF6ebZ0bw" data-title="Part 1: SI and Derived Units" style="--thumb:url('https://img.youtube.com/vi/E4GF6ebZ0bw/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Part 1: SI and Derived Units</div><div class="video-meta">Unit 1.1</div></div>
+                </div>
+                <div class="video-card" data-video="aKghsNGTguw" data-title="Part 2: Unit Conversion" style="--thumb:url('https://img.youtube.com/vi/aKghsNGTguw/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Part 2: Unit Conversion</div><div class="video-meta">Unit 1.1</div></div>
+                </div>
+                <div class="video-card" data-video="93ZxppBexS8" data-title="Part 3: Graphing" style="--thumb:url('https://img.youtube.com/vi/93ZxppBexS8/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Part 3: Graphing</div><div class="video-meta">Unit 1.1</div></div>
+                </div>
+                <div class="video-card" data-video="h0g8bxr228Y" data-title="Part 4: Packing Fractions" style="--thumb:url('https://img.youtube.com/vi/h0g8bxr228Y/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 1.1</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Part 4: Packing Fractions</div><div class="video-meta">Unit 1.1</div></div>
+                </div>
               </div>
             </div>
-            <div class="pdf-resources">
-              <a class="pdf-resource" href="pdfs/Physics_11_Complete_HardPractice.pdf" target="_blank" download>
-                <div class="pdf-icon">📄</div>
-                <div class="pdf-label">Hard Practice Problems</div>
-                <span class="pdf-tag">PDF</span>
-                <span class="pdf-dl">↓ Download</span>
-              </a>
+            <div class="drawer-section">
+              <div class="drawer-section-label">PDFs</div>
+              <div class="pdf-resources">
+                <a class="pdf-resource" href="pdfs/Physics_11_Complete_HardPractice.pdf" target="_blank" download>
+                  <div class="pdf-icon">📄</div>
+                  <div class="pdf-label">1.1 — Hard Practice Problems</div>
+                  <span class="pdf-tag">PDF</span>
+                  <span class="pdf-dl">↓ Download</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

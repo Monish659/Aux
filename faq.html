@@ -11,19 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --r:         #9f1239;
-      --r-mid:     #be123c;
-      --r-light:   #e11d48;
-      --r-soft:    rgba(159,18,57,0.09);
-      --r-glow:    rgba(225,29,72,0.22);
-      --ink:        #1a060c;
-      --ink-soft:   #3a1020;
-      --ink-muted:  #6b3040;
-      --cream:      #fdf2f5;
-      --serif:      'Cormorant Garamond', Georgia, serif;
-      --sans:       'Outfit', system-ui, sans-serif;
-      --ease:       cubic-bezier(0.16,1,0.3,1);
+    :root{
+      --r:#9f1239;--r-mid:#be123c;--r-light:#e11d48;
+      --r-soft:rgba(159,18,57,0.09);--r-glow:rgba(225,29,72,0.22);
+      --ink:#1a060c;--ink-soft:#3a1020;--ink-muted:#6b3040;
+      --cream:#fdf2f5;
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Outfit',system-ui,sans-serif;
+      --ease:cubic-bezier(0.16,1,0.3,1);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
@@ -57,35 +52,123 @@
 
     /* CONTENT */
     .faq-body{padding:3.5rem 2rem 8rem;}
-    .faq-body-wrap{max-width:740px;margin:0 auto;counter-reset:faq;}
+    .faq-body-wrap{max-width:760px;margin:0 auto;}
     .back-link{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.82rem;font-weight:500;color:var(--r-mid);text-decoration:none;margin-bottom:2.75rem;opacity:0.75;transition:opacity 0.2s,gap 0.2s;}
     .back-link:hover{opacity:1;gap:0.65rem;}
-    .faq-group-label{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--r-mid);margin:2.75rem 0 1rem;display:flex;align-items:center;gap:0.6rem;}
-    .faq-group-label::before{content:'';display:block;width:18px;height:2px;background:linear-gradient(90deg,var(--r-mid),#fb7185);border-radius:99px;flex-shrink:0;}
-    .faq-group-label::after{content:'';flex:1;height:1px;background:rgba(159,18,57,0.12);}
+    .faq-group-label{font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--r-mid);margin:3rem 0 1.1rem;display:flex;align-items:center;gap:0.65rem;}
+    .faq-group-label::before{content:'';display:block;width:20px;height:2px;background:linear-gradient(90deg,var(--r-mid),#fb7185);border-radius:99px;flex-shrink:0;}
+    .faq-group-label::after{content:'';flex:1;height:1px;background:rgba(159,18,57,0.11);}
     .faq-group-label:first-of-type{margin-top:0;}
-    .faq-list{display:flex;flex-direction:column;gap:0.75rem;}
+    .faq-list{display:flex;flex-direction:column;gap:1rem;}
 
-    /* ACCORDION */
+    /* ACCORDION — PREMIUM */
     .faq-item{
-      counter-increment:faq;
-      background:rgba(255,245,248,0.82);
+      background:rgba(255,248,250,0.78);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
       border:1.5px solid rgba(159,18,57,0.1);
-      border-radius:18px;
+      border-radius:22px;
       overflow:hidden;
-      transition:border-color 0.25s,box-shadow 0.25s,transform 0.22s var(--ease),background 0.25s;
+      transition:border-color 0.32s,box-shadow 0.32s,transform 0.3s var(--ease),background 0.32s;
     }
-    .faq-item:hover{transform:translateY(-2px);border-color:rgba(159,18,57,0.2);box-shadow:0 10px 36px rgba(159,18,57,0.09);}
-    .faq-item[open]{border-color:rgba(159,18,57,0.36);box-shadow:inset 4px 0 0 var(--r-mid),0 16px 52px rgba(159,18,57,0.12);background:rgba(255,250,252,0.97);transform:none;}
-    .faq-item summary{padding:1.4rem 1.7rem;cursor:pointer;display:flex;align-items:center;gap:1rem;list-style:none;user-select:none;}
+    .faq-item:hover{
+      transform:translateY(-3px);
+      border-color:rgba(159,18,57,0.2);
+      box-shadow:
+        0 4px 12px rgba(0,0,0,0.04),
+        0 14px 44px rgba(159,18,57,0.09),
+        0 32px 72px rgba(159,18,57,0.04);
+    }
+    .faq-item[open]{
+      border-color:rgba(159,18,57,0.32);
+      background:rgba(255,252,254,0.97);
+      box-shadow:
+        inset 4px 0 0 var(--r-mid),
+        0 4px 18px rgba(0,0,0,0.05),
+        0 24px 72px rgba(159,18,57,0.12),
+        0 52px 110px rgba(159,18,57,0.05);
+      transform:none;
+    }
+    .faq-item summary{
+      padding:1.65rem 1.9rem;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:1.2rem;
+      list-style:none;
+      user-select:none;
+      -webkit-user-select:none;
+      border-bottom:1px solid transparent;
+      transition:border-color 0.32s;
+    }
+    .faq-item[open] summary{border-bottom-color:rgba(159,18,57,0.07);}
     .faq-item summary::-webkit-details-marker{display:none;}
-    .faq-num{font-family:var(--serif);font-size:0.78rem;font-weight:700;color:var(--r-mid);opacity:0.28;min-width:22px;flex-shrink:0;letter-spacing:0.06em;transition:opacity 0.22s;}
-    .faq-item[open] .faq-num{opacity:0.7;}
-    .faq-q{font-family:var(--serif);font-size:1.22rem;font-weight:600;color:var(--ink);line-height:1.3;flex:1;transition:color 0.2s;}
+
+    /* Number — italic serif, editorial */
+    .faq-num{
+      font-family:var(--serif);
+      font-style:italic;
+      font-size:1rem;
+      font-weight:400;
+      color:var(--r-mid);
+      opacity:0.2;
+      width:26px;
+      flex-shrink:0;
+      transition:opacity 0.3s;
+      letter-spacing:-0.01em;
+    }
+    .faq-item[open] .faq-num{opacity:0.58;}
+
+    /* Question */
+    .faq-q{
+      font-family:var(--serif);
+      font-size:1.32rem;
+      font-weight:600;
+      color:var(--ink);
+      line-height:1.26;
+      flex:1;
+      transition:color 0.25s;
+      letter-spacing:-0.014em;
+    }
     .faq-item[open] .faq-q{color:var(--r);}
-    .faq-toggle{width:32px;height:32px;border-radius:50%;background:rgba(159,18,57,0.07);border:1.5px solid rgba(159,18,57,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;line-height:1;font-weight:300;color:var(--r-mid);transition:transform 0.3s var(--ease),background 0.22s,border-color 0.22s,color 0.22s,box-shadow 0.22s;}
-    .faq-item[open] .faq-toggle{transform:rotate(45deg);background:var(--r-mid);border-color:var(--r-mid);color:#fff;box-shadow:0 4px 14px rgba(159,18,57,0.38);}
-    .faq-a{padding:1.1rem 1.7rem 1.6rem 3.85rem;border-top:1px solid rgba(159,18,57,0.08);font-size:0.95rem;line-height:1.85;color:var(--ink-muted);}
+
+    /* Toggle — CSS chevron */
+    .faq-toggle{
+      width:36px;height:36px;
+      border-radius:50%;
+      background:rgba(159,18,57,0.06);
+      border:1.5px solid rgba(159,18,57,0.13);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+      color:var(--r-mid);
+      transition:background 0.3s,border-color 0.3s,box-shadow 0.3s,color 0.3s;
+    }
+    .faq-toggle::before{
+      content:'';
+      width:8px;height:8px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      border-radius:0 0 1px 0;
+      transform:rotate(45deg) translate(-1px,-2px);
+      transition:transform 0.38s var(--ease);
+    }
+    .faq-item[open] .faq-toggle{
+      background:var(--r-mid);
+      border-color:var(--r-mid);
+      color:#fff;
+      box-shadow:0 4px 20px rgba(159,18,57,0.42);
+    }
+    .faq-item[open] .faq-toggle::before{
+      transform:rotate(-135deg) translate(-1px,-2px);
+    }
+
+    /* Answer */
+    .faq-a{
+      padding:1.25rem 1.9rem 1.8rem 4.35rem;
+      font-size:0.96rem;
+      line-height:1.9;
+      color:var(--ink-muted);
+    }
     .faq-a a{color:var(--r-mid);text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;}
     .faq-a a:hover{color:var(--r);}
 
@@ -96,10 +179,17 @@
     .footer-note{font-size:0.77rem;color:var(--ink-muted);}
 
     /* REVEAL */
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.52s var(--ease),transform 0.52s var(--ease);}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s var(--ease),transform 0.55s var(--ease);}
     .reveal.in{opacity:1;transform:none;}
 
-    @media(max-width:600px){.nav-links li:not(:last-child){display:none;}.faq-hero{padding:8rem 1.5rem 3rem;}.faq-body{padding:2.5rem 1.5rem 6rem;}footer{flex-direction:column;gap:0.5rem;text-align:center;}}
+    @media(max-width:600px){
+      .nav-links li:not(:last-child){display:none;}
+      .faq-hero{padding:8rem 1.5rem 3rem;}
+      .faq-body{padding:2.5rem 1.5rem 6rem;}
+      .faq-q{font-size:1.15rem;}
+      .faq-a{padding:1.1rem 1.5rem 1.6rem 1.5rem;}
+      footer{flex-direction:column;gap:0.5rem;text-align:center;}
+    }
   </style>
 </head>
 <body>
@@ -136,17 +226,17 @@
     <div class="faq-list">
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">01</span><span class="faq-q">Who built this?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">01</span><span class="faq-q">Who built this?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">My name is Monish Reddy. I'm a rising junior and a high school student in Pleasanton, California. I built this entirely on my own, with no formal teaching background, just direct experience taking these exact courses and going deep until everything clicked. I also tutor on <a href="https://schoolhouse.world" target="_blank" rel="noopener">Schoolhouse.world</a>, a free nonprofit peer-tutoring platform, where I have verified reviews from students I've worked with.</div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">02</span><span class="faq-q">Are you a teacher? Do you have formal credentials?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">02</span><span class="faq-q">Are you a teacher? Do you have formal credentials?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">No formal credentials. I'm a student, not a teacher. Everything here comes from taking these exact classes myself, earning straight A's across all of them, and figuring out what actually needs to click for the material to make sense. That student perspective is the point. I know where it gets hard because I was there.</div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">03</span><span class="faq-q">Why did you build this?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">03</span><span class="faq-q">Why did you build this?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">I believe every student deserves a real shot at understanding the material, not just the ones who can afford a tutor or happen to have a great class. Once I worked through these courses and figured out what it actually takes, putting it somewhere anyone could access it felt like the obvious thing to do. Equal access matters.</div>
       </details>
 
@@ -156,17 +246,17 @@
     <div class="faq-list">
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">04</span><span class="faq-q">Is it really free?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">04</span><span class="faq-q">Is it really free?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">Yes, completely. No login, no paywall, no hidden cost anywhere on the site. The videos, problem sets, and guides are all free and always will be. This site is funded by my own time, not by ads or sponsorships. The only optional thing is a $30 donation to the Pleasanton Library if you book a 1-on-1 session, and even that is not required.</div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">05</span><span class="faq-q">What courses are covered?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">05</span><span class="faq-q">What courses are covered?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">Physics is where it starts. Unit 1 is live right now with videos and practice PDFs for Honors, AP Physics 1, and AP Physics 2, and new content goes up constantly. Honors Precalculus is in active production. This site grows every week, and everything I've earned straight A's in is on the way.</div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-num">06</span><span class="faq-q">What about 1-on-1 sessions?</span><span class="faq-toggle">+</span></summary>
+        <summary><span class="faq-num">06</span><span class="faq-q">What about 1-on-1 sessions?</span><span class="faq-toggle"></span></summary>
         <div class="faq-a">Optional live sessions are available separately from the free content: 60 minutes, your question, my full attention. A $30 donation to the Pleasanton Library is strongly encouraged as a way to give back to the community, but the session itself is free regardless. <a href="book.html">Book a session →</a></div>
       </details>
 
@@ -187,6 +277,38 @@
 <script>
   const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:0.07});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+<script>
+  document.querySelectorAll('.faq-item').forEach(el => {
+    const summary = el.querySelector('summary');
+    const body = el.querySelector('.faq-a');
+    let busy = false;
+    summary.addEventListener('click', e => {
+      e.preventDefault();
+      if (busy) return;
+      busy = true;
+      if (el.open) {
+        const h = body.scrollHeight;
+        body.style.cssText = `max-height:${h}px;overflow:hidden;opacity:1;`;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          body.style.transition = 'max-height 0.4s var(--ease),opacity 0.3s';
+          body.style.maxHeight = '0';
+          body.style.opacity = '0';
+        }));
+        setTimeout(() => { el.open = false; body.removeAttribute('style'); busy = false; }, 430);
+      } else {
+        el.open = true;
+        const h = body.scrollHeight;
+        body.style.cssText = `max-height:0;overflow:hidden;opacity:0;`;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          body.style.transition = 'max-height 0.46s var(--ease),opacity 0.34s 0.06s';
+          body.style.maxHeight = h + 'px';
+          body.style.opacity = '1';
+        }));
+        setTimeout(() => { body.removeAttribute('style'); busy = false; }, 500);
+      }
+    });
+  });
 </script>
 </body>
 </html>

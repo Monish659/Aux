@@ -311,6 +311,18 @@
     /* CTA AURORA backdrop */
     .cta-band::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,0,100,.05) 0%,rgba(0,255,180,.07) 25%,rgba(0,100,255,.06) 50%,rgba(150,0,255,.06) 75%,rgba(255,80,0,.05) 100%);background-size:100% 400%;animation:auroraShift 12s ease-in-out infinite;pointer-events:none;z-index:0;mix-blend-mode:screen;}
     @keyframes auroraShift{0%{background-position:0% 0%;filter:hue-rotate(0deg);}50%{background-position:0% 100%;filter:hue-rotate(200deg);}100%{background-position:0% 0%;filter:hue-rotate(360deg);}}
+    .faq-section{padding:6rem 2rem;}
+    .faq-wrap{max-width:720px;margin:0 auto;}
+    .faq-list{display:flex;flex-direction:column;gap:0.65rem;margin-top:2.5rem;}
+    .faq-item{background:rgba(255,253,248,0.85);border:1px solid rgba(60,30,5,0.1);border-radius:14px;overflow:hidden;transition:border-color 0.22s,box-shadow 0.22s;}
+    .faq-item[open]{border-color:rgba(29,78,216,0.22);box-shadow:0 6px 24px rgba(29,78,216,0.08);}
+    .faq-item summary{padding:1.2rem 1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;list-style:none;user-select:none;}
+    .faq-item summary::-webkit-details-marker{display:none;}
+    .faq-q{font-family:var(--serif);font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.3;}
+    .faq-toggle{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(60,30,5,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;line-height:1;color:var(--ink-muted);transition:transform 0.25s var(--ease),border-color 0.2s,background 0.2s,color 0.2s;}
+    .faq-item[open] .faq-toggle{transform:rotate(45deg);border-color:rgba(29,78,216,0.35);background:rgba(29,78,216,0.07);color:var(--blue);}
+    .faq-a{padding:0 1.5rem 1.3rem;font-size:0.94rem;line-height:1.78;color:var(--ink-muted);}
+    .faq-a a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
 
   </style>
 </head>
@@ -411,6 +423,42 @@
         <div class="course-footer"><span class="course-meta">Coming soon</span><span class="course-arrow">↗</span></div>
       </a>
       <div class="course-card soon-card reveal"><span>More subjects coming.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section layer" id="faq">
+  <div class="faq-wrap">
+    <p class="eyebrow reveal">FAQ</p>
+    <h2 class="section-title reveal">Questions answered.</h2>
+    <div class="faq-list">
+
+      <details class="faq-item reveal">
+        <summary><span class="faq-q">Who built this?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">My name is Monish Reddy. I'm a rising junior and a high school student in Pleasanton, California. I built this entirely on my own — no formal teaching background, just direct experience taking these exact courses and going deep until everything clicked. I also tutor on <a href="https://schoolhouse.world" target="_blank" rel="noopener">Schoolhouse.world</a>, a free nonprofit peer-tutoring platform, where I have verified reviews from students I've worked with.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary><span class="faq-q">Is it really free?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">Yes, completely. No login, no paywall, no hidden cost anywhere on the site. The videos, problem sets, and guides are all free and always will be. This site is funded by my own time, not by ads or sponsorships. The only optional thing is a $30 donation to the Pleasanton Library if you book a 1-on-1 session — and even that is not required.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary><span class="faq-q">Are you a teacher? Do you have formal credentials?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">No formal credentials. I'm a student, not a teacher. Everything here comes from taking these exact classes myself, earning straight A's, and figuring out what actually needs to click for the material to make sense. That student perspective is the point — I know where it gets hard because I was there.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary><span class="faq-q">What about 1-on-1 sessions?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">Optional live sessions are available separately from the free content — 60 minutes, your question, my full attention. A $30 donation to the Pleasanton Library is strongly encouraged as a way to give back to the community, but the session itself is free regardless. <a href="book.html">Book a session →</a></div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary><span class="faq-q">Why did you build this?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">I believe every student deserves a real shot at understanding the material — not just the ones who can afford a tutor or happen to have a great class. Once I worked through these courses and figured out what it actually takes, putting it somewhere anyone could access it felt like the obvious thing to do. Equal access matters.</div>
+      </details>
+
     </div>
   </div>
 </section>

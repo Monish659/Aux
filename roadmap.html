@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Roadmap | AUX</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z002SFGBF2"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Z002SFGBF2');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --ink:#0a0604;--ink-soft:#231a12;--ink-muted:#5d4d40;
+      --orange:#8b3f0a;--orange-mid:#9d4a0f;--amber:#b85200;--amber-light:#d4701a;
+      --cream:#f5f0eb;
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Outfit',system-ui,sans-serif;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:#ddd8d2;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    #bgCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
+    #shardCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;}
+    .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/%3E%3C/filter%3E%3Crect width='512' height='512' fill='%23000' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");}
+    .layer{position:relative;z-index:3;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:66px;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(221,216,210,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(139,63,10,0.08);transition:height 0.35s var(--ease),box-shadow 0.3s;}
+    nav.scrolled{height:52px;box-shadow:0 4px 24px rgba(0,0,0,0.07);}
+    .nav-brand{display:flex;align-items:center;gap:0.7rem;text-decoration:none;}
+    .bull-logo{width:48px;height:38px;flex-shrink:0;}
+    .nav-wordmark{font-family:var(--serif);font-size:1.5rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:1.75rem;}
+    .nav-links a{font-size:0.84rem;font-weight:500;letter-spacing:0.03em;color:var(--ink-soft);text-decoration:none;padding:0.45rem 0.65rem;border-radius:10px;transition:color 0.25s,background 0.25s;}
+    .nav-links a:hover{color:var(--orange);background:rgba(139,63,10,0.1);}
+    .nav-links a:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:10px;}
+    .nav-links a.active{color:var(--orange);background:rgba(184,82,0,0.08);}
+    .nav-book{background:var(--ink)!important;color:var(--cream)!important;padding:0.5rem 1.25rem!important;border-radius:100px!important;font-size:0.82rem!important;font-weight:600!important;box-shadow:0 2px 10px rgba(0,0,0,0.12);transition:background 0.25s,transform 0.2s,box-shadow 0.25s!important;}
+    .nav-book:hover{background:var(--orange)!important;transform:translateY(-2px)!important;box-shadow:0 6px 20px rgba(139,63,10,0.28)!important;}
+    .nav-book:focus-visible{outline:2px solid var(--amber)!important;outline-offset:3px;}
+
+    /* HERO */
+    .rm-hero{padding:8.5rem 2rem 3.5rem;text-align:center;position:relative;}
+    .rm-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange-mid);margin-bottom:1rem;}
+    .rm-title{font-family:var(--serif);font-size:clamp(2.8rem,6vw,4.8rem);font-weight:600;line-height:1.06;letter-spacing:-0.022em;color:var(--ink);margin-bottom:0.9rem;}
+    .rm-title em{font-style:italic;color:var(--amber);}
+    .rm-sub{font-size:0.97rem;font-weight:300;color:var(--ink-muted);max-width:460px;margin:0 auto;line-height:1.75;}
+    .rm-rule{width:44px;height:2.5px;background:linear-gradient(90deg,var(--orange),var(--amber));border-radius:2px;margin:1.5rem auto 0;}
+
+    /* BODY */
+    .rm-body{padding:2.5rem 2rem 7rem;}
+    .rm-wrap{max-width:760px;margin:0 auto;}
+
+    /* PROGRESS CARD */
+    .rm-progress-card{
+      background:rgba(245,240,235,0.85);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(139,63,10,0.16);
+      border-radius:22px;
+      padding:2rem 2.25rem;
+      margin-bottom:3.75rem;
+      box-shadow:0 2px 16px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+    .rm-prog-row{display:flex;align-items:baseline;gap:0.75rem 2rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+    .rm-prog-stat{display:flex;align-items:baseline;gap:0.4rem;}
+    .rm-prog-num{font-family:var(--serif);font-size:3rem;font-weight:600;line-height:1;color:var(--ink);}
+    .rm-prog-denom{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--ink-muted);}
+    .rm-prog-label{font-size:0.82rem;font-weight:400;color:var(--ink-muted);letter-spacing:0.02em;align-self:center;}
+    .rm-prog-bar-track{height:5px;background:rgba(139,63,10,0.1);border-radius:100px;overflow:hidden;margin-bottom:0.9rem;}
+    .rm-prog-bar{height:100%;background:linear-gradient(90deg,var(--orange),var(--amber-light));border-radius:100px;width:0;transition:width 1.4s var(--ease);}
+    .rm-prog-note{font-size:0.81rem;color:var(--ink-muted);line-height:1.55;}
+    .rm-prog-note strong{color:var(--orange-mid);font-weight:500;}
+
+    /* SUBJECT BLOCK */
+    .rm-subject{margin-bottom:4rem;}
+    .rm-subject:last-child{margin-bottom:0;}
+    .rm-subject-head{display:flex;align-items:center;gap:0.85rem;margin-bottom:1.75rem;}
+    .rm-subject-icon{font-size:1.3rem;line-height:1;}
+    .rm-subject-name{font-family:var(--serif);font-size:1.55rem;font-weight:600;color:var(--ink);letter-spacing:-0.016em;}
+    .rm-subject-divider{flex:1;height:1px;background:rgba(139,63,10,0.12);}
+    .rm-subject-badge{font-size:0.61rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.22rem 0.72rem;border-radius:100px;white-space:nowrap;}
+    .badge-live-sub{color:var(--orange);background:rgba(184,82,0,0.09);border:1px solid rgba(184,82,0,0.2);}
+    .badge-dev-sub{color:#6d5520;background:rgba(160,120,30,0.08);border:1px solid rgba(160,120,30,0.2);}
+
+    /* TIMELINE */
+    .tl-track{position:relative;}
+    .tl-track::before{
+      content:'';position:absolute;
+      left:8px;top:14px;bottom:14px;width:1.5px;
+      background:linear-gradient(to bottom,rgba(184,82,0,0.42) 0%,rgba(184,82,0,0.04) 100%);
+    }
+    .tl-group{margin-bottom:2.1rem;}
+    .tl-group:last-child{margin-bottom:0;}
+    .tl-group-label{
+      font-size:0.62rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;
+      color:var(--orange-mid);margin-bottom:0.7rem;
+      display:flex;align-items:center;gap:0.5rem;
+      padding-left:calc(18px + 1.3rem);
+    }
+    .tl-group-label::after{content:'';flex:1;height:1px;background:rgba(139,63,10,0.1);}
+
+    /* NODE */
+    .tl-node{
+      display:grid;grid-template-columns:18px 1fr;gap:1.3rem;
+      margin-bottom:0.75rem;
+      transition:opacity 0.25s,filter 0.25s;
+    }
+    .tl-node.planned{opacity:0.58;filter:grayscale(0.12);}
+    .tl-node.planned:hover{opacity:0.82;filter:none;}
+
+    /* DOT */
+    .tl-dot{
+      width:14px;height:14px;border-radius:50%;
+      justify-self:center;margin-top:1.1rem;
+      position:relative;z-index:1;
+      border:2px solid rgba(139,63,10,0.18);background:#ddd8d2;
+      transition:background 0.3s,border-color 0.3s,box-shadow 0.3s;
+    }
+    .tl-node.live .tl-dot{
+      background:var(--amber);border-color:var(--amber);
+      box-shadow:0 0 8px rgba(184,82,0,0.42);
+    }
+    .tl-node.current .tl-dot{
+      width:18px;height:18px;margin-top:0.98rem;
+      background:var(--orange);border-color:var(--orange);
+      box-shadow:0 0 0 5px rgba(184,82,0,0.12),0 0 22px rgba(184,82,0,0.55);
+      animation:nodeGlow 2.6s ease-in-out infinite;
+    }
+    @keyframes nodeGlow{
+      0%,100%{box-shadow:0 0 0 4px rgba(184,82,0,0.1),0 0 18px rgba(184,82,0,0.45);}
+      50%{box-shadow:0 0 0 10px rgba(184,82,0,0.06),0 0 40px rgba(184,82,0,0.72);}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .tl-node.current .tl-dot{animation:none;box-shadow:0 0 0 4px rgba(184,82,0,0.12),0 0 18px rgba(184,82,0,0.5);}
+    }
+
+    /* CARD */
+    .tl-card{
+      background:rgba(245,240,235,0.62);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(139,63,10,0.1);border-radius:14px;
+      padding:1rem 1.35rem;
+      transition:transform 0.22s var(--ease),box-shadow 0.22s,border-color 0.22s;
+    }
+    .tl-node.live .tl-card{background:rgba(245,240,235,0.88);border-color:rgba(184,82,0,0.17);}
+    .tl-node.current .tl-card{
+      background:rgba(245,240,235,0.97);
+      border-color:rgba(184,82,0,0.36);
+      box-shadow:inset 4px 0 0 var(--orange),0 6px 28px rgba(184,82,0,0.14),0 0 0 3px rgba(184,82,0,0.05);
+    }
+    .tl-node:not(.planned):hover .tl-card{transform:translateX(3px);box-shadow:0 4px 16px rgba(0,0,0,0.09);}
+    .tl-node.current:hover .tl-card{
+      transform:translateX(4px);
+      box-shadow:inset 4px 0 0 var(--orange),0 8px 32px rgba(184,82,0,0.18),0 0 0 3px rgba(184,82,0,0.07);
+    }
+
+    /* CARD INTERIOR */
+    .tl-card-head{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;margin-bottom:0.28rem;flex-wrap:wrap;}
+    .tl-unit-id{font-family:var(--serif);font-size:0.8rem;font-weight:600;color:var(--ink-muted);letter-spacing:0.04em;}
+    .tl-badge{font-size:0.59rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.18rem 0.6rem;border-radius:100px;white-space:nowrap;}
+    .badge-live{color:var(--orange);background:rgba(184,82,0,0.1);border:1px solid rgba(184,82,0,0.22);}
+    .badge-planned{color:var(--ink-muted);background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.1);}
+    .badge-dev{color:#6d5520;background:rgba(160,120,30,0.09);border:1px solid rgba(160,120,30,0.22);}
+    .tl-unit-name{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.24;margin-bottom:0.28rem;letter-spacing:-0.01em;}
+    .tl-unit-desc{font-size:0.81rem;color:var(--ink-muted);line-height:1.6;}
+    .tl-unit-link{
+      display:inline-flex;align-items:center;gap:0.38rem;margin-top:0.6rem;
+      font-size:0.8rem;font-weight:500;color:var(--orange-mid);text-decoration:none;
+      transition:color 0.2s,gap 0.2s;
+    }
+    .tl-unit-link:hover{color:var(--orange);gap:0.56rem;}
+    .tl-unit-link:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px;}
+
+    /* "HERE NOW" BADGE */
+    .tl-here-badge{
+      display:inline-flex;align-items:center;gap:0.38rem;
+      margin-top:0.6rem;
+      font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+      color:var(--orange);background:rgba(184,82,0,0.09);
+      border:1px solid rgba(184,82,0,0.22);border-radius:100px;
+      padding:0.22rem 0.68rem;
+    }
+    .tl-here-dot{width:5px;height:5px;background:var(--orange);border-radius:50%;animation:breathe 2.1s ease-in-out infinite;flex-shrink:0;}
+    @keyframes breathe{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);}}
+    @media(prefers-reduced-motion:reduce){.tl-here-dot{animation:none;}}
+
+    /* FOOTER */
+    footer{padding:2rem 2.5rem;border-top:1px solid rgba(139,63,10,0.12);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(221,216,210,0.94);backdrop-filter:blur(12px);}
+    .footer-brand{display:flex;align-items:center;gap:0.5rem;font-family:var(--serif);font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
+    .footer-logo{width:28px;height:22px;flex-shrink:0;object-fit:contain;}
+    .footer-note{font-size:0.77rem;color:var(--ink-muted);}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.62s var(--ease),transform 0.62s var(--ease);}
+    .reveal.in{opacity:1;transform:none;}
+
+    @media(max-width:720px){
+      .nav-links li:not(:last-child){display:none;}
+      .rm-hero{padding:7.5rem 1.5rem 3rem;}
+      .rm-body{padding:2rem 1.5rem 5rem;}
+      .rm-progress-card{padding:1.5rem 1.35rem;}
+      .tl-unit-name{font-size:1rem;}
+      .tl-card{padding:0.85rem 1rem;}
+    }
+  </style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<canvas id="shardCanvas"></canvas>
+<div class="grain"></div>
+
+<nav class="layer">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.svg" alt="AUX Logo" class="bull-logo"/>
+    <span class="nav-wordmark">AUX</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#courses">Courses</a></li>
+    <li><a href="start-here.html">Start Here</a></li>
+    <li><a href="roadmap.html" class="active">Roadmap</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="book.html" class="nav-book">Book a session</a></li>
+  </ul>
+</nav>
+
+<section class="rm-hero layer">
+  <p class="rm-eyebrow reveal">AUX / Roadmap</p>
+  <h1 class="rm-title reveal">Every unit. <em>Every status.</em></h1>
+  <p class="rm-sub reveal">The full curriculum in order, with an honest view of what is live and what is coming.</p>
+  <div class="rm-rule reveal"></div>
+</section>
+
+<section class="rm-body layer">
+  <div class="rm-wrap">
+
+    <!-- PROGRESS OVERVIEW -->
+    <div class="rm-progress-card reveal">
+      <div class="rm-prog-row">
+        <div class="rm-prog-stat">
+          <div class="rm-prog-num">2</div>
+          <div class="rm-prog-denom">/ 16</div>
+        </div>
+        <div class="rm-prog-label">Physics units live · actively building</div>
+      </div>
+      <div class="rm-prog-bar-track">
+        <div class="rm-prog-bar" data-target="12.5"></div>
+      </div>
+      <div class="rm-prog-note">New content added regularly · <strong>Precalculus in development</strong></div>
+    </div>
+
+    <!-- PHYSICS -->
+    <div class="rm-subject reveal">
+      <div class="rm-subject-head">
+        <span class="rm-subject-icon">⚡</span>
+        <span class="rm-subject-name">Physics</span>
+        <div class="rm-subject-divider"></div>
+        <span class="rm-subject-badge badge-live-sub">2 units live</span>
+      </div>
+
+      <div class="tl-track">
+
+        <!-- 1 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 1 · Introduction to Physics</div>
+
+          <div class="tl-node live reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head">
+                <span class="tl-unit-id">1.1</span>
+                <span class="tl-badge badge-live">Live</span>
+              </div>
+              <div class="tl-unit-name">Units and Conversions</div>
+              <div class="tl-unit-desc">Dimensional analysis, SI units, conversion chains, and significant figures.</div>
+              <a href="courses/physics/index.html" class="tl-unit-link">View content →</a>
+            </div>
+          </div>
+
+          <div class="tl-node live current reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head">
+                <span class="tl-unit-id">1.2</span>
+                <span class="tl-badge badge-live">Live</span>
+              </div>
+              <div class="tl-unit-name">Scientific Notation</div>
+              <div class="tl-unit-desc">Scientific notation, order of magnitude estimation, and reading unit-based graphs.</div>
+              <a href="courses/physics/index.html" class="tl-unit-link">View content →</a>
+              <div><span class="tl-here-badge"><span class="tl-here-dot"></span>Most recently added</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 2 · Forces and Motion</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">2.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Newton's Laws</div>
+              <div class="tl-unit-desc">The three laws of motion, inertia, net force, and acceleration.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">2.2</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Kinematics and Motion Graphs</div>
+              <div class="tl-unit-desc">Displacement, velocity, and acceleration — graphs, equations, and what they mean.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">2.3</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Newton's Laws and Forces</div>
+              <div class="tl-unit-desc">Applied forces, tension, friction, and normal force in free-body diagrams.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 3 · Forces and Equilibrium</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">3.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Definitions and Calculations</div>
+              <div class="tl-unit-desc">Static equilibrium, torque, and center of mass calculations.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 4 · Energy</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">4.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Energy Definitions and Calculations</div>
+              <div class="tl-unit-desc">Work, kinetic energy, potential energy, and power.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">4.2</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Conservation of Energy</div>
+              <div class="tl-unit-desc">Energy conservation in closed systems, work-energy theorem, and efficiency.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 5 · Momentum</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">5.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Momentum and Impulse</div>
+              <div class="tl-unit-desc">Linear momentum, impulse-momentum theorem, elastic and inelastic collisions.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 6 · Circular Motion and Fields</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">6.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Forces and Circular Motion</div>
+              <div class="tl-unit-desc">Centripetal force, uniform circular motion, and gravitational fields.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">6.2</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Fields</div>
+              <div class="tl-unit-desc">Gravitational and electric field diagrams, field strength, and potential.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 7 · Electricity</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">7.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Ohm's Law and Circuits</div>
+              <div class="tl-unit-desc">Voltage, current, resistance, and series/parallel circuit analysis.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">7.2</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Power, Capacitance, and Advanced Components</div>
+              <div class="tl-unit-desc">Electrical power, capacitors, inductors, and advanced circuit behavior.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 8 · Electromagnetism</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">8.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Electromagnetism</div>
+              <div class="tl-unit-desc">Magnetic fields, electromagnetic induction, and Faraday's law.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="tl-group">
+          <div class="tl-group-label">Unit 9 · Waves and Light</div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">9.1</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Waves and Sound</div>
+              <div class="tl-unit-desc">Wave properties, interference, resonance, and sound wave behavior.</div>
+            </div>
+          </div>
+
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head"><span class="tl-unit-id">9.2</span><span class="tl-badge badge-planned">Planned</span></div>
+              <div class="tl-unit-name">Light and Color</div>
+              <div class="tl-unit-desc">Reflection, refraction, color dispersion, and the electromagnetic spectrum.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.tl-track -->
+    </div><!-- /.rm-subject Physics -->
+
+    <!-- PRECALCULUS -->
+    <div class="rm-subject reveal">
+      <div class="rm-subject-head">
+        <span class="rm-subject-icon">📐</span>
+        <span class="rm-subject-name">Honors Precalculus</span>
+        <div class="rm-subject-divider"></div>
+        <span class="rm-subject-badge badge-dev-sub">In Development</span>
+      </div>
+      <div class="tl-track">
+        <div class="tl-group">
+          <div class="tl-group-label">Full Curriculum · Detailed units coming soon</div>
+          <div class="tl-node planned reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-head">
+                <span class="tl-unit-id">Precalculus</span>
+                <span class="tl-badge badge-dev">In Development</span>
+              </div>
+              <div class="tl-unit-name">Honors Precalculus</div>
+              <div class="tl-unit-desc">Functions, trigonometry, conic sections, and limits. Built the same way as Physics. Individual unit pages will appear here once Physics Unit 1 is fully complete.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.rm-subject Precalc -->
+
+  </div><!-- /.rm-wrap -->
+</section>
+
+<footer class="layer">
+  <div class="footer-brand">
+    <img src="logo.svg" alt="AUX Logo" class="footer-logo"/>
+    <span>AUX</span>
+  </div>
+  <div class="footer-note">© 2026 AUX · Free student resources</div>
+</footer>
+
+<script src="bg.js?v=11"></script>
+<script>initBg('bgCanvas','shardCanvas','amber');</script>
+<script>
+(function(){
+  // Reveal on scroll
+  const io=new IntersectionObserver(e=>e.forEach(x=>{
+    if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}
+  }),{threshold:0.07,rootMargin:'0px 0px -24px 0px'});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay=(i%5)*0.065+'s';
+    io.observe(el);
+  });
+
+  // Animate progress bar when visible
+  const bar=document.querySelector('.rm-prog-bar');
+  if(bar){
+    const target=parseFloat(bar.dataset.target)||0;
+    const barObs=new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting){
+        setTimeout(()=>{bar.style.width=target+'%';},150);
+        barObs.disconnect();
+      }
+    },{threshold:0.5});
+    barObs.observe(bar);
+  }
+
+  // Nav shrink
+  const nav=document.querySelector('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
+
+  // Page fade
+  document.body.style.opacity='0';
+  requestAnimationFrame(()=>{
+    document.body.style.transition='opacity 0.38s ease';
+    requestAnimationFrame(()=>{document.body.style.opacity='1';});
+  });
+  let going=false;
+  document.querySelectorAll('a[href]').forEach(link=>{
+    if(link.target||!link.href)return;
+    try{
+      const u=new URL(link.href,location.href);
+      if(u.hostname!==location.hostname)return;
+      if(u.hash&&u.pathname===location.pathname)return;
+    }catch{return;}
+    link.addEventListener('click',e=>{
+      if(going||e.defaultPrevented||e.metaKey||e.ctrlKey)return;
+      going=true;e.preventDefault();
+      document.body.style.transition='opacity 0.25s ease';
+      document.body.style.opacity='0';
+      setTimeout(()=>window.location.href=link.href,265);
+    });
+  });
+})();
+</script>
+</body>
+</html>

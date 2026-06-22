@@ -538,6 +538,7 @@
     requestAnimationFrame(()=>{document.body.style.opacity='1';});
   });
   let going=false;
+  window.addEventListener('pageshow',e=>{if(e.persisted){going=false;document.body.style.transition='opacity 0.38s ease';document.body.style.opacity='1';}});
   document.querySelectorAll('a[href]').forEach(link=>{
     if(link.target||!link.href)return;
     try{

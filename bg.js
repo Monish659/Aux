@@ -1,5 +1,5 @@
 // AUX — shared background engine
-// initBg('bgCanvasId', 'shardCanvasId', 'amber' | 'blue' | 'violet' | 'rose' | 'teal' | 'purple' | 'indigo')
+// initBg('bgCanvasId', 'shardCanvasId', 'amber' | 'blue' | 'violet' | 'rose' | 'teal' | 'purple' | 'indigo' | 'midnight')
 function initBg(bgId, shardId, palette) {
   const palettes = {
     amber: {
@@ -112,6 +112,22 @@ function initBg(bgId, shardId, palette) {
         {f:[55,48,163], s:[138,105,248],  fw:0.18, sw:1.0, lw:1.2},
         {f:[99,102,241],s:[200,183,252],  fw:0.10, sw:1.5, lw:0.8},
         {f:[200,183,252],s:[237,233,254], fw:0.06, sw:2.1, lw:1.6},
+      ],
+    },
+    midnight: {
+      bgBase: '#100e0c',
+      coreStops:[
+        [0,'rgba(255,200,80,0.09)'],[0.14,'rgba(220,160,50,0.06)'],
+        [0.30,'rgba(180,120,20,0.04)'],[0.50,'rgba(120,75,10,0.02)'],
+        [0.72,'rgba(60,35,5,0.01)'],[0.90,'rgba(20,10,0,0)'],
+        [1,'rgba(0,0,0,0)'],
+      ],
+      lines:[{r:'255,255,255',g:'255,215,120',b:'212,160,60'},{r:'180,120,30',g:'150,95,15',b:'110,65,5'},{r:'70,40,5',g:'50,28,2',b:'30,16,0'}],
+      vig:['rgba(255,200,80,0)','rgba(80,45,5,0.06)','rgba(15,8,0,0.45)','rgba(4,2,0,0.80)'],
+      shard:[
+        {f:[212,160,60],  s:[255,220,130], fw:0.18, sw:1.0, lw:1.2},
+        {f:[170,115,25],  s:[235,185,80],  fw:0.10, sw:1.5, lw:0.8},
+        {f:[255,200,90],  s:[255,245,200], fw:0.07, sw:2.1, lw:1.6},
       ],
     },
   };

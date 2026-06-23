@@ -277,8 +277,8 @@
         <div class="price-info">
           <div class="price-label">Strongly recommended</div>
           <div class="price-amount">$30 donation</div>
-          <div class="price-note">This site is free. Sessions are free. If you want to give something back, consider donating $30 to the <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener">Friends of the Pleasanton Library</a>, a nonprofit that keeps free resources in the community. Not required, but it means a lot.</div>
-          <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener" class="donation-link">Donate to Pleasanton Library →</a>
+          <div class="price-note">This site is free. Sessions are free. If you want to give something back, consider donating $30 to the <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener" onclick="gtag('event','library_donation_click',{link:'inline_text'})">Friends of the Pleasanton Library</a>, a nonprofit that keeps free resources in the community. Not required, but it means a lot.</div>
+          <a href="https://greatnonprofits.org/org/friends-of-the-pleasanton-library" target="_blank" rel="noopener" class="donation-link" onclick="gtag('event','library_donation_click',{link:'button'})">Donate to Pleasanton Library →</a>
         </div>
         <button type="submit" class="btn-book">Book your session →</button>
       </form>

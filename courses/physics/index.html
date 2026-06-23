@@ -130,19 +130,6 @@
     .video-title{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:0.3rem;line-height:1.3;}
     .video-meta{font-size:0.72rem;color:var(--ink-muted);}
 
-    /* TEST PREP */
-    .testprep-section{padding:5rem 0;}
-    .testprep-card{background:rgba(10,15,26,0.93);border:1px solid rgba(59,130,246,0.25);border-radius:20px;padding:2.5rem;color:#e8f0ff;position:relative;overflow:hidden;}
-    .testprep-card::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 65%);pointer-events:none;}
-    .testprep-eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:1rem;}
-    .testprep-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;line-height:1.2;margin-bottom:1rem;color:#e8f0ff;}
-    .testprep-title em{font-style:italic;color:var(--blue-light);}
-    .testprep-body{font-size:0.94rem;font-weight:300;color:rgba(232,240,255,0.65);line-height:1.78;margin-bottom:1.75rem;}
-    .testprep-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.85rem;}
-    .testprep-item{background:rgba(59,130,246,0.09);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:1.1rem 1.25rem;}
-    .testprep-item-title{font-size:0.88rem;font-weight:500;color:#e8f0ff;margin-bottom:0.3rem;}
-    .testprep-item-desc{font-size:0.78rem;color:rgba(232,240,255,0.55);line-height:1.5;}
-
     /* PDFs */
     .pdfs-section{padding:5rem 0;}
     .pdfs-coming{display:flex;align-items:flex-start;gap:1.5rem;background:rgba(245,250,255,0.7);border:1.5px dashed rgba(29,78,216,0.2);border-radius:16px;padding:2rem 2.25rem;}
@@ -158,15 +145,13 @@
     .reveal{opacity:0;transform:translateY(28px) scale(0.985);filter:blur(5px);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease),filter 0.9s var(--ease);}
     .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @media(max-width:720px){.testprep-items{grid-template-columns:1fr;}.video-grid{grid-template-columns:1fr;}}
+    @media(max-width:720px){.video-grid{grid-template-columns:1fr;}}
 
     /* SCROLL PROGRESS — rainbow */
     #aux-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff006a,#ff6d00,#ffde00,#00ff87,#00caff,#7b2fff,#ff006a);background-size:200% 100%;z-index:500;pointer-events:none;transition:width 0.08s linear;animation:rainbowBar 3s linear infinite;}
     @keyframes rainbowBar{to{background-position:200% 0%;}}
 
     /* ANIMATED GLOW */
-    @keyframes testprepGlow{0%,100%{box-shadow:0 0 0 1px rgba(59,130,246,0.25),0 20px 60px rgba(0,0,0,0.28),inset 0 0 30px rgba(59,130,246,0.04);}50%{box-shadow:0 0 0 1px rgba(59,130,246,0.55),0 20px 60px rgba(0,0,0,0.35),inset 0 0 40px rgba(59,130,246,0.10);}}
-    .testprep-card{animation:testprepGlow 4.5s ease-in-out infinite;}
     .unit-card:hover{box-shadow:0 0 0 1px rgba(29,78,216,0.2),0 8px 30px rgba(29,78,216,0.1);}
 
     /* CURSOR SPOTLIGHT */
@@ -198,12 +183,6 @@
     .unit-card:hover::after,.unit-card.open::after{opacity:1;animation:rotateBorderUnit 2.2s linear infinite;}
     @keyframes rotateBorderUnit{to{--u-angle:360deg;}}
 
-    /* TESTPREP CARD holographic foil */
-    @property --tp-deg{syntax:'<angle>';initial-value:135deg;inherits:false;}
-    @keyframes holoGlow{0%,100%{filter:brightness(1) saturate(1.2);}50%{filter:brightness(1.35) saturate(1.9);}}
-    .testprep-card{overflow:hidden;}
-    .testprep-card::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(var(--tp-deg,135deg),transparent 0%,rgba(255,0,120,.1) 16%,rgba(255,200,0,.1) 30%,rgba(0,255,120,.1) 45%,rgba(0,160,255,.1) 60%,rgba(200,0,255,.1) 74%,transparent 92%);mix-blend-mode:screen;opacity:.3;pointer-events:none;z-index:2;animation:holoGlow 3.5s ease-in-out infinite;transition:opacity .4s;}
-    .testprep-card:hover::after{opacity:.55;animation:holoGlow 1.8s ease-in-out infinite;}
 
     /* EYEBROW LINE ANIMATE IN */
     .eyebrow::before{content:'';display:inline-block;width:0;height:1.5px;background:var(--blue-mid);vertical-align:middle;margin-right:0;border-radius:2px;transition:width .55s var(--ease) .2s,margin-right .4s ease .32s;}
@@ -237,7 +216,6 @@
     <p class="course-sub">Videos and problem sets for every unit. Plus the question types nobody warned you were going to be on the test.</p>
     <div class="course-actions">
       <a href="#units" class="btn-course">Jump to units →</a>
-      <a href="#testprep" class="btn-ghost">Test prep section</a>
     </div>
   </div>
 </section>
@@ -650,21 +628,6 @@
   </div>
 </section>
 
-<section class="layer testprep-section" id="testprep">
-  <div class="content-wrap">
-    <div class="testprep-card reveal">
-      <div class="testprep-eyebrow">⚡ Test Prep</div>
-      <h2 class="testprep-title">The question types that <em>actually show up.</em></h2>
-      <p class="testprep-body">These problems show up on every test. They are not in most textbooks. I tracked the patterns. Here are the walkthroughs.</p>
-      <div class="testprep-items">
-        <div class="testprep-item"><div class="testprep-item-title">Multi-step Projectile</div><div class="testprep-item-desc">Launching from a height with non-standard angles, the kind that need two phases to solve.</div></div>
-        <div class="testprep-item"><div class="testprep-item-title">Atwood's Machine Variations</div><div class="testprep-item-desc">Pulley problems with added friction, inclines, or three-mass systems.</div></div>
-        <div class="testprep-item"><div class="testprep-item-title">Energy with Friction Path</div><div class="testprep-item-desc">Conservation of energy when friction is doing work, the part that gets left out of most notes.</div></div>
-        <div class="testprep-item"><div class="testprep-item-title">Wave Superposition</div><div class="testprep-item-desc">Constructive and destructive interference drawn and calculated at the same time.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <footer class="layer">
@@ -822,24 +785,6 @@
     });
   });
 
-  // Testprep card 3D tilt + holographic foil
-  const tpCard=document.querySelector('.testprep-card');
-  if(tpCard){
-    tpCard.parentElement.style.perspective='900px';
-    tpCard.style.transformStyle='preserve-3d';
-    tpCard.addEventListener('mousemove',e=>{
-      const r=tpCard.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-0.5;
-      const y=(e.clientY-r.top)/r.height-0.5;
-      tpCard.style.transition='transform 0.06s ease';
-      tpCard.style.transform=`rotateX(${-y*7}deg) rotateY(${x*7}deg) scale(1.015)`;
-      tpCard.style.setProperty('--tp-deg',(Math.atan2(y,x)*180/Math.PI+180)+'deg');
-    });
-    tpCard.addEventListener('mouseleave',()=>{
-      tpCard.style.transition='transform 0.5s ease';
-      tpCard.style.transform='';
-    });
-  }
 
   // Escape key closes player
   document.addEventListener('keydown',e=>{

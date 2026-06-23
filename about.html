@@ -8,7 +8,7 @@
   <script data-goatcounter="https://monishreddy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root{
       --ink:#f0ebe2;
@@ -60,8 +60,10 @@
     .about-eyebrow{display:inline-flex;align-items:center;gap:0.55rem;font-size:0.73rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);background:rgba(212,160,74,0.12);border:1px solid var(--border-gold);border-radius:100px;padding:0.5rem 1rem;margin-bottom:2rem;}
     .about-eyebrow-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:breathe 2.2s ease-in-out infinite;flex-shrink:0;}
     @keyframes breathe{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.6);}}
-    .about-name{font-family:var(--serif);font-size:clamp(3.8rem,8vw,7rem);font-weight:600;line-height:0.97;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.8rem;}
-    .about-name em{font-style:italic;color:var(--gold);}
+    .about-name{font-family:'Dancing Script',cursive;font-size:clamp(2.6rem,8vw,6.2rem);font-weight:700;line-height:1.1;letter-spacing:0.01em;color:var(--gold);margin-bottom:1.8rem;white-space:nowrap;clip-path:inset(0 100% 0 0);animation:nameWrite 2.6s ease-out 0.4s forwards,nameGlow 3s ease-in-out 3.2s infinite;}
+    @keyframes nameWrite{0%{clip-path:inset(0 100% 0 0);}100%{clip-path:inset(0 0% 0 0);}}
+    @keyframes nameGlow{0%,100%{text-shadow:0 0 18px rgba(212,160,74,0.45),0 0 36px rgba(212,160,74,0.2);}50%{text-shadow:0 0 28px rgba(212,160,74,0.85),0 0 55px rgba(212,160,74,0.45),0 0 90px rgba(212,160,74,0.18);color:var(--gold-bright);}}
+    @media(max-width:520px){.about-name{white-space:normal;}}
     .about-oneliner{font-size:clamp(1.05rem,1.8vw,1.2rem);font-weight:300;color:var(--ink-soft);line-height:1.85;max-width:490px;}
 
     .about-photo-wrap{display:flex;flex-direction:column;align-items:center;}
@@ -122,11 +124,6 @@
     .review-scroll-hint::after{content:'';flex:0 0 32px;height:1px;background:linear-gradient(to right,rgba(212,160,74,0.4),transparent);}
     @media(max-width:600px){.testimonial-card{flex:0 0 288px;}}
 
-    /* CAUSES */
-    .causes-bar{padding:2rem 0;text-align:center;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);}
-    .causes-bar p{font-size:0.9rem;color:var(--ink-muted);}
-    .causes-bar strong{color:var(--ink-soft);}
-    .causes-bar .cause{color:var(--gold);font-weight:500;}
 
     /* CTA */
     .about-cta{padding:6rem 0 7rem;text-align:center;}
@@ -138,7 +135,6 @@
     .btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,74,0.42);}
     .btn-ghost{display:inline-flex;align-items:center;gap:0.4rem;background:transparent;color:var(--gold);font-family:var(--sans);font-size:0.96rem;font-weight:600;padding:0.85rem 2.1rem;border-radius:100px;border:1.5px solid var(--border-gold);text-decoration:none;transition:border-color 0.22s,background 0.22s,transform 0.2s;}
     .btn-ghost:hover{border-color:var(--gold);background:rgba(212,160,74,0.08);transform:translateY(-2px);}
-    .cta-note{font-size:0.83rem;color:var(--ink-muted);}
 
     /* FOOTER */
     footer{padding:2rem 2.5rem;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(16,14,12,0.92);backdrop-filter:blur(12px);}
@@ -201,7 +197,7 @@
     <div class="about-hero-inner">
       <div class="about-hero-text">
         <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Founder, AUX · CA</div>
-        <h1 class="about-name reveal">Monish<br><em>Reddy Y</em></h1>
+        <h1 class="about-name">Monish Reddy Y</h1>
         <p class="about-oneliner reveal">Builder. Innovator. I don't wait for the right opportunity. I build the thing that becomes one.</p>
       </div>
       <div class="about-photo-wrap">
@@ -289,7 +285,6 @@
 <!-- NARRATIVE -->
 <section class="narrative-section layer">
   <div class="content-wrap">
-    <div class="section-eyebrow reveal">In my own words</div>
     <div class="narrative-inner">
       <p class="narrative-text reveal">I don't build things because someone assigned them to me. Schoolhouse put me in the top 5% of tutors worldwide, not because I followed a curriculum, but because I built my own way of getting an idea across.</p>
       <p class="narrative-text reveal">Knodemy handed me a classroom and a blank curriculum, and I had both running inside a week. AUX is the next version of that instinct. Take something broken or missing, and build the version that should have existed already.</p>
@@ -358,13 +353,6 @@
   </div>
 </section>
 
-<!-- CAUSES -->
-<div class="causes-bar layer">
-  <div class="content-wrap">
-    <p><strong>Causes I care about:</strong>&ensp;<span class="cause">Education</span>&ensp;·&ensp;<span class="cause">Science &amp; Technology</span>&ensp;·&ensp;<span class="cause">Children</span></p>
-  </div>
-</div>
-
 <!-- CTA -->
 <section class="about-cta layer">
   <div class="content-wrap">
@@ -374,7 +362,6 @@
       <a href="index.html" class="btn-gold">Explore AUX →</a>
       <a href="book.html" class="btn-ghost">Book a session</a>
     </div>
-    <p class="cta-note reveal">Available for tutoring and coding help — contact for pricing.</p>
   </div>
 </section>
 

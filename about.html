@@ -106,13 +106,21 @@
     .skill-tag:hover{border-color:var(--border-gold);color:var(--gold);background:rgba(212,160,74,0.08);}
 
     /* TESTIMONIALS */
-    .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-    .testimonial-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.25rem 2rem;transition:border-color 0.25s,background 0.25s;}
-    .testimonial-card:hover{border-color:rgba(212,160,74,0.22);background:var(--surface-hover);}
+    .review-bar-outer{position:relative;}
+    .review-bar{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1.25rem;scrollbar-width:thin;scrollbar-color:rgba(212,160,74,0.35) rgba(255,255,255,0.05);}
+    .review-bar::-webkit-scrollbar{height:4px;}
+    .review-bar::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);border-radius:2px;}
+    .review-bar::-webkit-scrollbar-thumb{background:rgba(212,160,74,0.35);border-radius:2px;}
+    .review-bar::-webkit-scrollbar-thumb:hover{background:rgba(212,160,74,0.6);}
+    .testimonial-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.25rem 2rem;flex:0 0 340px;scroll-snap-align:start;display:flex;flex-direction:column;transition:border-color 0.25s,background 0.25s;}
+    .testimonial-card:hover{border-color:rgba(212,160,74,0.28);background:var(--surface-hover);}
     .testimonial-mark{font-family:var(--serif);font-size:4rem;line-height:0.85;color:var(--gold);opacity:0.22;margin-bottom:0.5rem;display:block;}
-    .testimonial-quote{font-family:var(--serif);font-size:1.08rem;font-style:italic;color:var(--ink);line-height:1.8;margin-bottom:1.5rem;}
-    .testimonial-attr{font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);}
+    .testimonial-quote{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--ink);line-height:1.8;margin-bottom:1.5rem;flex:1;}
+    .testimonial-attr{font-size:0.73rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);}
     .testimonial-attr::before{content:'— ';}
+    .review-scroll-hint{display:flex;align-items:center;gap:0.5rem;margin-top:0.75rem;font-size:0.73rem;color:var(--ink-muted);letter-spacing:0.06em;}
+    .review-scroll-hint::after{content:'';flex:0 0 32px;height:1px;background:linear-gradient(to right,rgba(212,160,74,0.4),transparent);}
+    @media(max-width:600px){.testimonial-card{flex:0 0 288px;}}
 
     /* CAUSES */
     .causes-bar{padding:2rem 0;text-align:center;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);}
@@ -192,9 +200,9 @@
   <div class="content-wrap">
     <div class="about-hero-inner">
       <div class="about-hero-text">
-        <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Founder, AUX · Pleasanton, CA</div>
+        <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Founder, AUX · CA</div>
         <h1 class="about-name reveal">Monish<br><em>Reddy Y</em></h1>
-        <p class="about-oneliner reveal">Builder. Innovator. I don't wait for the right opportunity — I build the thing that becomes one.</p>
+        <p class="about-oneliner reveal">Builder. Innovator. I don't wait for the right opportunity. I build the thing that becomes one.</p>
       </div>
       <div class="about-photo-wrap">
         <div class="about-photo-placeholder reveal" role="img" aria-label="Monish Reddy Y">
@@ -220,10 +228,8 @@
         <div class="cred-item"><span class="cred-dot"></span>100% mastery certified in 6 math subjects</div>
         <div class="cred-item"><span class="cred-dot"></span>Honors Pre-Calculus · AP World History</div>
         <div class="cred-item"><span class="cred-dot"></span>135 positive ratings · 102 "Super Helpful" marks</div>
-        <div class="cred-item"><span class="cred-dot"></span>National Indian Spelling Bee Winner</div>
         <div class="cred-item"><span class="cred-dot"></span>Varsity Badminton, Foothill HS</div>
-        <div class="cred-item"><span class="cred-dot"></span>Math &amp; Science Olympiad Winner</div>
-        <div class="cred-item"><span class="cred-dot"></span>CalPhin Swimming — completed highest level</div>
+        <div class="cred-item"><span class="cred-dot"></span>CalPhin Swimming, completed highest level</div>
         <div class="cred-item"><span class="cred-dot"></span>Pleasanton Public Library volunteer — Summer Reading Program</div>
       </div>
     </div>
@@ -268,7 +274,7 @@
         <div class="exp-role">IT Intern &amp; Instructor</div>
         <div class="exp-org">Knodemy</div>
         <div class="exp-dates">Jun 2026 – Present</div>
-        <p class="exp-desc">Built a curriculum from scratch and led classrooms of 30+ students in Lua scripting, Roblox game design, and AI concepts — self-taught Lua within the first week to deliver it.</p>
+        <p class="exp-desc">Built a curriculum from scratch and led classrooms of 30+ students in Lua scripting, Roblox game design, and AI concepts. Self-taught Lua within the first week to deliver it.</p>
       </div>
       <div class="exp-card reveal">
         <div class="exp-role">Volunteer Peer Tutor</div>
@@ -286,7 +292,7 @@
     <div class="section-eyebrow reveal">In my own words</div>
     <div class="narrative-inner">
       <p class="narrative-text reveal">I don't build things because someone assigned them to me. Schoolhouse put me in the top 5% of tutors worldwide, not because I followed a curriculum, but because I built my own way of getting an idea across.</p>
-      <p class="narrative-text reveal">Knodemy handed me a classroom and a blank curriculum, and I had both running inside a week. AUX is the next version of that instinct — take something broken or missing, and build the version that should have existed already.</p>
+      <p class="narrative-text reveal">Knodemy handed me a classroom and a blank curriculum, and I had both running inside a week. AUX is the next version of that instinct. Take something broken or missing, and build the version that should have existed already.</p>
     </div>
   </div>
 </section>
@@ -314,22 +320,40 @@
 <section class="about-section layer">
   <div class="content-wrap">
     <div class="section-eyebrow reveal">What students say</div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <span class="testimonial-mark">"</span>
-        <p class="testimonial-quote">The tutor was very nice and instead of telling me the answer he led me to it. He also gave me some strategies that I will use in the future.</p>
-        <div class="testimonial-attr">Schoolhouse.world student</div>
+    <div class="review-bar-outer reveal">
+      <div class="review-bar">
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">I really appreciate all the effort you're putting in and helping solidify our understanding before the school year. Your knowledge and dedication are so apparent, and I feel very lucky to have found this tutorial. Unlike many tutors, you encourage active recall with thoughtful questions and in depth explanations that ensure we truly understand the material. You're awesome! Thank you for everything!</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">Thank you so much for patiently explaining the topic to us! It really helped me understand polynomial functions and how the graphing of the infinity part works (one of my dire weakness). It really is super digestible to listen to you.</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">I just wanted to say a big thank you! You're one of the best tutors I've had. I really appreciate how clearly you explain the concepts and how you take the time to give extra examples to make sure I truly understand. Helping me a lot with growth rate, standard deviation, and other math topics. The support made a big difference in my learning. Thanks for your patience, clarity, and encouragement!</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">I just wanted to take a moment to sincerely thank you for all your help and support, especially with the standard deviation problems and everything else we covered in math. Your explanations made things so much clearer, and your patience really made a difference in how confident I felt approaching the Regents.</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">Monish is a very, very good tutor as he explains not just the "how", but the "why" in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
+        <div class="testimonial-card">
+          <span class="testimonial-mark">"</span>
+          <p class="testimonial-quote">He was super duper nice and even though I am really bad at math he was patient and very interactive to make sure I knew what I was doing. He did not rush me when I asked him questions and answered them all very well. He made sure to congratulate me when I did well, and after the session, I felt really good about this topic even though I was having depressive episodes about it a second ago. Thanks Monish.</p>
+          <div class="testimonial-attr">Schoolhouse.world student</div>
+        </div>
       </div>
-      <div class="testimonial-card reveal">
-        <span class="testimonial-mark">"</span>
-        <p class="testimonial-quote">Your explanations were in-depth, accurate, and easy to understand. I also really liked how you made sure the learner understood the underlying concepts before moving on.</p>
-        <div class="testimonial-attr">Schoolhouse.world student</div>
-      </div>
-      <div class="testimonial-card reveal">
-        <span class="testimonial-mark">"</span>
-        <p class="testimonial-quote">He is by far one of the best tutors on Schoolhouse.</p>
-        <div class="testimonial-attr">Schoolhouse.world student</div>
-      </div>
+      <div class="review-scroll-hint">Scroll to read more</div>
     </div>
   </div>
 </section>

@@ -117,19 +117,21 @@
     .tcard-attr-full{font-size:0.88rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.75;}
     .tcard-attr-full::before{content:'— ';}
     .tcard-of{font-size:0.78rem;color:var(--ink-muted);letter-spacing:0.04em;}
-    /* Fanned hand */
-    .tdeck-hand{position:relative;height:210px;margin-top:2.5rem;}
-    .hcard{position:absolute;bottom:18px;width:88px;height:122px;border-radius:10px;background:rgba(10,8,5,0.94);border:1px solid rgba(212,160,74,0.20);cursor:pointer;overflow:hidden;transform-origin:bottom center;transition:transform 0.32s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.25s;}
-    .hcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,160,74,0.10);border-radius:6px;pointer-events:none;}
-    .hcard-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-family:var(--serif);font-size:2.2rem;color:var(--gold);opacity:0.22;line-height:1;user-select:none;}
-    .hcard-num{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-size:0.68rem;color:var(--gold);opacity:0.28;letter-spacing:0.04em;}
-    .hcard-pip{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--gold);border-radius:1px;opacity:0;transition:opacity 0.25s;}
-    .hcard:hover:not(.active){border-color:rgba(212,160,74,0.5);box-shadow:0 16px 44px rgba(0,0,0,0.7);}
-    .hcard.active{border-color:rgba(212,160,74,0.78);box-shadow:0 0 0 2px rgba(212,160,74,0.22),0 20px 56px rgba(212,160,74,0.22),0 24px 50px rgba(0,0,0,0.65);}
-    .hcard.active .hcard-num{opacity:0.75;}
-    .hcard.active .hcard-pip{opacity:0.85;}
-    .tdeck-hint{margin-top:1rem;font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.06em;text-align:center;}
-    @media(max-width:620px){.tdeck-hand{transform:scale(0.72);transform-origin:bottom center;height:168px;margin-top:0.75rem;}}
+    /* Fanned hand — circular arc */
+    .tdeck-hand{position:relative;height:270px;margin-top:2rem;}
+    .hcard{position:absolute;width:88px;height:124px;border-radius:12px;background:linear-gradient(150deg,rgba(52,40,20,0.98) 0%,rgba(28,21,10,0.99) 100%);border:1.5px solid rgba(212,160,74,0.48);cursor:pointer;overflow:hidden;transition:transform 0.34s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.28s;box-shadow:0 6px 24px rgba(0,0,0,0.75),0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,160,74,0.12);}
+    .hcard::before{content:'';position:absolute;inset:5px;border:1.5px solid rgba(212,160,74,0.22);border-radius:8px;pointer-events:none;}
+    .hcard::after{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(to bottom,rgba(212,160,74,0.07),transparent);pointer-events:none;}
+    .hcard-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-64%);font-family:var(--serif);font-size:3rem;color:var(--gold-bright);opacity:0.6;line-height:1;user-select:none;}
+    .hcard-num{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-size:0.72rem;font-weight:600;color:var(--gold);opacity:0.6;letter-spacing:0.04em;}
+    .hcard-pip{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--gold-bright);border-radius:1px;opacity:0;transition:opacity 0.25s;}
+    .hcard:hover:not(.active){border-color:rgba(212,160,74,0.78);box-shadow:0 20px 50px rgba(0,0,0,0.8),0 0 28px rgba(212,160,74,0.22),inset 0 1px 0 rgba(212,160,74,0.18);}
+    .hcard.active{border-color:rgba(240,200,112,0.92);box-shadow:0 0 0 2px rgba(212,160,74,0.32),0 0 40px rgba(212,160,74,0.48),0 24px 52px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,220,120,0.22);}
+    .hcard.active .hcard-glyph{opacity:0.9;color:var(--gold-bright);}
+    .hcard.active .hcard-num{opacity:0.92;color:var(--gold-bright);}
+    .hcard.active .hcard-pip{opacity:1;}
+    .tdeck-hint{margin-top:0.85rem;font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.06em;text-align:center;}
+    @media(max-width:620px){.tdeck-hand{transform:scale(0.7);transform-origin:top center;height:210px;margin-top:0.25rem;}}
 
 
     /* CTA */
@@ -395,14 +397,14 @@
     {text:'Monish is a very, very good tutor as he explains not just the "how", but the "why" in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!',attr:"Schoolhouse.world student"},
     {text:"He was super duper nice and even though I am really bad at math he was patient and very interactive to make sure I knew what I was doing. He did not rush me when I asked him questions and answered them all very well. He made sure to congratulate me when I did well, and after the session, I felt really good about this topic even though I was having depressive episodes about it a second ago. Thanks Monish.",attr:"Schoolhouse.world student"}
   ];
-  // [left position, rotation deg, z-index]
+  // [left, top, rotation deg, z-index] — R=300 arc, origin 150px below 270px container
   var FAN=[
-    ['calc(50% - 184px)',-23,1],
-    ['calc(50% - 128px)',-14,2],
-    ['calc(50% - 72px)', -5, 3],
-    ['calc(50% - 16px)',  5, 3],
-    ['calc(50% + 40px)', 14, 2],
-    ['calc(50% + 96px)', 23, 1]
+    ['calc(50% - 171px)','77px',-25,1],
+    ['calc(50% - 122px)','59px',-15,2],
+    ['calc(50% - 70px)', '50px', -5,3],
+    ['calc(50% - 18px)', '50px',  5,3],
+    ['calc(50% + 34px)', '59px', 15,2],
+    ['calc(50% + 83px)', '77px', 25,1]
   ];
   var idx=0;
   var handEl=document.getElementById('tdeckHand');
@@ -410,9 +412,9 @@
 
   function buildHand(){
     handEl.innerHTML=T.map(function(t,i){
-      var f=FAN[i],isAct=i===idx,rot=f[1],lift=isAct?-30:0;
+      var f=FAN[i],isAct=i===idx,rot=f[2],lift=isAct?-30:0;
       return '<div class="hcard'+(isAct?' active':'')+'" data-i="'+i+'" data-rot="'+rot
-        +'" style="left:'+f[0]+';z-index:'+(isAct?10:f[2])
+        +'" style="left:'+f[0]+';top:'+f[1]+';z-index:'+(isAct?10:f[3])
         +';transform:rotate('+rot+'deg) translateY('+lift+'px)" aria-label="Testimonial '+(i+1)+' of '+T.length+'">'
         +'<div class="hcard-glyph">“</div>'
         +'<div class="hcard-num">'+(i+1)+'</div>'
@@ -428,7 +430,7 @@
         if(prev){
           var pr=parseInt(prev.dataset.rot);
           prev.classList.remove('active');
-          prev.style.zIndex=FAN[parseInt(prev.dataset.i)][2];
+          prev.style.zIndex=FAN[parseInt(prev.dataset.i)][3];
           prev.style.transform='rotate('+pr+'deg)';
           addHover(prev,pr);
         }

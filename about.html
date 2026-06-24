@@ -62,12 +62,18 @@
     @keyframes breathe{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.6);}}
     .about-name{font-family:'Dancing Script',cursive;font-size:clamp(2.6rem,8vw,6.2rem);font-weight:700;line-height:1.1;letter-spacing:0.01em;color:var(--gold);margin-bottom:1.8rem;white-space:nowrap;clip-path:inset(0 100% 0 0);animation:nameWrite 2.6s ease-out 0.4s forwards,nameGlow 3s ease-in-out 3.2s infinite;}
     @keyframes nameWrite{0%{clip-path:inset(0 100% 0 0);}100%{clip-path:inset(0 0% 0 0);}}
-    @keyframes nameGlow{0%,100%{text-shadow:0 0 18px rgba(212,160,74,0.45),0 0 36px rgba(212,160,74,0.2);}50%{text-shadow:0 0 28px rgba(212,160,74,0.85),0 0 55px rgba(212,160,74,0.45),0 0 90px rgba(212,160,74,0.18);color:var(--gold-bright);}}
+    @keyframes nameGlow{0%,100%{text-shadow:0 0 22px rgba(212,160,74,0.7),0 0 50px rgba(212,160,74,0.38),0 0 90px rgba(212,160,74,0.15);}50%{text-shadow:0 0 36px rgba(255,210,100,1),0 0 70px rgba(212,160,74,0.75),0 0 130px rgba(212,160,74,0.35),0 0 200px rgba(212,160,74,0.12);color:var(--gold-bright);}}
     @media(max-width:520px){.about-name{white-space:normal;}}
     .about-oneliner{font-size:clamp(1.05rem,1.8vw,1.2rem);font-weight:300;color:var(--ink-soft);line-height:1.85;max-width:490px;}
 
     .about-photo-wrap{display:flex;flex-direction:column;align-items:center;}
-    .about-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:24px;border:1.5px solid rgba(212,160,74,0.22);display:block;}
+    .about-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:24px;border:1.5px solid rgba(212,160,74,0.35);display:block;animation:photoGlow 3s ease-in-out 3.2s infinite;}
+    @keyframes photoGlow{0%,100%{box-shadow:0 0 22px rgba(212,160,74,0.35),0 0 50px rgba(212,160,74,0.15);}50%{box-shadow:0 0 38px rgba(255,210,100,0.65),0 0 80px rgba(212,160,74,0.35),0 0 130px rgba(212,160,74,0.12);border-color:rgba(212,160,74,0.65);}}
+    .about-social{display:flex;align-items:center;gap:1rem;margin-top:1.8rem;flex-wrap:wrap;}
+    .about-social-link{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.88rem;font-weight:600;color:var(--ink-muted);text-decoration:none;transition:color 0.2s;}
+    .about-social-link:hover{color:var(--gold);}
+    .about-social-link svg{width:16px;height:16px;flex-shrink:0;opacity:0.7;transition:opacity 0.2s;}
+    .about-social-link:hover svg{opacity:1;}
 
     /* CREDENTIALS */
     .cred-wrap{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.25rem 2.5rem;backdrop-filter:blur(12px);}
@@ -190,6 +196,16 @@
         <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Founder, AUX · CA</div>
         <h1 class="about-name">Monish Reddy Y</h1>
         <p class="about-oneliner reveal">Builder. Innovator. I don't wait for the right opportunity. I build the thing that becomes one.</p>
+        <div class="about-social reveal">
+          <a class="about-social-link" href="https://www.linkedin.com/in/monish-reddy-y-66a1323a0/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a class="about-social-link" href="mailto:auxfreelearning@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            auxfreelearning@gmail.com
+          </a>
+        </div>
       </div>
       <div class="about-photo-wrap">
         <img src="monish.jpg" alt="Monish Reddy Y" class="about-photo reveal"/>

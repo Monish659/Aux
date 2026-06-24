@@ -107,16 +107,16 @@
 
     /* TESTIMONIALS — CARD HAND */
     .tdeck-wrap{display:flex;flex-direction:column;}
-    .tdeck-expanded{background:rgba(255,255,255,0.06);border:1px solid rgba(212,160,74,0.22);border-radius:20px;padding:2.5rem 2.25rem;position:relative;overflow:hidden;min-height:170px;}
-    .tdeck-expanded::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:64px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.5;}
+    .tdeck-expanded{background:rgba(255,255,255,0.07);border:1px solid rgba(212,160,74,0.26);border-radius:22px;padding:3rem 2.75rem;position:relative;overflow:hidden;min-height:220px;}
+    .tdeck-expanded::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.55;}
     .tdeck-expanded.tcard-entering{animation:tCardIn 0.42s cubic-bezier(0.16,1,0.3,1);}
-    @keyframes tCardIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:none;}}
-    .tcard-mark{font-family:var(--serif);font-size:3.5rem;line-height:0.85;color:var(--gold);opacity:0.35;margin-bottom:0.75rem;display:block;}
-    .tcard-body{font-size:1.06rem;color:var(--ink);line-height:1.85;margin-bottom:1.5rem;}
+    @keyframes tCardIn{from{opacity:0;transform:translateY(12px) scale(0.97);}to{opacity:1;transform:none;}}
+    .tcard-mark{font-family:var(--serif);font-size:4.5rem;line-height:0.8;color:var(--gold);opacity:0.32;margin-bottom:1rem;display:block;}
+    .tcard-body{font-size:1.18rem;color:var(--ink);line-height:1.9;margin-bottom:1.75rem;}
     .tcard-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
-    .tcard-attr-full{font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+    .tcard-attr-full{font-size:0.88rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.75;}
     .tcard-attr-full::before{content:'— ';}
-    .tcard-of{font-size:0.73rem;color:var(--ink-muted);letter-spacing:0.04em;}
+    .tcard-of{font-size:0.78rem;color:var(--ink-muted);letter-spacing:0.04em;}
     /* Fanned hand */
     .tdeck-hand{position:relative;height:210px;margin-top:2.5rem;}
     .hcard{position:absolute;bottom:18px;width:88px;height:122px;border-radius:10px;background:rgba(10,8,5,0.94);border:1px solid rgba(212,160,74,0.20);cursor:pointer;overflow:hidden;transform-origin:bottom center;transition:transform 0.32s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.25s;}
@@ -421,8 +421,8 @@
     }).join('');
     handEl.querySelectorAll('.hcard').forEach(function(card){
       var rot=parseInt(card.dataset.rot);
+      var i=parseInt(card.dataset.i);
       card.addEventListener('click',function(){
-        var i=parseInt(card.dataset.i);
         if(i===idx)return;
         var prev=handEl.querySelector('.hcard.active');
         if(prev){

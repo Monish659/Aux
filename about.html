@@ -105,19 +105,11 @@
     .skill-tag{font-size:0.9rem;font-weight:500;color:var(--ink-soft);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:100px;padding:0.5rem 1.1rem;transition:border-color 0.2s,color 0.2s,background 0.2s;cursor:default;}
     .skill-tag:hover{border-color:var(--border-gold);color:var(--gold);background:rgba(212,160,74,0.08);}
 
-    /* TESTIMONIALS DECK */
-    .tdeck-thumbs{display:flex;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.4rem;}
-    .tcard-thumb{flex:1 1 calc(33.33% - 0.7rem);min-width:155px;height:94px;background:rgba(255,255,255,0.04);border:1px solid rgba(212,160,74,0.12);border-radius:14px;cursor:pointer;padding:0.9rem 1rem 0.8rem;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform 0.22s var(--ease),border-color 0.22s,background 0.22s,box-shadow 0.22s;position:relative;text-align:left;font-family:inherit;}
-    .tcard-thumb::after{content:'\201C';font-family:var(--serif);font-size:2.6rem;color:var(--gold);opacity:0.12;position:absolute;top:-0.15rem;right:0.5rem;line-height:1;pointer-events:none;}
-    .tcard-thumb:hover{border-color:rgba(212,160,74,0.32);background:rgba(255,255,255,0.07);transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,0.4);}
-    .tcard-thumb.active{border-color:rgba(212,160,74,0.5);background:rgba(212,160,74,0.06);box-shadow:0 0 0 1px rgba(212,160,74,0.18),0 8px 28px rgba(0,0,0,0.4);transform:translateY(-2px);}
-    .tcard-thumb-snippet{font-size:0.79rem;color:var(--ink-soft);line-height:1.42;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-    .tcard-thumb.active .tcard-thumb-snippet{color:var(--ink);}
-    .tcard-thumb-attr{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);opacity:0.45;}
-    .tcard-thumb.active .tcard-thumb-attr{opacity:0.85;}
-    .tdeck-expanded{background:rgba(255,255,255,0.06);border:1px solid rgba(212,160,74,0.22);border-radius:20px;padding:2.5rem 2.25rem;position:relative;overflow:hidden;}
+    /* TESTIMONIALS — CARD HAND */
+    .tdeck-wrap{display:flex;flex-direction:column;}
+    .tdeck-expanded{background:rgba(255,255,255,0.06);border:1px solid rgba(212,160,74,0.22);border-radius:20px;padding:2.5rem 2.25rem;position:relative;overflow:hidden;min-height:170px;}
     .tdeck-expanded::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:64px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.5;}
-    .tdeck-expanded.tcard-entering{animation:tCardIn 0.4s cubic-bezier(0.16,1,0.3,1);}
+    .tdeck-expanded.tcard-entering{animation:tCardIn 0.42s cubic-bezier(0.16,1,0.3,1);}
     @keyframes tCardIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:none;}}
     .tcard-mark{font-family:var(--serif);font-size:3.5rem;line-height:0.85;color:var(--gold);opacity:0.35;margin-bottom:0.75rem;display:block;}
     .tcard-body{font-size:1.06rem;color:var(--ink);line-height:1.85;margin-bottom:1.5rem;}
@@ -125,8 +117,19 @@
     .tcard-attr-full{font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.7;}
     .tcard-attr-full::before{content:'— ';}
     .tcard-of{font-size:0.73rem;color:var(--ink-muted);letter-spacing:0.04em;}
-    @media(max-width:640px){.tcard-thumb{min-width:calc(50% - 0.7rem);height:82px;}}
-    @media(max-width:380px){.tcard-thumb{min-width:100%;height:76px;}}
+    /* Fanned hand */
+    .tdeck-hand{position:relative;height:210px;margin-top:2.5rem;}
+    .hcard{position:absolute;bottom:18px;width:88px;height:122px;border-radius:10px;background:rgba(10,8,5,0.94);border:1px solid rgba(212,160,74,0.20);cursor:pointer;overflow:hidden;transform-origin:bottom center;transition:transform 0.32s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.25s;}
+    .hcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,160,74,0.10);border-radius:6px;pointer-events:none;}
+    .hcard-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-family:var(--serif);font-size:2.2rem;color:var(--gold);opacity:0.22;line-height:1;user-select:none;}
+    .hcard-num{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-size:0.68rem;color:var(--gold);opacity:0.28;letter-spacing:0.04em;}
+    .hcard-pip{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--gold);border-radius:1px;opacity:0;transition:opacity 0.25s;}
+    .hcard:hover:not(.active){border-color:rgba(212,160,74,0.5);box-shadow:0 16px 44px rgba(0,0,0,0.7);}
+    .hcard.active{border-color:rgba(212,160,74,0.78);box-shadow:0 0 0 2px rgba(212,160,74,0.22),0 20px 56px rgba(212,160,74,0.22),0 24px 50px rgba(0,0,0,0.65);}
+    .hcard.active .hcard-num{opacity:0.75;}
+    .hcard.active .hcard-pip{opacity:0.85;}
+    .tdeck-hint{margin-top:1rem;font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.06em;text-align:center;}
+    @media(max-width:620px){.tdeck-hand{transform:scale(0.72);transform-origin:bottom center;height:168px;margin-top:0.75rem;}}
 
 
     /* CTA */
@@ -317,9 +320,10 @@
 <section class="about-section layer">
   <div class="content-wrap">
     <div class="section-eyebrow reveal">What students say</div>
-    <div class="reveal">
-      <div class="tdeck-thumbs" id="tdeckThumbs"></div>
+    <div class="reveal tdeck-wrap">
       <div class="tdeck-expanded" id="tdeckExpanded"></div>
+      <div class="tdeck-hand" id="tdeckHand"></div>
+      <p class="tdeck-hint">Pick a card</p>
     </div>
   </div>
 </section>
@@ -388,38 +392,73 @@
     {text:"Thank you so much for patiently explaining the topic to us! It really helped me understand polynomial functions and how the graphing of the infinity part works (one of my dire weakness). It really is super digestible to listen to you.",attr:"Schoolhouse.world student"},
     {text:"I just wanted to say a big thank you! You're one of the best tutors I've had. I really appreciate how clearly you explain the concepts and how you take the time to give extra examples to make sure I truly understand. Helping me a lot with growth rate, standard deviation, and other math topics. The support made a big difference in my learning. Thanks for your patience, clarity, and encouragement!",attr:"Schoolhouse.world student"},
     {text:"I just wanted to take a moment to sincerely thank you for all your help and support, especially with the standard deviation problems and everything else we covered in math. Your explanations made things so much clearer, and your patience really made a difference in how confident I felt approaching the Regents.",attr:"Schoolhouse.world student"},
-    {text:'Monish is a very, very good tutor as he explains not just the “how”, but the “why” in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!',attr:"Schoolhouse.world student"},
+    {text:'Monish is a very, very good tutor as he explains not just the "how", but the "why" in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!',attr:"Schoolhouse.world student"},
     {text:"He was super duper nice and even though I am really bad at math he was patient and very interactive to make sure I knew what I was doing. He did not rush me when I asked him questions and answered them all very well. He made sure to congratulate me when I did well, and after the session, I felt really good about this topic even though I was having depressive episodes about it a second ago. Thanks Monish.",attr:"Schoolhouse.world student"}
   ];
+  // [left position, rotation deg, z-index]
+  var FAN=[
+    ['calc(50% - 184px)',-23,1],
+    ['calc(50% - 128px)',-14,2],
+    ['calc(50% - 72px)', -5, 3],
+    ['calc(50% - 16px)',  5, 3],
+    ['calc(50% + 40px)', 14, 2],
+    ['calc(50% + 96px)', 23, 1]
+  ];
   var idx=0;
-  var thumbsEl=document.getElementById('tdeckThumbs');
+  var handEl=document.getElementById('tdeckHand');
   var expandedEl=document.getElementById('tdeckExpanded');
-  function renderThumbs(){
-    thumbsEl.innerHTML=T.map(function(t,i){
-      var snippet=t.text.length>72?t.text.slice(0,72)+'…':t.text;
-      return '<button class="tcard-thumb'+(i===idx?' active':'')+'" data-i="'+i+'" aria-label="Testimonial '+(i+1)+' of '+T.length+'"><div class="tcard-thumb-snippet">'+snippet+'</div><div class="tcard-thumb-attr">'+t.attr+'</div></button>';
+
+  function buildHand(){
+    handEl.innerHTML=T.map(function(t,i){
+      var f=FAN[i],isAct=i===idx,rot=f[1],lift=isAct?-30:0;
+      return '<div class="hcard'+(isAct?' active':'')+'" data-i="'+i+'" data-rot="'+rot
+        +'" style="left:'+f[0]+';z-index:'+(isAct?10:f[2])
+        +';transform:rotate('+rot+'deg) translateY('+lift+'px)" aria-label="Testimonial '+(i+1)+' of '+T.length+'">'
+        +'<div class="hcard-glyph">“</div>'
+        +'<div class="hcard-num">'+(i+1)+'</div>'
+        +'<div class="hcard-pip"></div>'
+        +'</div>';
     }).join('');
-    thumbsEl.querySelectorAll('.tcard-thumb').forEach(function(btn){
-      btn.addEventListener('click',function(){
-        var i=parseInt(btn.dataset.i);
+    handEl.querySelectorAll('.hcard').forEach(function(card){
+      var rot=parseInt(card.dataset.rot);
+      card.addEventListener('click',function(){
+        var i=parseInt(card.dataset.i);
         if(i===idx)return;
+        var prev=handEl.querySelector('.hcard.active');
+        if(prev){
+          var pr=parseInt(prev.dataset.rot);
+          prev.classList.remove('active');
+          prev.style.zIndex=FAN[parseInt(prev.dataset.i)][2];
+          prev.style.transform='rotate('+pr+'deg)';
+          addHover(prev,pr);
+        }
         idx=i;
-        renderThumbs();
+        card.classList.add('active');
+        card.style.zIndex=10;
+        card.style.transform='rotate('+rot+'deg) translateY(-30px)';
+        removeHover(card);
         renderExpanded(true);
         if(window.goatcounter)goatcounter.count({path:'testimonial-select',title:'Testimonial Select',event:true});
       });
+      if(i!==idx) addHover(card,rot);
     });
+  }
+  function addHover(card,rot){
+    card._me=function(){card.style.transform='rotate('+rot+'deg) translateY(-18px)';};
+    card._ml=function(){card.style.transform='rotate('+rot+'deg)';};
+    card.addEventListener('mouseenter',card._me);
+    card.addEventListener('mouseleave',card._ml);
+  }
+  function removeHover(card){
+    if(card._me)card.removeEventListener('mouseenter',card._me);
+    if(card._ml)card.removeEventListener('mouseleave',card._ml);
   }
   function renderExpanded(animate){
     var t=T[idx];
-    expandedEl.innerHTML='<span class="tcard-mark">“</span><p class="tcard-body">'+t.text+'</p><div class="tcard-meta"><span class="tcard-attr-full">'+t.attr+'</span><span class="tcard-of">'+(idx+1)+' / '+T.length+'</span></div>';
-    if(animate){
-      expandedEl.classList.remove('tcard-entering');
-      void expandedEl.offsetWidth;
-      expandedEl.classList.add('tcard-entering');
-    }
+    expandedEl.innerHTML='<span class="tcard-mark">“</span><p class="tcard-body">'+t.text+'</p><div class="tcard-meta"><span class="tcard-attr-full">'+t.attr+'</span><span class="tcard-of">'+(idx+1)+' / '+T.length+'</span></div>';
+    if(animate){expandedEl.classList.remove('tcard-entering');void expandedEl.offsetWidth;expandedEl.classList.add('tcard-entering');}
   }
-  renderThumbs();
+  buildHand();
   renderExpanded(false);
 })();
 </script>

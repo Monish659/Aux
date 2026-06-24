@@ -105,22 +105,28 @@
     .skill-tag{font-size:0.9rem;font-weight:500;color:var(--ink-soft);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:100px;padding:0.5rem 1.1rem;transition:border-color 0.2s,color 0.2s,background 0.2s;cursor:default;}
     .skill-tag:hover{border-color:var(--border-gold);color:var(--gold);background:rgba(212,160,74,0.08);}
 
-    /* TESTIMONIALS */
-    .review-bar-outer{position:relative;}
-    .review-bar{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1.25rem;scrollbar-width:thin;scrollbar-color:rgba(212,160,74,0.35) rgba(255,255,255,0.05);}
-    .review-bar::-webkit-scrollbar{height:4px;}
-    .review-bar::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);border-radius:2px;}
-    .review-bar::-webkit-scrollbar-thumb{background:rgba(212,160,74,0.35);border-radius:2px;}
-    .review-bar::-webkit-scrollbar-thumb:hover{background:rgba(212,160,74,0.6);}
-    .testimonial-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2.25rem;flex:0 0 400px;scroll-snap-align:start;display:flex;flex-direction:column;transition:border-color 0.25s,background 0.25s;}
-    .testimonial-card:hover{border-color:rgba(212,160,74,0.28);background:var(--surface-hover);}
-    .testimonial-mark{font-family:var(--serif);font-size:3.5rem;line-height:0.85;color:var(--gold);opacity:0.35;margin-bottom:0.75rem;display:block;}
-    .testimonial-quote{font-family:var(--sans);font-size:1.08rem;font-style:normal;color:var(--ink);line-height:1.85;margin-bottom:1.5rem;flex:1;}
-    .testimonial-attr{font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.7;}
-    .testimonial-attr::before{content:'— ';}
-    .review-scroll-hint{display:flex;align-items:center;gap:0.5rem;margin-top:0.75rem;font-size:0.73rem;color:var(--ink-muted);letter-spacing:0.06em;}
-    .review-scroll-hint::after{content:'';flex:0 0 32px;height:1px;background:linear-gradient(to right,rgba(212,160,74,0.4),transparent);}
-    @media(max-width:600px){.testimonial-card{flex:0 0 320px;padding:2rem 1.75rem;}}
+    /* TESTIMONIALS DECK */
+    .tdeck-thumbs{display:flex;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.4rem;}
+    .tcard-thumb{flex:1 1 calc(33.33% - 0.7rem);min-width:155px;height:94px;background:rgba(255,255,255,0.04);border:1px solid rgba(212,160,74,0.12);border-radius:14px;cursor:pointer;padding:0.9rem 1rem 0.8rem;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform 0.22s var(--ease),border-color 0.22s,background 0.22s,box-shadow 0.22s;position:relative;text-align:left;font-family:inherit;}
+    .tcard-thumb::after{content:'\201C';font-family:var(--serif);font-size:2.6rem;color:var(--gold);opacity:0.12;position:absolute;top:-0.15rem;right:0.5rem;line-height:1;pointer-events:none;}
+    .tcard-thumb:hover{border-color:rgba(212,160,74,0.32);background:rgba(255,255,255,0.07);transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,0.4);}
+    .tcard-thumb.active{border-color:rgba(212,160,74,0.5);background:rgba(212,160,74,0.06);box-shadow:0 0 0 1px rgba(212,160,74,0.18),0 8px 28px rgba(0,0,0,0.4);transform:translateY(-2px);}
+    .tcard-thumb-snippet{font-size:0.79rem;color:var(--ink-soft);line-height:1.42;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .tcard-thumb.active .tcard-thumb-snippet{color:var(--ink);}
+    .tcard-thumb-attr{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);opacity:0.45;}
+    .tcard-thumb.active .tcard-thumb-attr{opacity:0.85;}
+    .tdeck-expanded{background:rgba(255,255,255,0.06);border:1px solid rgba(212,160,74,0.22);border-radius:20px;padding:2.5rem 2.25rem;position:relative;overflow:hidden;}
+    .tdeck-expanded::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:64px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.5;}
+    .tdeck-expanded.tcard-entering{animation:tCardIn 0.4s cubic-bezier(0.16,1,0.3,1);}
+    @keyframes tCardIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:none;}}
+    .tcard-mark{font-family:var(--serif);font-size:3.5rem;line-height:0.85;color:var(--gold);opacity:0.35;margin-bottom:0.75rem;display:block;}
+    .tcard-body{font-size:1.06rem;color:var(--ink);line-height:1.85;margin-bottom:1.5rem;}
+    .tcard-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
+    .tcard-attr-full{font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+    .tcard-attr-full::before{content:'— ';}
+    .tcard-of{font-size:0.73rem;color:var(--ink-muted);letter-spacing:0.04em;}
+    @media(max-width:640px){.tcard-thumb{min-width:calc(50% - 0.7rem);height:82px;}}
+    @media(max-width:380px){.tcard-thumb{min-width:100%;height:76px;}}
 
 
     /* CTA */
@@ -311,40 +317,9 @@
 <section class="about-section layer">
   <div class="content-wrap">
     <div class="section-eyebrow reveal">What students say</div>
-    <div class="review-bar-outer reveal">
-      <div class="review-bar">
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">I really appreciate all the effort you're putting in and helping solidify our understanding before the school year. Your knowledge and dedication are so apparent, and I feel very lucky to have found this tutorial. Unlike many tutors, you encourage active recall with thoughtful questions and in depth explanations that ensure we truly understand the material. You're awesome! Thank you for everything!</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">Thank you so much for patiently explaining the topic to us! It really helped me understand polynomial functions and how the graphing of the infinity part works (one of my dire weakness). It really is super digestible to listen to you.</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">I just wanted to say a big thank you! You're one of the best tutors I've had. I really appreciate how clearly you explain the concepts and how you take the time to give extra examples to make sure I truly understand. Helping me a lot with growth rate, standard deviation, and other math topics. The support made a big difference in my learning. Thanks for your patience, clarity, and encouragement!</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">I just wanted to take a moment to sincerely thank you for all your help and support, especially with the standard deviation problems and everything else we covered in math. Your explanations made things so much clearer, and your patience really made a difference in how confident I felt approaching the Regents.</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">Monish is a very, very good tutor as he explains not just the "how", but the "why" in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-        <div class="testimonial-card">
-          <span class="testimonial-mark">"</span>
-          <p class="testimonial-quote">He was super duper nice and even though I am really bad at math he was patient and very interactive to make sure I knew what I was doing. He did not rush me when I asked him questions and answered them all very well. He made sure to congratulate me when I did well, and after the session, I felt really good about this topic even though I was having depressive episodes about it a second ago. Thanks Monish.</p>
-          <div class="testimonial-attr">Schoolhouse.world student</div>
-        </div>
-      </div>
-      <div class="review-scroll-hint">Scroll to read more</div>
+    <div class="reveal">
+      <div class="tdeck-thumbs" id="tdeckThumbs"></div>
+      <div class="tdeck-expanded" id="tdeckExpanded"></div>
     </div>
   </div>
 </section>
@@ -404,6 +379,48 @@
       setTimeout(() => window.location.href = link.href, 265);
     });
   });
+})();
+</script>
+<script>
+(function(){
+  var T=[
+    {text:"I really appreciate all the effort you're putting in and helping solidify our understanding before the school year. Your knowledge and dedication are so apparent, and I feel very lucky to have found this tutorial. Unlike many tutors, you encourage active recall with thoughtful questions and in depth explanations that ensure we truly understand the material. You're awesome! Thank you for everything!",attr:"Schoolhouse.world student"},
+    {text:"Thank you so much for patiently explaining the topic to us! It really helped me understand polynomial functions and how the graphing of the infinity part works (one of my dire weakness). It really is super digestible to listen to you.",attr:"Schoolhouse.world student"},
+    {text:"I just wanted to say a big thank you! You're one of the best tutors I've had. I really appreciate how clearly you explain the concepts and how you take the time to give extra examples to make sure I truly understand. Helping me a lot with growth rate, standard deviation, and other math topics. The support made a big difference in my learning. Thanks for your patience, clarity, and encouragement!",attr:"Schoolhouse.world student"},
+    {text:"I just wanted to take a moment to sincerely thank you for all your help and support, especially with the standard deviation problems and everything else we covered in math. Your explanations made things so much clearer, and your patience really made a difference in how confident I felt approaching the Regents.",attr:"Schoolhouse.world student"},
+    {text:'Monish is a very, very good tutor as he explains not just the “how”, but the “why” in concepts of math. I really enjoy how slowly he explains things, and he is very calm too. Thank you very much!!',attr:"Schoolhouse.world student"},
+    {text:"He was super duper nice and even though I am really bad at math he was patient and very interactive to make sure I knew what I was doing. He did not rush me when I asked him questions and answered them all very well. He made sure to congratulate me when I did well, and after the session, I felt really good about this topic even though I was having depressive episodes about it a second ago. Thanks Monish.",attr:"Schoolhouse.world student"}
+  ];
+  var idx=0;
+  var thumbsEl=document.getElementById('tdeckThumbs');
+  var expandedEl=document.getElementById('tdeckExpanded');
+  function renderThumbs(){
+    thumbsEl.innerHTML=T.map(function(t,i){
+      var snippet=t.text.length>72?t.text.slice(0,72)+'…':t.text;
+      return '<button class="tcard-thumb'+(i===idx?' active':'')+'" data-i="'+i+'" aria-label="Testimonial '+(i+1)+' of '+T.length+'"><div class="tcard-thumb-snippet">'+snippet+'</div><div class="tcard-thumb-attr">'+t.attr+'</div></button>';
+    }).join('');
+    thumbsEl.querySelectorAll('.tcard-thumb').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var i=parseInt(btn.dataset.i);
+        if(i===idx)return;
+        idx=i;
+        renderThumbs();
+        renderExpanded(true);
+        if(window.goatcounter)goatcounter.count({path:'testimonial-select',title:'Testimonial Select',event:true});
+      });
+    });
+  }
+  function renderExpanded(animate){
+    var t=T[idx];
+    expandedEl.innerHTML='<span class="tcard-mark">“</span><p class="tcard-body">'+t.text+'</p><div class="tcard-meta"><span class="tcard-attr-full">'+t.attr+'</span><span class="tcard-of">'+(idx+1)+' / '+T.length+'</span></div>';
+    if(animate){
+      expandedEl.classList.remove('tcard-entering');
+      void expandedEl.offsetWidth;
+      expandedEl.classList.add('tcard-entering');
+    }
+  }
+  renderThumbs();
+  renderExpanded(false);
 })();
 </script>
 </body>

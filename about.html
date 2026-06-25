@@ -117,21 +117,27 @@
     .tcard-attr-full{font-size:0.88rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);opacity:0.75;}
     .tcard-attr-full::before{content:'— ';}
     .tcard-of{font-size:0.78rem;color:var(--ink-muted);letter-spacing:0.04em;}
+    /* Testimonials section heading */
+    .testimonials-title{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.4rem);font-weight:600;color:var(--ink);letter-spacing:-0.015em;margin-bottom:0.5rem;line-height:1.1;}
+    .testimonials-title em{color:var(--gold);font-style:italic;}
+    .testimonials-sub{font-size:1rem;color:var(--ink-soft);line-height:1.7;margin-bottom:2rem;max-width:520px;}
     /* Fanned hand — circular arc */
-    .tdeck-hand{position:relative;height:320px;margin-top:2rem;}
-    .hcard{position:absolute;width:88px;height:124px;border-radius:12px;background:linear-gradient(150deg,rgba(52,40,20,0.98) 0%,rgba(28,21,10,0.99) 100%);border:1.5px solid rgba(212,160,74,0.48);cursor:pointer;overflow:hidden;transition:transform 0.34s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.28s;box-shadow:0 6px 24px rgba(0,0,0,0.75),0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,160,74,0.12);}
-    .hcard::before{content:'';position:absolute;inset:5px;border:1.5px solid rgba(212,160,74,0.22);border-radius:8px;pointer-events:none;}
+    .tdeck-hand{position:relative;height:400px;margin-top:2rem;}
+    .hcard{position:absolute;width:108px;height:152px;border-radius:14px;background:linear-gradient(150deg,rgba(52,40,20,0.98) 0%,rgba(28,21,10,0.99) 100%);border:1.5px solid rgba(212,160,74,0.48);cursor:pointer;overflow:hidden;transition:transform 0.34s cubic-bezier(0.16,1,0.3,1),box-shadow 0.28s,border-color 0.28s;box-shadow:0 6px 24px rgba(0,0,0,0.75),0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,160,74,0.12);}
+    .hcard::before{content:'';position:absolute;inset:6px;border:1.5px solid rgba(212,160,74,0.22);border-radius:9px;pointer-events:none;}
     .hcard::after{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(to bottom,rgba(212,160,74,0.07),transparent);pointer-events:none;}
-    .hcard-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-64%);font-family:var(--serif);font-size:3rem;color:var(--gold-bright);opacity:0.6;line-height:1;user-select:none;}
-    .hcard-num{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-size:0.72rem;font-weight:600;color:var(--gold);opacity:0.6;letter-spacing:0.04em;}
-    .hcard-pip{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--gold-bright);border-radius:1px;opacity:0;transition:opacity 0.25s;}
+    .hcard-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-64%);font-family:var(--serif);font-size:3.4rem;color:var(--gold-bright);opacity:0;line-height:1;user-select:none;transition:opacity 0.22s;}
+    .hcard-num{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-size:0.82rem;font-weight:600;color:var(--gold);opacity:0.6;letter-spacing:0.04em;}
+    .hcard-pip{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:26px;height:2px;background:var(--gold-bright);border-radius:1px;opacity:0;transition:opacity 0.25s;}
     .hcard:hover:not(.active){border-color:rgba(212,160,74,0.78);box-shadow:0 20px 50px rgba(0,0,0,0.8),0 0 28px rgba(212,160,74,0.22),inset 0 1px 0 rgba(212,160,74,0.18);}
+    .hcard:hover:not(.active) .hcard-glyph{opacity:0.45;}
     .hcard.active{border-color:rgba(240,200,112,0.92);box-shadow:0 0 0 2px rgba(212,160,74,0.32),0 0 40px rgba(212,160,74,0.48),0 24px 52px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,220,120,0.22);}
     .hcard.active .hcard-glyph{opacity:0.9;color:var(--gold-bright);}
     .hcard.active .hcard-num{opacity:0.92;color:var(--gold-bright);}
     .hcard.active .hcard-pip{opacity:1;}
-    .tdeck-hint{margin-top:0.85rem;font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.06em;text-align:center;}
-    @media(max-width:620px){.tdeck-hand{transform:scale(0.58);transform-origin:top center;height:220px;margin-top:0.25rem;}}
+    .tdeck-hint{margin-top:1.2rem;font-size:0.88rem;color:var(--ink-soft);letter-spacing:0.04em;text-align:center;line-height:1.6;}
+    .tdeck-hint kbd{display:inline-block;padding:0.1em 0.45em;font-size:0.78rem;border:1px solid rgba(212,160,74,0.35);border-radius:5px;background:rgba(212,160,74,0.08);color:var(--gold);font-family:var(--sans);}
+    @media(max-width:620px){.tdeck-hand{transform:scale(0.6);transform-origin:top center;height:270px;margin-top:0.25rem;}}
 
 
     /* CTA */
@@ -321,11 +327,13 @@
 <!-- TESTIMONIALS -->
 <section class="about-section layer">
   <div class="content-wrap">
-    <div class="section-eyebrow reveal">Testimonials</div>
+    <div class="section-eyebrow reveal">What students say</div>
+    <h2 class="testimonials-title reveal"><em>Testimonials</em></h2>
+    <p class="testimonials-sub reveal">Click any card below to read a review. Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to browse through all 19.</p>
     <div class="reveal tdeck-wrap">
       <div class="tdeck-expanded" id="tdeckExpanded"></div>
       <div class="tdeck-hand" id="tdeckHand"></div>
-      <p class="tdeck-hint">Pick a card</p>
+      <p class="tdeck-hint">Click a card to read the full review &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> to browse</p>
     </div>
   </div>
 </section>
@@ -412,7 +420,7 @@
   ];
 
   // Dynamic arc — R=300, origin 160px below 320px container
-  var N=T.length, SPREAD=82, R=300, ORIGIN=480, CW=88, CH=124;
+  var N=T.length, SPREAD=96, R=320, ORIGIN=510, CW=108, CH=152;
   var FAN=T.map(function(t,i){
     var deg=-SPREAD/2+i*(SPREAD/(N-1));
     var rad=deg*Math.PI/180;

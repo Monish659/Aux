@@ -130,9 +130,21 @@
     .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(212,160,74,0.15);}
     .form-textarea{resize:vertical;min-height:100px;}
     .time-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;}
-    .time-option{padding:0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(212,160,74,0.12);border-radius:10px;cursor:pointer;text-align:center;font-size:0.88rem;color:var(--ink-soft);transition:all 0.2s;}
+    .time-option{padding:0.75rem 0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(212,160,74,0.12);border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;}
     .time-option:hover{border-color:var(--orange);background:rgba(212,160,74,0.08);}
     .time-option.selected{background:var(--orange);color:#100e0c;border-color:var(--orange);font-weight:600;}
+    .time-pt{display:block;font-size:0.88rem;color:var(--ink-soft);}
+    .time-option.selected .time-pt{color:#100e0c;}
+    .time-local{display:block;font-size:0.7rem;color:var(--ink-muted);margin-top:0.15rem;}
+    .time-option.selected .time-local{color:rgba(16,14,12,0.6);}
+    .tz-note{font-size:0.76rem;font-weight:400;color:var(--ink-muted);letter-spacing:0;margin-left:0.4rem;}
+    .time-error .time-option{border-color:rgba(239,68,68,0.35)!important;}
+    .cal-widget.input-error{border-color:rgba(239,68,68,0.5)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1);}
+    .input-error{border-color:rgba(239,68,68,0.5)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important;}
+    .field-err{font-size:0.78rem;color:#f87171;display:none;margin-top:0.1rem;}
+    .field-err.show{display:block;}
+    .err-banner{display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.32);border-radius:12px;padding:0.85rem 1.1rem;font-size:0.86rem;color:#f87171;margin-bottom:0.25rem;}
+    .err-banner.show{display:block;}
     .price-info{background:rgba(212,160,74,0.07);border-left:3px solid var(--orange);padding:1rem;border-radius:8px;margin:0.5rem 0;}
     .price-label{font-size:0.8rem;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;}
     .price-amount{font-family:var(--serif);font-size:1.8rem;font-weight:600;color:var(--ink);line-height:1;}
@@ -229,29 +241,34 @@
           3. Show up ready. 60 minutes.
         </div>
       </div>
-      <form class="booking-form" id="bookingForm" onsubmit="handleBooking(event)">
+      <form class="booking-form" id="bookingForm" onsubmit="handleBooking(event)" novalidate>
         <input type="hidden" name="_subject" value="New AUX Tutoring Session Request"/>
+        <input type="hidden" name="timezone" id="userTZ"/>
+        <div class="err-banner" id="errBanner">Please fill in all required fields before submitting.</div>
         <div class="form-group">
           <label class="form-label">Your name</label>
-          <input id="name" type="text" name="name" class="form-input" placeholder="John Doe" required/>
+          <input id="fName" type="text" name="name" class="form-input" placeholder="John Doe" autocomplete="name"/>
+          <span class="field-err" id="errName"></span>
         </div>
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input id="email" type="email" name="email" class="form-input" placeholder="you@school.edu" required/>
+          <input id="fEmail" type="email" name="email" class="form-input" placeholder="you@school.edu" autocomplete="email"/>
+          <span class="field-err" id="errEmail"></span>
         </div>
         <div class="form-group">
           <label class="form-label">Subject</label>
-          <select id="subject" name="subject" class="form-select" required>
+          <select id="subject" name="subject" class="form-select">
             <option value="">Select a subject...</option>
             <option value="physics">Physics</option>
             <option value="precalc">Honors Precalculus</option>
             <option value="other">Other (describe below)</option>
           </select>
           <div class="subject-hint" id="subjectHint">Describe the subject in the "What should we focus on?" section below.</div>
+          <span class="field-err" id="errSubject"></span>
         </div>
         <div class="form-group">
           <label class="form-label">Preferred day</label>
-          <div class="cal-widget">
+          <div class="cal-widget" id="calWidget">
             <div class="cal-hdr">
               <button type="button" class="cal-nav" id="calPrev">‹</button>
               <span class="cal-hdr-label" id="calHdrLabel"></span>
@@ -261,21 +278,36 @@
             <div class="cal-body" id="calBody"></div>
           </div>
           <div class="cal-picked" id="calPicked"></div>
-          <input type="hidden" name="day" id="selectedDay" required/>
+          <input type="hidden" name="day" id="selectedDay"/>
+          <span class="field-err" id="errDay"></span>
         </div>
         <div class="form-group">
-          <label class="form-label">Preferred time</label>
-          <div class="time-grid">
-            <div class="time-option" onclick="selectTime(this, '9:00 AM')">9:00 AM</div>
-            <div class="time-option" onclick="selectTime(this, '10:00 AM')">10:00 AM</div>
-            <div class="time-option" onclick="selectTime(this, '2:00 PM')">2:00 PM</div>
-            <div class="time-option" onclick="selectTime(this, '3:00 PM')">3:00 PM</div>
+          <label class="form-label">Preferred time <span class="tz-note" id="tzNote"></span></label>
+          <div class="time-grid" id="timeGrid">
+            <div class="time-option" data-pt-hour="9" onclick="selectTime(this)">
+              <span class="time-pt">9:00 AM PT</span>
+              <span class="time-local"></span>
+            </div>
+            <div class="time-option" data-pt-hour="10" onclick="selectTime(this)">
+              <span class="time-pt">10:00 AM PT</span>
+              <span class="time-local"></span>
+            </div>
+            <div class="time-option" data-pt-hour="14" onclick="selectTime(this)">
+              <span class="time-pt">2:00 PM PT</span>
+              <span class="time-local"></span>
+            </div>
+            <div class="time-option" data-pt-hour="15" onclick="selectTime(this)">
+              <span class="time-pt">3:00 PM PT</span>
+              <span class="time-local"></span>
+            </div>
           </div>
-          <input type="hidden" id="selectedTime" name="time" required/>
+          <input type="hidden" id="selectedTime" name="time"/>
+          <span class="field-err" id="errTime"></span>
         </div>
         <div class="form-group">
           <label class="form-label">What should we focus on?</label>
-          <textarea name="focus" class="form-textarea" placeholder="Describe the specific concepts you're struggling with..." required></textarea>
+          <textarea id="fFocus" name="focus" class="form-textarea" placeholder="Describe the specific concepts you're struggling with..."></textarea>
+          <span class="field-err" id="errFocus"></span>
         </div>
         <div class="price-info">
           <div class="price-label">Suggested donation</div>
@@ -314,7 +346,53 @@
 initBg('bgCanvas','shardCanvas','midnight');
 emailjs.init('vPV3Hae6SjYwwrD57');
 
-// Calendar
+// ── Timezone detection & slot conversion ───────────────────
+var USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+var USER_TZ_ABBR = (function(){
+  var s = new Intl.DateTimeFormat('en-US',{timeZoneName:'short'}).format(new Date());
+  return s.split(', ').pop() || '';
+})();
+
+function ptHourToUTCDate(ptHour) {
+  // Find a UTC Date object where America/Los_Angeles reads as ptHour:00
+  var d = new Date();
+  var baseUTC = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0);
+  for (var offset = -12; offset < 36; offset++) {
+    var test = new Date(baseUTC + offset * 3600000);
+    var ptH = parseInt(new Intl.DateTimeFormat('en-US',{
+      timeZone:'America/Los_Angeles', hour:'numeric', hour12:false
+    }).format(test));
+    if (ptH === ptHour) return test;
+  }
+  return null;
+}
+
+function localTimeStr(ptHour) {
+  var utcDate = ptHourToUTCDate(ptHour);
+  if (!utcDate) return '';
+  return new Intl.DateTimeFormat('en-US',{
+    hour:'numeric', minute:'2-digit', hour12:true, timeZone:USER_TZ
+  }).format(utcDate) + ' ' + USER_TZ_ABBR;
+}
+
+function initSlots() {
+  document.getElementById('userTZ').value = USER_TZ;
+  var sameZone = USER_TZ === 'America/Los_Angeles';
+  var note = document.getElementById('tzNote');
+  if (note) note.textContent = sameZone ? '(Pacific Time)' : '(PT • your local shown below)';
+  document.querySelectorAll('.time-option[data-pt-hour]').forEach(function(el){
+    var h = parseInt(el.dataset.ptHour);
+    var localEl = el.querySelector('.time-local');
+    if (!localEl) return;
+    if (sameZone) {
+      localEl.style.display = 'none';
+    } else {
+      localEl.textContent = '= ' + localTimeStr(h) + ' your time';
+    }
+  });
+}
+
+// ── Calendar ───────────────────────────────────────────────
 (function(){
   const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const MOS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -343,6 +421,8 @@ emailjs.init('vPV3Hae6SjYwwrD57');
           this.classList.add('selected');
           document.getElementById('selectedDay').value=this.dataset.value;
           document.getElementById('calPicked').textContent='✓ '+this.dataset.value;
+          document.getElementById('calWidget').classList.remove('input-error');
+          hideErr('errDay');
         });
       }
       body.appendChild(cell);
@@ -353,37 +433,121 @@ emailjs.init('vPV3Hae6SjYwwrD57');
   render();
 })();
 
-// Subject hint
+// ── Subject hint ───────────────────────────────────────────
 document.getElementById('subject').addEventListener('change',function(){
   document.getElementById('subjectHint').style.display=this.value==='other'?'block':'none';
+  this.classList.remove('input-error');
+  hideErr('errSubject');
 });
 
-
-function selectTime(element, time) {
-  document.querySelectorAll('.time-option').forEach(e => e.classList.remove('selected'));
-  element.classList.add('selected');
-  document.getElementById('selectedTime').value = time;
+// ── Time selection ─────────────────────────────────────────
+function selectTime(el) {
+  document.querySelectorAll('.time-option').forEach(function(e){ e.classList.remove('selected'); });
+  el.classList.add('selected');
+  var ptLabel = el.querySelector('.time-pt').textContent;
+  var localEl = el.querySelector('.time-local');
+  var val = ptLabel;
+  if (localEl && localEl.textContent) {
+    val += ' (' + localEl.textContent.replace('= ','').replace(' your time','').trim() + ' your time)';
+  }
+  document.getElementById('selectedTime').value = val;
+  document.getElementById('timeGrid').classList.remove('time-error');
+  hideErr('errTime');
 }
 
+// ── Error helpers ──────────────────────────────────────────
+function showErr(id, msg) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideErr(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = '';
+  el.classList.remove('show');
+}
+function markError(el) { if (el) el.classList.add('input-error'); }
+function clearError(el) { if (el) el.classList.remove('input-error'); }
+
+// ── Submission ─────────────────────────────────────────────
 async function handleBooking(e) {
   e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.btn-book');
-  const fd = new FormData(form);
+  var form = e.target;
+  var fd = new FormData(form);
+
+  // Reset all errors
+  ['errName','errEmail','errSubject','errDay','errTime','errFocus'].forEach(hideErr);
+  ['fName','fEmail','subject','fFocus'].forEach(function(id){
+    clearError(document.getElementById(id));
+  });
+  document.getElementById('calWidget').classList.remove('input-error');
+  document.getElementById('timeGrid').classList.remove('time-error');
+  var banner = document.getElementById('errBanner');
+  banner.classList.remove('show');
+
+  var name    = (fd.get('name')    || '').trim();
+  var email   = (fd.get('email')   || '').trim();
+  var subject =  fd.get('subject') || '';
+  var day     =  fd.get('day')     || '';
+  var time    =  fd.get('time')    || '';
+  var focus   = (fd.get('focus')   || '').trim();
+  var valid   = true;
+
+  if (!name) {
+    showErr('errName', 'Please enter your name.');
+    markError(document.getElementById('fName'));
+    valid = false;
+  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showErr('errEmail', 'Please enter a valid email address.');
+    markError(document.getElementById('fEmail'));
+    valid = false;
+  }
+  if (!subject) {
+    showErr('errSubject', 'Please select a subject.');
+    markError(document.getElementById('subject'));
+    valid = false;
+  }
+  if (!day) {
+    showErr('errDay', 'Please pick a day from the calendar.');
+    document.getElementById('calWidget').classList.add('input-error');
+    valid = false;
+  }
+  if (!time) {
+    showErr('errTime', 'Please select a time slot.');
+    document.getElementById('timeGrid').classList.add('time-error');
+    valid = false;
+  }
+  if (!focus) {
+    showErr('errFocus', 'Please describe what you\'d like to work on.');
+    markError(document.getElementById('fFocus'));
+    valid = false;
+  }
+
+  if (!valid) {
+    banner.classList.add('show');
+    banner.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    return;
+  }
+
+  var btn = form.querySelector('.btn-book');
   btn.disabled = true; btn.textContent = 'Sending…';
   try {
-    const res = await fetch('https://formspree.io/f/mojzklge', {
+    var res = await fetch('https://formspree.io/f/mojzklge', {
       method:'POST', body:fd, headers:{Accept:'application/json'}
     });
     if (!res.ok) throw new Error('Submission failed.');
     await emailjs.send('service_0dag9ki','template_wjnh8g6',{
-      to_name:  fd.get('name'),
-      to_email: fd.get('email'),
-      email:    fd.get('email'),
-      session_subject: fd.get('subject'),
-      session_day:     fd.get('day'),
-      session_time:    fd.get('time'),
-      session_focus:   fd.get('focus'),
+      to_name:          fd.get('name'),
+      to_email:         fd.get('email'),
+      email:            fd.get('email'),
+      session_subject:  fd.get('subject'),
+      session_day:      fd.get('day'),
+      session_time:     fd.get('time'),
+      session_focus:    fd.get('focus'),
+      student_timezone: fd.get('timezone') || USER_TZ,
     });
     document.getElementById('bookingForm').style.display='none';
     document.getElementById('bookingSuccess').classList.add('show');
@@ -392,6 +556,8 @@ async function handleBooking(e) {
     alert(err.message||'Network error, please try again.');
   }
 }
+
+window.addEventListener('DOMContentLoaded', initSlots);
 
 (function(){
   const io = new IntersectionObserver(e => e.forEach(x => {

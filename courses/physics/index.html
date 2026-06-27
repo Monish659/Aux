@@ -94,6 +94,9 @@
     .drawer-section{margin-bottom:1.25rem;}
     .drawer-section:last-child{margin-bottom:0;}
     .drawer-section-label{font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:0.7rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(88,144,208,0.14);}
+    .drawer-section-label.extras-label{color:rgba(212,160,74,0.85);border-bottom-color:rgba(212,160,74,0.18);}
+    .extras-note{display:block;font-size:0.72rem;font-weight:500;letter-spacing:0.01em;text-transform:none;color:rgba(212,160,74,0.65);margin-top:0.18rem;}
+    .video-unit-tag.extra-tag{background:rgba(212,160,74,0.18);color:rgba(212,160,74,0.95);}
 
     /* INLINE PLAYER inside drawer */
     .np-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.45s var(--ease),opacity 0.35s,margin-bottom 0.35s;margin-bottom:0;}
@@ -377,7 +380,27 @@
         </div>
         <div class="unit-drawer" id="d-2-1">
           <div class="drawer-inner">
-            <div class="drawer-coming">Videos coming soon for this unit.</div>
+            <div class="np-wrap">
+              <div class="np-card">
+                <div class="np-bar">
+                  <span class="np-now">▶ Now Playing</span>
+                  <span class="np-title"></span>
+                  <button class="np-back">← Close</button>
+                </div>
+                <div class="np-aspect">
+                  <iframe src="" title="AUX Physics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+            <div class="drawer-section">
+              <div class="drawer-section-label">Videos</div>
+              <div class="video-grid">
+                <div class="video-card" data-video="AYz8xV-wtxU" data-title="F = ma Explained: Inertia, Acceleration, and Why g Never Changes" style="--thumb:url('https://img.youtube.com/vi/AYz8xV-wtxU/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 2.1</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">F = ma Explained: Inertia, Acceleration, and Why g Never Changes</div><div class="video-meta">Unit 2.1</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -466,6 +489,15 @@
                 </a>
               </div>
             </div>
+            <div class="drawer-section">
+              <div class="drawer-section-label extras-label">Extras <span class="extras-note">Recommended! These help build real understanding of the concepts.</span></div>
+              <div class="video-grid">
+                <div class="video-card" data-video="xAxsFJ6nAX4" data-title="Deriving the Big 5 Kinematic Equations" style="--thumb:url('https://img.youtube.com/vi/xAxsFJ6nAX4/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag extra-tag">Extra ⭐</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Deriving the Big 5 Kinematic Equations</div><div class="video-meta">Unit 2.2 — Extra</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -482,7 +514,39 @@
         </div>
         <div class="unit-drawer" id="d-2-3">
           <div class="drawer-inner">
-            <div class="drawer-coming">Videos coming soon for this unit.</div>
+            <div class="np-wrap">
+              <div class="np-card">
+                <div class="np-bar">
+                  <span class="np-now">▶ Now Playing</span>
+                  <span class="np-title"></span>
+                  <button class="np-back">← Close</button>
+                </div>
+                <div class="np-aspect">
+                  <iframe src="" title="AUX Physics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+            <div class="drawer-section">
+              <div class="drawer-section-label">Videos</div>
+              <div class="video-grid">
+                <div class="video-card" data-video="DcWUQFdnNG0" data-title="What Is a Force? Types of Forces" style="--thumb:url('https://img.youtube.com/vi/DcWUQFdnNG0/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 2.3</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">What Is a Force? Types of Forces</div><div class="video-meta">Unit 2.3</div></div>
+                </div>
+                <div class="video-card" data-video="chwpFEcNepk" data-title="Newton's First Law: Why Balanced Forces Doesn't Mean Rest" style="--thumb:url('https://img.youtube.com/vi/chwpFEcNepk/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 2.3</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Newton's First Law: Why Balanced Forces Doesn't Mean Rest</div><div class="video-meta">Unit 2.3</div></div>
+                </div>
+                <div class="video-card" data-video="AYz8xV-wtxU" data-title="F = ma Explained: Inertia, Acceleration, and Why g Never Changes" style="--thumb:url('https://img.youtube.com/vi/AYz8xV-wtxU/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 2.3</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">F = ma Explained: Inertia, Acceleration, and Why g Never Changes</div><div class="video-meta">Unit 2.3</div></div>
+                </div>
+                <div class="video-card" data-video="vQhJzrSsUvw" data-title="Newton's Third Law: The Real Test for an Action-Reaction Pair" style="--thumb:url('https://img.youtube.com/vi/vQhJzrSsUvw/mqdefault.jpg')">
+                  <div class="video-thumb"><span class="video-unit-tag">Unit 2.3</span><div class="play-icon">▶</div></div>
+                  <div class="video-info"><div class="video-title">Newton's Third Law: The Real Test for an Action-Reaction Pair</div><div class="video-meta">Unit 2.3</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

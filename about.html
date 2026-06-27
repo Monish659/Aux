@@ -135,8 +135,10 @@
     .hcard.active .hcard-glyph{opacity:0.9;color:var(--gold-bright);}
     .hcard.active .hcard-num{opacity:0.92;color:var(--gold-bright);}
     .hcard.active .hcard-pip{opacity:1;}
-    .tdeck-hint{margin-top:1.2rem;font-size:0.88rem;color:var(--ink-soft);letter-spacing:0.04em;text-align:center;line-height:1.6;}
-    .tdeck-hint kbd{display:inline-block;padding:0.1em 0.45em;font-size:0.78rem;border:1px solid rgba(212,160,74,0.35);border-radius:5px;background:rgba(212,160,74,0.08);color:var(--gold);font-family:var(--sans);}
+    .tdeck-nav{display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-top:1.4rem;}
+    .tdeck-nav-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(212,160,74,0.38);background:rgba(212,160,74,0.06);color:var(--gold);font-size:1.5rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font-family:var(--serif);}
+    .tdeck-nav-btn:hover{border-color:rgba(212,160,74,0.82);background:rgba(212,160,74,0.14);color:var(--gold-bright);transform:scale(1.08);}
+    .tdeck-nav-count{font-family:var(--serif);font-size:0.95rem;color:var(--ink-muted);min-width:3.5rem;text-align:center;letter-spacing:0.06em;}
     @media(max-width:620px){.tdeck-hand{transform:scale(0.6);transform-origin:top center;height:270px;margin-top:0.25rem;}}
 
 
@@ -329,11 +331,14 @@
   <div class="content-wrap">
     <div class="section-eyebrow reveal">What students say</div>
     <h2 class="testimonials-title reveal"><em>Testimonials</em></h2>
-    <p class="testimonials-sub reveal">Click any card below to read a review. Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to browse through all 19.</p>
     <div class="reveal tdeck-wrap">
       <div class="tdeck-expanded" id="tdeckExpanded"></div>
       <div class="tdeck-hand" id="tdeckHand"></div>
-      <p class="tdeck-hint">Click a card to read the full review &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> to browse</p>
+      <div class="tdeck-nav">
+        <button class="tdeck-nav-btn" onclick="navDeck(-1)">‹</button>
+        <span class="tdeck-nav-count" id="deckCount">1 / 19</span>
+        <button class="tdeck-nav-btn" onclick="navDeck(1)">›</button>
+      </div>
     </div>
   </div>
 </section>
@@ -426,8 +431,7 @@
     var rad=deg*Math.PI/180;
     var l='calc(50% + '+(R*Math.sin(rad)-CW/2).toFixed(1)+'px)';
     var tp=(ORIGIN-R*Math.cos(rad)-CH/2).toFixed(1)+'px';
-    var zraw=Math.round(N/2)-Math.abs(i-Math.round(N/2));
-    return [l,tp,parseFloat(deg.toFixed(2)),Math.max(1,Math.round(zraw))];
+    return [l,tp,parseFloat(deg.toFixed(2)),i+1];
   });
 
   var idx=0;
@@ -447,7 +451,7 @@
     idx=newIdx;
     var card=handEl.querySelector('[data-i="'+newIdx+'"]');
     card.classList.add('active');
-    card.style.zIndex=10;
+    card.style.zIndex=100;
     card.style.transform='rotate('+parseFloat(card.dataset.rot)+'deg) translateY(-30px)';
     removeHover(card);
     renderExpanded(true);
@@ -458,7 +462,7 @@
     handEl.innerHTML=T.map(function(t,i){
       var f=FAN[i],isAct=i===idx,rot=f[2],lift=isAct?-30:0;
       return '<div class="hcard'+(isAct?' active':'')+'" data-i="'+i+'" data-rot="'+rot
-        +'" style="left:'+f[0]+';top:'+f[1]+';z-index:'+(isAct?10:f[3])
+        +'" style="left:'+f[0]+';top:'+f[1]+';z-index:'+(isAct?100:f[3])
         +';transform:rotate('+rot+'deg) translateY('+lift+'px)" aria-label="Testimonial '+(i+1)+' of '+T.length+'">'
         +'<div class="hcard-glyph">"</div>'
         +'<div class="hcard-num">'+(i+1)+'</div>'
@@ -487,6 +491,15 @@
     var t=T[idx];
     expandedEl.innerHTML='<span class="tcard-mark">"</span><p class="tcard-body">'+t.text+'</p><div class="tcard-meta"><span class="tcard-attr-full">'+t.attr+'</span><span class="tcard-of">'+(idx+1)+' / '+T.length+'</span></div>';
     if(animate){expandedEl.classList.remove('tcard-entering');void expandedEl.offsetWidth;expandedEl.classList.add('tcard-entering');}
+    var countEl=document.getElementById('deckCount');
+    if(countEl) countEl.textContent=(idx+1)+' / '+T.length;
+  }
+
+  function navDeck(dir){
+    var ni=idx+dir;
+    if(ni<0)ni=T.length-1;
+    if(ni>=T.length)ni=0;
+    selectCard(ni);
   }
 
   document.addEventListener('keydown',function(e){

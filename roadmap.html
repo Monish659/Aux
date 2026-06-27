@@ -205,7 +205,7 @@
       .tl-card{padding:0.85rem 1rem;}
     }
     /* ─── HAMBURGER / MOBILE NAV ─── */
-    .ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:200;flex-shrink:0;}
+    .ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:200;flex-shrink:0;min-width:44px;min-height:44px;}
     .ham-btn span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform 0.3s,opacity 0.25s;}
     .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
     .ham-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
@@ -213,9 +213,9 @@
     @media(max-width:768px){
       .ham-btn{display:flex;}
       .nav-links{display:none!important;}
-      .nav-links.mobile-open{display:flex!important;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;padding:80px 1.75rem 2rem;background:rgba(12,13,16,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:98;gap:0;overflow-y:auto;}
+      .nav-links.mobile-open{display:flex!important;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;padding:70px 1.75rem 0.75rem;background:rgba(12,13,16,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:98;gap:0;overflow-y:auto;}
       .nav-links.mobile-open li{display:list-item!important;border-bottom:1px solid rgba(255,255,255,0.07);}
-      .nav-links.mobile-open a{padding:1rem 0;font-size:1.05rem;display:block!important;color:var(--ink-soft)!important;background:none!important;transform:none!important;}
+      .nav-links.mobile-open a{padding:0.7rem 0;font-size:1rem;display:block!important;color:var(--ink-soft)!important;background:none!important;transform:none!important;}
       .nav-links.mobile-open .nav-book{margin-top:0.75rem;text-align:center;border-radius:12px!important;padding:0.95rem!important;display:block!important;background:#a8b4c8!important;color:#0c0d10!important;}
       nav{padding:0 1.25rem!important;}
     }

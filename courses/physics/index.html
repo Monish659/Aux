@@ -147,7 +147,28 @@
     .reveal{opacity:0;transform:translateY(28px) scale(0.985);filter:blur(5px);transition:opacity 0.82s var(--ease),transform 0.82s var(--ease),filter 0.9s var(--ease);}
     .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
     @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @media(max-width:720px){.video-grid{grid-template-columns:1fr;}}
+    /* ─── HAMBURGER / MOBILE NAV ─── */
+    .ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:200;flex-shrink:0;}
+    .ham-btn span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform 0.3s,opacity 0.25s;}
+    .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .ham-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    @media(max-width:768px){
+      .ham-btn{display:flex;}
+      .nav-links{display:none!important;}
+      .nav-links.mobile-open{display:flex!important;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;padding:80px 1.75rem 2rem;background:rgba(9,11,16,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:98;gap:0;overflow-y:auto;}
+      .nav-links.mobile-open li{display:list-item!important;border-bottom:1px solid rgba(255,255,255,0.07);}
+      .nav-links.mobile-open a{padding:1rem 0;font-size:1.05rem;display:block!important;color:var(--ink-soft)!important;background:none!important;transform:none!important;text-shadow:none!important;}
+      .nav-links.mobile-open .nav-book{margin-top:0.75rem;text-align:center;border-radius:12px!important;padding:0.95rem!important;display:block!important;background:#d4a04a!important;color:#090b10!important;}
+      nav{padding:0 1.25rem!important;}
+      .video-grid{grid-template-columns:1fr!important;}
+      .content-wrap{padding:0 1rem 4rem;}
+      .course-hero{padding:7rem 1.25rem 3.5rem;}
+      .drawer-inner{padding:1rem 1.1rem 1.25rem;}
+      .unit-card{padding:1.25rem;}
+      .pdf-resource{gap:0.65rem;padding:0.75rem 0.85rem;}
+      footer{padding:1.5rem 1.25rem;flex-direction:column;align-items:flex-start;gap:0.5rem;}
+    }
 
     /* SCROLL PROGRESS — rainbow */
     #aux-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff006a,#ff6d00,#ffde00,#00ff87,#00caff,#7b2fff,#ff006a);background-size:200% 100%;z-index:500;pointer-events:none;transition:width 0.08s linear;animation:rainbowBar 3s linear infinite;}
@@ -211,6 +232,9 @@
     <li><a href="../../faq.html">FAQ</a></li>
     <li><a href="../../book.html" class="nav-book">Book a session</a></li>
   </ul>
+  <button class="ham-btn" id="hamBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <section class="course-hero layer">
@@ -989,6 +1013,27 @@
     },26);
   }
   document.querySelectorAll('.unit-name').forEach(el=>el.addEventListener('mouseenter',()=>scramble(el)));
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('hamBtn');
+  var links=document.querySelector('.nav-links');
+  if(!btn||!links)return;
+  btn.addEventListener('click',function(){
+    var open=links.classList.toggle('mobile-open');
+    btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded',String(open));
+    document.body.style.overflow=open?'hidden':'';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      links.classList.remove('mobile-open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    });
+  });
 })();
 </script>
 </body>

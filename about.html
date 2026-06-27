@@ -139,7 +139,30 @@
     .tdeck-nav-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(212,160,74,0.38);background:rgba(212,160,74,0.06);color:var(--gold);font-size:1.5rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font-family:var(--serif);}
     .tdeck-nav-btn:hover{border-color:rgba(212,160,74,0.82);background:rgba(212,160,74,0.14);color:var(--gold-bright);transform:scale(1.08);}
     .tdeck-nav-count{font-family:var(--serif);font-size:0.95rem;color:var(--ink-muted);min-width:3.5rem;text-align:center;letter-spacing:0.06em;}
-    @media(max-width:620px){.tdeck-hand{transform:scale(0.6);transform-origin:top center;height:270px;margin-top:0.25rem;}}
+    /* ─── HAMBURGER / MOBILE NAV ─── */
+    .ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:200;flex-shrink:0;}
+    .ham-btn span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform 0.3s,opacity 0.25s;}
+    .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .ham-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    @media(max-width:768px){
+      .ham-btn{display:flex;}
+      .nav-links{display:none!important;}
+      .nav-links.mobile-open{display:flex!important;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;padding:80px 1.75rem 2rem;background:rgba(16,14,12,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:98;gap:0;overflow-y:auto;}
+      .nav-links.mobile-open li{display:list-item!important;border-bottom:1px solid rgba(255,255,255,0.07);}
+      .nav-links.mobile-open a{padding:1rem 0;font-size:1.05rem;display:block!important;color:var(--ink-soft)!important;background:none!important;transform:none!important;}
+      .nav-links.mobile-open .nav-book{margin-top:0.75rem;text-align:center;border-radius:12px!important;padding:0.95rem!important;display:block!important;background:var(--gold)!important;color:#100e0c!important;}
+      nav{padding:0 1.25rem!important;}
+      .tdeck-hand{display:none!important;}
+      .tdeck-expanded{padding:2rem 1.4rem;}
+      .tcard-body{font-size:1rem;}
+      .tdeck-nav{margin-top:1.5rem;}
+      .tdeck-nav-btn{width:52px;height:52px;font-size:1.6rem;}
+      .exp-grid{grid-template-columns:1fr;}
+      .cred-grid{grid-template-columns:1fr;}
+      .skill-tags{gap:0.4rem;}
+      .about-cta{padding:4rem 0 5rem;}
+    }
 
 
     /* CTA */
@@ -205,6 +228,9 @@
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="book.html" class="nav-book">Book a session</a></li>
   </ul>
+  <button class="ham-btn" id="hamBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -514,6 +540,27 @@
 
   buildHand();
   renderExpanded(false);
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('hamBtn');
+  var links=document.querySelector('.nav-links');
+  if(!btn||!links)return;
+  btn.addEventListener('click',function(){
+    var open=links.classList.toggle('mobile-open');
+    btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded',String(open));
+    document.body.style.overflow=open?'hidden':'';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      links.classList.remove('mobile-open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    });
+  });
 })();
 </script>
 </body>

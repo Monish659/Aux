@@ -427,10 +427,14 @@ function initSlots() {
   const MOS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const DOS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const today=new Date(); today.setHours(0,0,0,0);
-  let vy=today.getFullYear(), vm=today.getMonth();
+  const tomorrow=new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  const minY=tomorrow.getFullYear(), minM=tomorrow.getMonth();
+  const maxY=2028, maxM=11;
+  let vy=minY, vm=minM;
   function render(){
     document.getElementById('calHdrLabel').textContent=MO[vm]+' '+vy;
-    document.getElementById('calPrev').disabled=(vy===today.getFullYear()&&vm===today.getMonth());
+    document.getElementById('calPrev').disabled=(vy===minY&&vm===minM);
+    document.getElementById('calNext').disabled=(vy===maxY&&vm===maxM);
     const body=document.getElementById('calBody'); body.innerHTML='';
     const first=new Date(vy,vm,1), total=new Date(vy,vm+1,0).getDate();
     const dow0=first.getDay(), offset=dow0===0?0:dow0-1;
@@ -457,8 +461,8 @@ function initSlots() {
       body.appendChild(cell);
     }
   }
-  document.getElementById('calPrev').addEventListener('click',function(){if(vm===0){vm=11;vy--;}else vm--;render();});
-  document.getElementById('calNext').addEventListener('click',function(){if(vm===11){vm=0;vy++;}else vm++;render();});
+  document.getElementById('calPrev').addEventListener('click',function(){if(vy===minY&&vm===minM)return;if(vm===0){vm=11;vy--;}else vm--;render();});
+  document.getElementById('calNext').addEventListener('click',function(){if(vy===maxY&&vm===maxM)return;if(vm===11){vm=0;vy++;}else vm++;render();});
   render();
 })();
 

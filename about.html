@@ -83,7 +83,7 @@
     .cred-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:0.58em;opacity:0.75;}
 
     /* STATS */
-    .stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;}
+    .stat-row{display:grid;grid-template-columns:repeat(7,1fr);gap:1rem;}
     .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem 1.25rem;text-align:center;transition:transform 0.25s var(--ease),border-color 0.25s,background 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;}
     .stat-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:52px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.5;}
     .stat-card:hover{transform:translateY(-6px);border-color:rgba(212,160,74,0.4);background:var(--surface-hover);box-shadow:0 14px 44px rgba(0,0,0,0.45),0 0 0 1px rgba(212,160,74,0.12);}
@@ -193,8 +193,8 @@
       .about-hero-inner{grid-template-columns:1fr;gap:3.5rem;}
       .about-photo-wrap{order:-1;max-width:180px;}
       .about-photo{aspect-ratio:1/1;}
-      .stat-row{grid-template-columns:repeat(2,1fr);}
-      .stat-card:nth-child(5){grid-column:1/-1;max-width:50%;margin:0 auto;width:100%;}
+      .stat-row{grid-template-columns:repeat(3,1fr);}
+      .stat-card:nth-child(7){grid-column:2/3;}
       .exp-grid{grid-template-columns:1fr;}
       .testimonials-grid{grid-template-columns:1fr;}
     }
@@ -205,7 +205,7 @@
       .about-section{padding:3.5rem 0;}
       .cred-wrap{padding:1.6rem 1.4rem;}
       .stat-row{grid-template-columns:1fr 1fr;}
-      .stat-card:nth-child(5){grid-column:1/-1;max-width:100%;}
+      .stat-card:nth-child(7){grid-column:1/-1;max-width:60%;margin:0 auto;width:100%;}
       .nav-links li:not(:last-child){display:none;}
       footer{padding:1.5rem 1.25rem;flex-direction:column;align-items:flex-start;gap:0.4rem;}
     }
@@ -293,12 +293,20 @@
         <div class="stat-label">Weighted GPA</div>
       </div>
       <div class="stat-card reveal">
-        <div class="stat-num">98 / 122</div>
-        <div class="stat-label">Tutoring Hours &amp; Sessions</div>
+        <div class="stat-num">98</div>
+        <div class="stat-label">Tutoring Hours</div>
       </div>
       <div class="stat-card reveal">
-        <div class="stat-num">78 / 11</div>
-        <div class="stat-label">Learners Taught &amp; Countries</div>
+        <div class="stat-num">122</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">78</div>
+        <div class="stat-label">Learners Taught</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Countries</div>
       </div>
       <div class="stat-card reveal">
         <div class="stat-num">Top 5%</div>
@@ -328,6 +336,12 @@
         <div class="exp-org">Schoolhouse.world</div>
         <div class="exp-dates">Feb 2025 – Present</div>
         <p class="exp-desc">Top 5% globally across 98 tutoring hours, 122 sessions, and 78 learners in 11 countries, with 100% mastery certification across six math subjects.</p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-role">Code Coach</div>
+        <div class="exp-org">The Coder School</div>
+        <div class="exp-dates">Jun 2026 – Present</div>
+        <p class="exp-desc">Deliver personalized one-on-one coding coaching to students, adapting lessons to each learner's skill level and goals.</p>
       </div>
     </div>
   </div>

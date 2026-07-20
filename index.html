@@ -49,6 +49,9 @@
     html{scroll-behavior:smooth;}
     body{background:#100e0c;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
     #bgCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;}
+    /* Same z-index as #bgCanvas — later in DOM order, so it paints above it
+       and below #shardCanvas without disturbing any other layer. */
+    #starCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;}
     #shardCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;}
     .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/%3E%3C/filter%3E%3Crect width='512' height='512' fill='%23000' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");}
     .layer{position:relative;z-index:3;}
@@ -348,6 +351,7 @@
 <div id="aux-progress"></div>
 <div id="spotlight"></div>
 <canvas id="bgCanvas"></canvas>
+<canvas id="starCanvas"></canvas>
 <canvas id="shardCanvas"></canvas>
 <div class="grain"></div>
 
@@ -475,8 +479,8 @@
   <div class="footer-note">© 2026 AUX · Free student resources · Not affiliated with any school</div>
 </footer>
   
-<script src="bg.js?v=14"></script>
-<script>initBg('bgCanvas','shardCanvas','midnight');</script>
+<script src="bg.js?v=15"></script>
+<script>initBg('bgCanvas','shardCanvas','midnight',{stars:true});</script>
 <script>
 (function(){
   // Reveal on scroll

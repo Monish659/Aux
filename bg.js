@@ -1,6 +1,9 @@
 // AUX — shared background engine
 // initBg('bgCanvasId', 'shardCanvasId', 'amber' | 'blue' | 'violet' | 'rose' | 'teal' | 'purple' | 'indigo' | 'midnight' | 'midnight-silver' | 'midnight-bronze' | 'midnight-steel' | 'midnight-emerald')
-function initBg(bgId, shardId, palette) {
+// Optional 4th arg: opts = { stars: true, blackhole: true, starId: 'starCanvas' }
+// Omitted entirely by every page except index.html, so their rendering is unchanged.
+function initBg(bgId, shardId, palette, opts) {
+  opts = opts || {};
   const palettes = {
     amber: {
       bgBase: '#ddd8d2',
@@ -428,10 +431,405 @@ function initBg(bgId, shardId, palette) {
   }
   drawShards();
 
+  // ── STARFIELD + GARGANTUA (opt-in; index.html only) ───────────────
+  // TO REMOVE COMPLETELY: delete the 4th argument from index.html's initBg
+  // call — `,{stars:true,blackhole:true}` — and this entire block goes
+  // dormant. One edit, no other file touched. At runtime, ?stars=off does
+  // the same thing without editing anything.
+  //
+  // Lives on its own DPR-scaled canvas so #bgCanvas keeps rendering at 1x
+  // exactly as before — fine stars need real pixels, the speed lines don't.
+  let starResize = null;
+  if (opts.stars) {
+    const stc = document.getElementById(opts.starId || 'starCanvas');
+    if (stc) {
+      const stx  = stc.getContext('2d');
+      const q    = new URLSearchParams(location.search);
+      const off  = q.get('stars') === 'off';
+      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const num  = (k, d) => { const v = parseFloat(q.get(k)); return isNaN(v) ? d : v; };
+
+      const COUNT = Math.max(0, Math.round(num('stars', 420)));
+      const BH_ON = (opts.blackhole || q.get('bh') === 'on') && q.get('bh') !== 'off';
+      const BH_SC = num('bh',   1);
+      const BH_X  = num('bhx',  0.5);
+      const BH_Y  = num('bhy',  0.5);
+      const TILT   = num('tilt',  0.14); // 0 = perfectly edge-on, 1 = face-on
+      const SPIN   = num('spin',  1);
+      const ANG    = num('ang',  -0.32); // diagonal tilt of the whole assembly
+
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const TAU = Math.PI * 2;
+      // cream · gold · pale blue · warm white
+      const HUES = [[240,235,226], [212,160,74], [168,196,232], [255,246,230]];
+
+      let TW, TH, stars = [], dots = [], spikes = [];
+      let bands = [], dust = null, wing = null, motes = [], gas = [];
+      let RS = 0, DO = 0, DI = 0, tt = 0;
+      let smx = 0, smy = 0, tmx = 0, tmy = 0;
+
+      // ── star sprites: soft point, and a bright one with diffraction spikes
+      function mkGlow(rgb, S) {
+        const c = document.createElement('canvas');
+        c.width = c.height = S;
+        const x = c.getContext('2d'), h = S / 2;
+        const g = x.createRadialGradient(h, h, 0, h, h, h);
+        g.addColorStop(0,    `rgba(${rgb},1)`);
+        g.addColorStop(0.16, `rgba(${rgb},0.85)`);
+        g.addColorStop(0.40, `rgba(${rgb},0.22)`);
+        g.addColorStop(1,    `rgba(${rgb},0)`);
+        x.fillStyle = g; x.fillRect(0, 0, S, S);
+        return c;
+      }
+      function mkSpike(rgb, S) {
+        const c = document.createElement('canvas');
+        c.width = c.height = S;
+        const x = c.getContext('2d'), h = S / 2, w = Math.max(1, 1.1 * DPR);
+        const g = x.createRadialGradient(h, h, 0, h, h, h * 0.4);
+        g.addColorStop(0,   `rgba(${rgb},1)`);
+        g.addColorStop(0.3, `rgba(${rgb},0.55)`);
+        g.addColorStop(1,   `rgba(${rgb},0)`);
+        x.fillStyle = g; x.fillRect(0, 0, S, S);
+        for (let i = 0; i < 2; i++) {
+          const lg = i ? x.createLinearGradient(0, h, S, h)
+                       : x.createLinearGradient(h, 0, h, S);
+          lg.addColorStop(0,    `rgba(${rgb},0)`);
+          lg.addColorStop(0.5,  `rgba(${rgb},0.7)`);
+          lg.addColorStop(1,    `rgba(${rgb},0)`);
+          x.fillStyle = lg;
+          if (i) x.fillRect(0, h - w / 2, S, w);
+          else   x.fillRect(h - w / 2, 0, w, S);
+        }
+        return c;
+      }
+      function buildSprites() {
+        dots   = HUES.map(h => mkGlow(h.join(','),  Math.ceil(18 * DPR)));
+        spikes = HUES.map(h => mkSpike(h.join(','), Math.ceil(46 * DPR)));
+      }
+
+      function seed() {
+        stars = [];
+        const hx = TW / 2, hy = TH / 2, maxD = Math.hypot(hx, hy) || 1;
+        for (let i = 0; i < COUNT; i++) {
+          const x = Math.random() * TW, y = Math.random() * TH;
+          const d = Math.hypot(x - hx, y - hy) / maxD;
+          const roll = Math.random();
+          const spiked = roll > 0.966;           // ~3% headline stars
+          const big    = !spiked && roll > 0.86;
+          stars.push({
+            x, y, spiked,
+            r: spiked ? 3.0 + Math.random() * 2.2
+             : big    ? 1.4 + Math.random() * 1.1
+             :          0.45 + Math.random() * 0.85,
+            a: (spiked ? 0.55 + Math.random() * 0.40
+                       : 0.26 + Math.random() * 0.50) * (1 - Math.pow(d, 2.2) * 0.55),
+            ph: Math.random() * TAU,
+            sp: 0.4 + Math.random() * 1.7,
+            hue: Math.random() < 0.60 ? 0 : Math.random() < 0.55 ? 1
+               : Math.random() < 0.50 ? 2 : 3,
+            depth: 0.25 + Math.random() * 0.75,
+          });
+        }
+      }
+
+      // ── Gargantua ─────────────────────────────────────────────────
+      // The look comes from lensing, not from a flat ring: the FAR side of
+      // the accretion disk is bent up and over the event horizon (the big
+      // arc), the NEAR side crosses flat in front of it, and a third lensed
+      // image wraps underneath. The whole assembly is tilted diagonally.
+      // Dust orbits and spirals inward on Keplerian-ish paths.
+      function buildBH() {
+        RS = Math.min(TW, TH) * 0.455 * BH_SC;    // event horizon — dominates the frame
+        DO = RS * 2.20;                          // wide enough for a FLAT arc to clear it
+        DI = RS * 1.05;                          // disk inner edge, hugging the horizon
+        // Soft art: render the textures below device resolution and let the
+        // GPU scale them up. Keeps them off the multi-megapixel-per-frame path.
+        const TEX = Math.min(DPR, 1.1, 1000 / (DO * 2));
+        const S = Math.ceil(DO * 2 * TEX);
+
+        // Four bands of fine filaments; each spins at its own rate so the
+        // inner disk shears past the outer one.
+        const spans = [[DI, DI + (DO - DI) * 0.40],
+                       [DI + (DO - DI) * 0.30, DI + (DO - DI) * 0.72],
+                       [DI + (DO - DI) * 0.60, DO]];
+
+        bands = spans.map(([r0, r1], bi) => {
+          const c = document.createElement('canvas');
+          c.width = c.height = S;
+          const x = c.getContext('2d');
+          x.scale(TEX, TEX); x.translate(DO, DO);
+          const heat = 1 - bi / spans.length;      // inner = whiter/hotter
+
+          const g = x.createRadialGradient(0, 0, r0, 0, 0, r1);
+          g.addColorStop(0,    `rgba(255,${240 - bi * 14},${205 - bi * 40},${0.34 + heat * 0.3})`);
+          g.addColorStop(0.35, `rgba(255,${206 - bi * 18},${120 - bi * 30},${0.24 + heat * 0.2})`);
+          g.addColorStop(0.75, `rgba(${238 - bi * 16},${140 - bi * 22},${48},0.14)`);
+          g.addColorStop(1,    'rgba(170,80,20,0)');
+          x.beginPath(); x.arc(0, 0, r1, 0, TAU); x.arc(0, 0, r0, 0, TAU, true);
+          x.fillStyle = g; x.fill();
+
+          // combed filaments — long, thin, slightly offset radii
+          for (let i = 0; i < 240; i++) {
+            const a0 = Math.random() * TAU;
+            const w  = 0.5 + Math.random() * 2.6;                 // long sweeps
+            const rr = r0 + Math.random() * (r1 - r0);
+            const th = (r1 - r0) * (0.008 + Math.random() * 0.05);
+            const al = (0.05 + Math.random() * 0.22) * (0.5 + heat * 0.7);
+            x.beginPath();
+            x.arc(0, 0, rr, a0, a0 + w);
+            x.strokeStyle = `rgba(255,${228 - Math.random() * 60},${170 - Math.random() * 90},${al})`;
+            x.lineWidth = th;
+            x.stroke();
+          }
+          return c;
+        });
+
+        // soft warm bloom that sits under everything
+        // Diagonal wing: bright at the two edge-on tips, falling off softly
+        // in every direction. Built as a texture because a filled rect leaves
+        // hard edges slicing across the sphere.
+        const WW = Math.ceil(DO * 2 * TEX), WH = Math.ceil(DO * 0.62 * TEX);
+        wing = document.createElement('canvas');
+        wing.width = WW; wing.height = WH;
+        const wx = wing.getContext('2d');
+        const wg = wx.createLinearGradient(0, 0, WW, 0);
+        wg.addColorStop(0,    'rgba(255,236,190,0)');
+        wg.addColorStop(0.08, 'rgba(255,250,232,0.95)');
+        wg.addColorStop(0.24, 'rgba(255,206,130,0.20)');
+        wg.addColorStop(0.5,  'rgba(255,190,100,0.04)');
+        wg.addColorStop(0.76, 'rgba(255,206,130,0.20)');
+        wg.addColorStop(0.92, 'rgba(255,250,232,0.95)');
+        wg.addColorStop(1,    'rgba(255,236,190,0)');
+        wx.fillStyle = wg; wx.fillRect(0, 0, WW, WH);
+        wx.globalCompositeOperation = 'destination-in';
+        const wv = wx.createLinearGradient(0, 0, 0, WH);
+        wv.addColorStop(0,    'rgba(0,0,0,0)');
+        wv.addColorStop(0.5,  'rgba(0,0,0,1)');
+        wv.addColorStop(1,    'rgba(0,0,0,0)');
+        wx.fillStyle = wv; wx.fillRect(0, 0, WW, WH);
+
+        // a single soft dot reused for dust and gas
+        const PS = Math.ceil(28 * DPR);
+        dust = document.createElement('canvas');
+        dust.width = dust.height = PS;
+        const px = dust.getContext('2d'); const ph = PS / 2;
+        const pg = px.createRadialGradient(ph, ph, 0, ph, ph, ph);
+        pg.addColorStop(0,   'rgba(255,246,220,1)');
+        pg.addColorStop(0.3, 'rgba(255,206,130,0.5)');
+        pg.addColorStop(1,   'rgba(255,170,70,0)');
+        px.fillStyle = pg; px.fillRect(0, 0, PS, PS);
+
+        seedDust();
+      }
+
+      // Dust + gas: orbit, and spiral inward. Angular speed rises as radius
+      // falls, so material visibly winds up as it falls toward the horizon.
+      function seedDust() {
+        motes = [];
+        const N = Math.round(190 * (calm ? 0.4 : 1));
+        for (let i = 0; i < N; i++) motes.push(mkMote(true));
+        gas = [];
+        for (let i = 0; i < 14; i++) {
+          gas.push({
+            a: Math.random() * TAU,
+            r: DI + Math.random() * (DO - DI),
+            s: (0.10 + Math.random() * 0.16) * (Math.random() < 0.5 ? 1 : 1),
+            sz: RS * (0.55 + Math.random() * 1.5),
+            al: 0.05 + Math.random() * 0.11,
+            lift: (Math.random() - 0.5) * 0.5,
+          });
+        }
+      }
+      function mkMote(spread) {
+        const r = spread ? DI + Math.random() * (DO - DI) * 1.15
+                         : DO * (0.92 + Math.random() * 0.25);
+        return {
+          a: Math.random() * TAU,
+          r,
+          sz: 0.7 + Math.random() * 2.4,
+          al: 0.25 + Math.random() * 0.6,
+          lift: (Math.random() - 0.5) * 0.34,   // out-of-plane wobble
+          w: 0.6 + Math.random() * 0.9,
+        };
+      }
+      function stepDust(dt) {
+        for (const p of motes) {
+          p.a += dt * p.w * 2.6 * Math.pow(RS / Math.max(p.r, RS * 0.6), 1.5);
+          p.r -= dt * 5.2 * Math.pow(RS / Math.max(p.r, RS * 0.6), 0.55);
+          if (p.r <= RS * 1.06) Object.assign(p, mkMote(false));
+        }
+        for (const g2 of gas) {
+          g2.a += dt * g2.s * Math.pow(RS / Math.max(g2.r, RS), 1.2);
+          g2.r -= dt * 0.9;
+          if (g2.r <= DI * 0.9) { g2.r = DO * (0.9 + Math.random() * 0.3); g2.a = Math.random() * TAU; }
+        }
+      }
+
+      // Draw the ring bands into whatever squash the caller has set up.
+      function ringBands(spin, limit) {
+        const rates = [1, 0.6, 0.38];
+        const n = Math.min(limit || bands.length, bands.length);
+        for (let i = 0; i < n; i++) {
+          stx.save(); stx.rotate(spin * rates[i]);
+          stx.drawImage(bands[i], -DO, -DO, DO * 2, DO * 2);
+          stx.restore();
+        }
+      }
+      // Seen edge-on, the disk is far brighter at its two diagonal tips than
+      // it is face-on — that concentration is what keeps it from reading as a
+      // uniform blob of glow.
+      function wings() {
+        stx.drawImage(wing, -DO, -DO * 0.31, DO * 2, DO * 0.62);
+      }
+      function halfClip(top) {
+        stx.beginPath();
+        stx.rect(-DO * 1.6, top ? -DO * 1.6 : 0, DO * 3.2, DO * 1.6);
+        stx.clip();
+      }
+      function motesHalf(front) {
+        stx.save(); stx.scale(1, TILT);
+        for (const p of motes) {
+          const sy = Math.sin(p.a);
+          if ((sy > 0) !== front) continue;       // near half vs far half
+          const d = p.sz * 5.5;
+          stx.globalAlpha = p.al * Math.min(1, (p.r - RS) / (RS * 0.9));
+          stx.drawImage(dust,
+            Math.cos(p.a) * p.r - d / 2,
+            sy * p.r + p.lift * RS - d / 2, d, d);
+        }
+        stx.globalAlpha = 1; stx.restore();
+      }
+      function gasHalf(front) {
+        stx.save(); stx.scale(1, TILT * 2.6);
+        for (const g2 of gas) {
+          const sy = Math.sin(g2.a);
+          if ((sy > 0) !== front) continue;
+          const d = g2.sz * 2;
+          stx.globalAlpha = g2.al;
+          stx.drawImage(dust,
+            Math.cos(g2.a) * g2.r - d / 2,
+            sy * g2.r + g2.lift * RS - d / 2, d, d);
+        }
+        stx.globalAlpha = 1; stx.restore();
+      }
+
+      function drawBH() {
+        const spin = calm ? 0.6 : tt * 0.075 * SPIN;
+        stx.save();
+        stx.translate(TW * BH_X, TH * BH_Y);
+        stx.rotate(ANG);
+        stx.globalCompositeOperation = 'lighter';
+
+        gasHalf(false);
+        // Far half of the disk: flat, running straight behind the horizon.
+        stx.save(); stx.scale(1, TILT); ringBands(spin); stx.restore();
+        motesHalf(false);
+
+        // event horizon — not pure black; light bends around it
+        stx.globalCompositeOperation = 'source-over';
+        const sh = stx.createRadialGradient(0, 0, RS * 0.1, 0, 0, RS);
+        sh.addColorStop(0,    '#0b0907');
+        sh.addColorStop(0.55, '#050403');
+        sh.addColorStop(0.88, '#010101');
+        sh.addColorStop(1,    '#000000');
+        stx.beginPath(); stx.arc(0, 0, RS, 0, TAU);
+        stx.fillStyle = sh; stx.fill();
+
+        stx.globalCompositeOperation = 'lighter';
+        // NEAR side crossing flat in front
+        stx.save(); halfClip(false); stx.scale(1, TILT); ringBands(spin); stx.restore();
+        wings();
+        motesHalf(true);
+        gasHalf(true);
+
+        stx.restore();
+        stx.globalCompositeOperation = 'source-over';
+      }
+
+      function sizeStars() {
+        TW = window.innerWidth; TH = window.innerHeight;
+        stc.width  = Math.round(TW * DPR);
+        stc.height = Math.round(TH * DPR);
+        stx.setTransform(DPR, 0, 0, DPR, 0, 0);   // draw in CSS px, render at DPR
+      }
+
+      if (!calm) {
+        window.addEventListener('mousemove', e => {
+          tmx = (e.clientX / window.innerWidth  - 0.5) * 2;
+          tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+        }, { passive: true });
+      }
+
+      function paint() {
+        stx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        stx.clearRect(0, 0, TW, TH);
+        smx += (tmx - smx) * 0.06;
+        smy += (tmy - smy) * 0.06;
+
+        // Gravitational lensing of the background field. Light passing close
+        // to the horizon is bent outward, so the star field opens into a void
+        // around the sphere and the deflected stars pile up into a bright ring
+        // just outside it, smeared tangentially into arcs. This is the part
+        // that actually reads as spacetime curving.
+        const lx = TW * BH_X, ly = TH * BH_Y;
+        const K = BH_ON ? Math.pow(RS * 1.42, 2) : 0;
+        const REACH2 = Math.pow(RS * 6, 2);
+
+        stx.globalCompositeOperation = 'lighter';
+        for (const s of stars) {
+          const a = s.a * (0.55 + 0.45 * Math.sin((calm ? 0 : tt * s.sp) + s.ph));
+          if (a < 0.012) continue;
+          let x = s.x + smx * 12 * s.depth;
+          let y = s.y + smy * 12 * s.depth;
+          let stretch = 1, rot = 0;
+          if (K) {
+            const dx = x - lx, dy = y - ly, d2 = dx * dx + dy * dy;
+            if (d2 < REACH2) {
+              const d = Math.sqrt(d2) || 0.001;
+              const k = Math.sqrt(d2 + K) / d;
+              x = lx + dx * k; y = ly + dy * k;
+              stretch = 1 + (k - 1) * 2.2;
+              rot = Math.atan2(dy, dx) + Math.PI / 2;
+            }
+          }
+          const d0 = s.spiked ? s.r * 9 : s.r * 6;
+          const spr = s.spiked ? spikes[s.hue] : dots[s.hue];
+          stx.globalAlpha = a;
+          if (stretch > 1.03) {
+            stx.save();
+            stx.translate(x, y); stx.rotate(rot);
+            stx.scale(Math.min(stretch, 4.5), 1);
+            stx.drawImage(spr, -d0 / 2, -d0 / 2, d0, d0);
+            stx.restore();
+          } else {
+            stx.drawImage(spr, x - d0 / 2, y - d0 / 2, d0, d0);
+          }
+        }
+        stx.globalAlpha = 1;
+        stx.globalCompositeOperation = 'source-over';
+        if (BH_ON) drawBH();
+      }
+
+      function loop() {
+        tt += 0.016;
+        if (BH_ON) stepDust(0.016);
+        paint();
+        requestAnimationFrame(loop);
+      }
+
+      if (!off) {
+        buildSprites(); sizeStars(); seed(); if (BH_ON) buildBH(); paint();
+        if (!calm) loop();                        // reduced motion: one static frame
+        starResize = () => { sizeStars(); seed(); if (BH_ON) buildBH(); paint(); };
+      }
+    }
+  }
+
   window.addEventListener('resize', () => {
     resizeBg();
     SW = sc.width  = window.innerWidth;
     SH = sc.height = window.innerHeight;
     buildShards();
+    if (starResize) starResize();
   });
 }

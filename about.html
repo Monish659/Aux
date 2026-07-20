@@ -83,7 +83,7 @@
     .cred-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:0.58em;opacity:0.75;}
 
     /* STATS */
-    .stat-row{display:grid;grid-template-columns:repeat(7,1fr);gap:1rem;}
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
     .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem 1.25rem;text-align:center;transition:transform 0.25s var(--ease),border-color 0.25s,background 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;}
     .stat-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:52px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.5;}
     .stat-card:hover{transform:translateY(-6px);border-color:rgba(212,160,74,0.4);background:var(--surface-hover);box-shadow:0 14px 44px rgba(0,0,0,0.45),0 0 0 1px rgba(212,160,74,0.12);}
@@ -193,8 +193,7 @@
       .about-hero-inner{grid-template-columns:1fr;gap:3.5rem;}
       .about-photo-wrap{order:-1;max-width:180px;}
       .about-photo{aspect-ratio:1/1;}
-      .stat-row{grid-template-columns:repeat(3,1fr);}
-      .stat-card:nth-child(7){grid-column:2/3;}
+      .stat-row{grid-template-columns:repeat(2,1fr);}
       .exp-grid{grid-template-columns:1fr;}
       .testimonials-grid{grid-template-columns:1fr;}
     }
@@ -205,7 +204,6 @@
       .about-section{padding:3.5rem 0;}
       .cred-wrap{padding:1.6rem 1.4rem;}
       .stat-row{grid-template-columns:1fr 1fr;}
-      .stat-card:nth-child(7){grid-column:1/-1;max-width:60%;margin:0 auto;width:100%;}
       .nav-links li:not(:last-child){display:none;}
       footer{padding:1.5rem 1.25rem;flex-direction:column;align-items:flex-start;gap:0.4rem;}
     }
@@ -240,7 +238,7 @@
   <div class="content-wrap">
     <div class="about-hero-inner">
       <div class="about-hero-text">
-        <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Founder, AUX · CA</div>
+        <div class="about-eyebrow reveal"><span class="about-eyebrow-dot"></span>Rising Junior · Founder, AUX · CA</div>
         <h1 class="about-name">Monish Reddy Y</h1>
         <p class="about-oneliner reveal">Builder. Innovator. I don't wait for the right opportunity. I build the thing that becomes one.</p>
         <div class="about-social reveal">
@@ -267,13 +265,16 @@
     <div class="section-eyebrow reveal">Credentials</div>
     <div class="cred-wrap reveal">
       <div class="cred-grid">
+        <div class="cred-item"><span class="cred-dot"></span>Rising junior, Foothill HS</div>
         <div class="cred-item"><span class="cred-dot"></span>4.25 Weighted GPA · 4.0 Unweighted</div>
+        <div class="cred-item"><span class="cred-dot"></span>Score of 5 on every AP exam taken</div>
         <div class="cred-item"><span class="cred-dot"></span>Certified Peer Tutor, Schoolhouse.world (2025–Present)</div>
+        <div class="cred-item"><span class="cred-dot"></span>AP Computer Science A — 5 · AP CS Principles — 5</div>
         <div class="cred-item"><span class="cred-dot"></span>PSAT — Perfect 760/760 Math</div>
+        <div class="cred-item"><span class="cred-dot"></span>AP World History — 5</div>
         <div class="cred-item"><span class="cred-dot"></span>Top 5% Global Tutor, Schoolhouse.world (2025)</div>
-        <div class="cred-item"><span class="cred-dot"></span>AP Computer Science A &amp; AP CS Principles</div>
+        <div class="cred-item"><span class="cred-dot"></span>Honors Pre-Calculus</div>
         <div class="cred-item"><span class="cred-dot"></span>100% mastery certified in 6 math subjects</div>
-        <div class="cred-item"><span class="cred-dot"></span>Honors Pre-Calculus · AP World History</div>
         <div class="cred-item"><span class="cred-dot"></span>135 positive ratings · 102 "Super Helpful" marks</div>
         <div class="cred-item"><span class="cred-dot"></span>Varsity Badminton, Foothill HS</div>
         <div class="cred-item"><span class="cred-dot"></span>CalPhin Swimming, completed highest level</div>
@@ -291,6 +292,10 @@
       <div class="stat-card reveal">
         <div class="stat-num">4.25</div>
         <div class="stat-label">Weighted GPA</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">5</div>
+        <div class="stat-label">On Every AP Exam Taken</div>
       </div>
       <div class="stat-card reveal">
         <div class="stat-num">100+</div>

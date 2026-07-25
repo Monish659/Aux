@@ -89,6 +89,40 @@
     .stat-card:hover{transform:translateY(-6px);border-color:rgba(212,160,74,0.4);background:var(--surface-hover);box-shadow:0 14px 44px rgba(0,0,0,0.45),0 0 0 1px rgba(212,160,74,0.12);}
     .stat-num{font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:600;color:var(--gold);line-height:1.1;margin-bottom:0.6rem;letter-spacing:-0.02em;}
     .stat-label{font-size:0.76rem;font-weight:500;letter-spacing:0.06em;color:var(--ink-muted);text-transform:uppercase;line-height:1.5;}
+    /* Countries Reached → interactive star map (prominent, clearly clickable) */
+    button.stat-card{appearance:none;-webkit-appearance:none;font:inherit;color:inherit;width:100%;cursor:pointer;}
+    .stat-card--atlas{border-color:var(--border-gold);
+      background:radial-gradient(120% 100% at 50% 130%,rgba(212,160,74,0.15),transparent 60%),var(--surface);}
+    .stat-card--atlas::before{width:100%;opacity:0.85;}   /* full-width brighter top accent */
+    .stat-card--atlas .stat-num{text-shadow:0 0 24px rgba(212,160,74,0.4);}
+    .stat-card--atlas .stat-label{color:var(--ink-soft);}
+    /* always-visible gold call-to-action pill */
+    .stat-explore{margin-top:0.75rem;display:inline-flex;align-items:center;gap:0.4rem;
+      font-size:0.62rem;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:#100e0c;
+      background:linear-gradient(90deg,var(--gold),var(--gold-bright));border-radius:100px;padding:0.34rem 0.85rem;
+      box-shadow:0 4px 18px rgba(212,160,74,0.4);}
+    .stat-explore .arw{transition:transform 0.25s var(--ease);}
+    .stat-card--atlas:hover .stat-explore .arw{transform:translateX(3px);}
+    .stat-card--atlas:hover{transform:translateY(-6px);border-color:var(--gold);
+      box-shadow:0 18px 50px rgba(0,0,0,0.5),0 0 0 1px rgba(212,160,74,0.35),0 0 40px rgba(212,160,74,0.18);}
+    .stat-card--atlas:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+    /* a periodic shine sweep + gentle breathing draw the eye (motion-safe) */
+    .atlas-shine{position:absolute;top:0;left:-70%;width:55%;height:100%;pointer-events:none;
+      transform:skewX(-18deg);background:linear-gradient(105deg,transparent,rgba(255,242,205,0.16),transparent);}
+    @media (prefers-reduced-motion:no-preference){
+      .stat-card--atlas{animation:atlasBreathe 3.6s ease-in-out infinite;}
+      .atlas-shine{animation:atlasShine 5s ease-in-out 1.8s infinite;}
+    }
+    @keyframes atlasBreathe{
+      0%,100%{box-shadow:0 0 0 1px rgba(212,160,74,0.12),0 8px 30px rgba(0,0,0,0.28);}
+      50%{box-shadow:0 0 0 1px rgba(212,160,74,0.32),0 12px 44px rgba(212,160,74,0.16);}}
+    @keyframes atlasShine{0%{left:-70%;}55%,100%{left:130%;}}
+    /* fullscreen star-map overlay */
+    .atlas-overlay{position:fixed;inset:0;z-index:100000;background:#050409;opacity:0;visibility:hidden;
+      transition:opacity 0.5s var(--ease),visibility 0.5s;}
+    .atlas-overlay.open{opacity:1;visibility:visible;}
+    .atlas-frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+    @media (prefers-reduced-motion:no-preference){.atlas-overlay{transition:opacity 0.5s var(--ease),visibility 0.5s;}}
 
     /* EXPERIENCE */
     .exp-grid{display:grid;grid-template-columns:1fr;gap:1.5rem;}
@@ -309,10 +343,12 @@
         <div class="stat-num">78</div>
         <div class="stat-label">Learners Taught</div>
       </div>
-      <div class="stat-card reveal">
+      <button type="button" class="stat-card stat-card--atlas reveal" id="atlasOpen" aria-haspopup="dialog">
+        <span class="atlas-shine" aria-hidden="true"></span>
         <div class="stat-num">30</div>
         <div class="stat-label">Countries Reached</div>
-      </div>
+        <div class="stat-explore">✦ Explore the map <span class="arw">→</span></div>
+      </button>
       <div class="stat-card reveal">
         <div class="stat-num">Top 5%</div>
         <div class="stat-label">Global Ranking, Schoolhouse.world</div>
@@ -588,6 +624,35 @@
   links.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click',function(){setOpen(false);});
   });
+})();
+</script>
+
+<!-- Interactive star map (lazy-loaded on first open) -->
+<div class="atlas-overlay" id="atlasOverlay" role="dialog" aria-modal="true" aria-label="Countries reached — interactive star map">
+  <iframe class="atlas-frame" id="atlasFrame" title="AUX Global Reach — interactive star map" loading="lazy" allow="fullscreen"></iframe>
+</div>
+<script>
+(function(){
+  var openBtn=document.getElementById('atlasOpen');
+  var ov=document.getElementById('atlasOverlay');
+  var fr=document.getElementById('atlasFrame');
+  if(!openBtn||!ov||!fr) return;
+  var loaded=false;
+  function openAtlas(){
+    if(!loaded){ fr.src='reach-atlas.html'; loaded=true; }   // lazy: only fetch on first open
+    ov.classList.add('open');
+    document.body.style.overflow='hidden';
+    setTimeout(function(){ try{ fr.contentWindow.focus(); }catch(e){} },60);
+  }
+  function closeAtlas(){
+    ov.classList.remove('open');
+    document.body.style.overflow='';
+    openBtn.focus();
+  }
+  openBtn.addEventListener('click',openAtlas);
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ov.classList.contains('open')) closeAtlas(); });
+  // the map's in-frame ✕ button posts this message
+  window.addEventListener('message',function(e){ if(e.data&&e.data.atlas==='close') closeAtlas(); });
 })();
 </script>
 </body>

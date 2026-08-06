@@ -405,8 +405,12 @@ const LOGO_SVG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFs
   let T={s:1,ox:0,oy:0};
   function computeTransform(){
     const bw=bxmax-bxmin, bh=bymax-bymin;
-    const topM=Math.max(H*0.20,168), botM=Math.max(H*0.15,120);
-    const availW=W*0.90, availH=H-topM-botM;
+    // tighter margins than before: the land box is ~1.43:1 against a ~1.6:1
+    // screen, so height is the binding constraint — every pixel reclaimed
+    // from the top/bottom bands widens the map too. Floors keep the HUD and
+    // legend clear on short screens.
+    const topM=Math.max(H*0.13,120), botM=Math.max(H*0.09,80);
+    const availW=W*0.96, availH=H-topM-botM;
     const s=Math.min(availW/bw, availH/bh);
     T={s, ox:(W-bw*s)/2 - bxmin*s, oy:topM+(availH-bh*s)/2 - bymin*s};
   }
@@ -609,8 +613,8 @@ const LOGO_SVG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFs
       const col=COL[c.cat], gsp=glowSprite[c.cat], csp=coreSprite[c.cat];
 
       const ids=c.dotIdx;
-      const baseA=(0.30+0.55*c.w)*introA*spot*pulse;
-      const gsz=(10+16*c.w)*zoomK;
+      const baseA=(0.26+0.46*c.w)*introA*spot*pulse;
+      const gsz=(7+11*c.w)*zoomK;
       for(let k=0;k<ids.length;k++){
         const i=ids[k]; const px=FX(nx[i]), py=FY(ny[i]);
         if(px<-40||px>W+40||py<-40||py>H+40) continue;
@@ -620,16 +624,20 @@ const LOGO_SVG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFs
         const cs=1.7*Math.max(1,zoomK*0.8); ctx.fillRect(px-cs/2,py-cs/2,cs,cs);
       }
 
-      // anchor star
-      const aGlow=(1.0+1.4*c.w)*introA;
-      const asz=(30+34*c.w)*zoomK*(isHov?1.28:1)*pulse; c.sr=asz*0.4;
-      ctx.globalAlpha=Math.min(1,0.5*aGlow*spot)*pulse; ctx.drawImage(gsp,ax-asz/2,ay-asz/2,asz,asz);
-      const coreSz=(9+7*c.w)*zoomK*(isHov?1.3:1);
-      ctx.globalAlpha=Math.min(1,0.95*introA*spot); ctx.drawImage(csp,ax-coreSz/2,ay-coreSz/2,coreSz,coreSz);
-      ctx.globalAlpha=Math.min(1,(0.5+0.5*c.w)*introA*spot)*pulse;
-      ctx.strokeStyle=`rgba(${col.core[0]},${col.core[1]},${col.core[2]},0.9)`; ctx.lineWidth=1;
-      const fl=asz*0.6; ctx.beginPath();
-      ctx.moveTo(ax-fl,ay);ctx.lineTo(ax+fl,ay);ctx.moveTo(ax,ay-fl);ctx.lineTo(ax,ay+fl); ctx.stroke();
+      // anchor star — deliberately restrained: it marks a country, it should
+      // not dominate the country. It grows on hover instead of shouting always.
+      const aGlow=(0.8+1.0*c.w)*introA;
+      const asz=(17+20*c.w)*zoomK*(isHov?1.5:1)*pulse; c.sr=asz*0.5;
+      ctx.globalAlpha=Math.min(1,0.34*aGlow*spot)*pulse; ctx.drawImage(gsp,ax-asz/2,ay-asz/2,asz,asz);
+      const coreSz=(5.5+4.5*c.w)*zoomK*(isHov?1.45:1);
+      ctx.globalAlpha=Math.min(1,0.9*introA*spot); ctx.drawImage(csp,ax-coreSz/2,ay-coreSz/2,coreSz,coreSz);
+      // flare cross: only on hover, so the resting map stays calm
+      if(isHov){
+        ctx.globalAlpha=Math.min(1,(0.45+0.35*c.w)*introA)*pulse;
+        ctx.strokeStyle=`rgba(${col.core[0]},${col.core[1]},${col.core[2]},0.85)`; ctx.lineWidth=1;
+        const fl=asz*0.52; ctx.beginPath();
+        ctx.moveTo(ax-fl,ay);ctx.lineTo(ax+fl,ay);ctx.moveTo(ax,ay-fl);ctx.lineTo(ax,ay+fl); ctx.stroke();
+      }
 
       // signal ring: one arc per signal, so a country that is taught AND
       // watched AND read shows all three colours instead of just its strongest
@@ -638,19 +646,19 @@ const LOGO_SVG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFs
         // normal blend, not additive — under 'lighter' these arcs blow out to
         // white over the star's glow and the whole point is the colour
         ctx.globalCompositeOperation='source-over';
-        const rr=asz*0.52, gap=ns>1?0.26:0;
+        const rr=asz*0.72, gap=ns>1?0.28:0;
         const step=(Math.PI*2)/ns;
-        const lw=Math.max(1.6,2.2*zoomK*(isHov?1.45:1));
+        const lw=Math.max(1.25,1.7*zoomK*(isHov?1.45:1));
         ctx.lineCap='round';
         // dark backing so the arcs stay legible over bright dot fields
-        ctx.globalAlpha=Math.min(0.55,0.5*introA*spot);
-        ctx.strokeStyle='rgba(6,4,14,0.9)'; ctx.lineWidth=lw+2.4;
+        ctx.globalAlpha=Math.min(0.45,0.42*introA*spot);
+        ctx.strokeStyle='rgba(6,4,14,0.9)'; ctx.lineWidth=lw+2.0;
         ctx.beginPath(); ctx.arc(ax,ay,rr,0,Math.PI*2); ctx.stroke();
         ctx.lineWidth=lw;
         for(let k=0;k<ns;k++){
           const sc=COL[c.sigs[k]].core;
           const a0=-Math.PI/2+k*step+gap/2, a1=a0+step-gap;
-          ctx.globalAlpha=Math.min(1,(0.75+0.25*c.w)*introA*spot)*(isHov?1:0.92);
+          ctx.globalAlpha=Math.min(1,(0.62+0.28*c.w)*introA*spot)*(isHov?1:0.85);
           ctx.strokeStyle=`rgb(${sc[0]},${sc[1]},${sc[2]})`;
           ctx.beginPath(); ctx.arc(ax,ay,rr,a0,a1); ctx.stroke();
         }
